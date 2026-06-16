@@ -1,0 +1,19 @@
+{
+  "name": "시장기상청",
+  "short_name": "시장기상청",
+  "description": "시장 데이터를 날씨처럼 보여주는 PWA 매매 보조 앱",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f8fb",
+  "theme_color": "#6fb7e9",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
