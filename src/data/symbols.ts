@@ -47,3 +47,15 @@ export const DEFAULT_SYMBOLS: MarketSymbol[] = [
     description: "성장주와 기술주 위험선호 지표",
   },
 ];
+
+export const BENCHMARK_SYMBOLS: MarketSymbol[] = [
+  {
+    id: "VIX",
+    label: "CBOE Volatility Index",
+    shortLabel: "VIX",
+    kind: "index",
+    source: "yahoo",
+    remoteSymbol: "^VIX",
+    description: "전체 시장 위험 수준을 보정하는 고정 벤치마크",
+  },
+];

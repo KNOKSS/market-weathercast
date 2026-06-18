@@ -43,7 +43,7 @@ export function SymbolsPage({
               key={symbol.id}
               symbol={symbol}
               score={score}
-              candles={data.candles}
+              dailyCandles={data.dailyCandles}
               selected={selectedSymbolId === symbol.id}
               onSelect={() => onSelect(symbol.id)}
               onRemove={() => onRemoveSymbol(symbol.id)}

@@ -9,11 +9,10 @@ const BASE_PRICE: Record<string, number> = {
   NASDAQ: 19000,
 };
 
-export function createMockCandles(symbol: MarketSymbol, count = 96): Candle[] {
+function createCandles(symbol: MarketSymbol, count: number, interval: number): Candle[] {
   const seed = hashText(symbol.id);
   const base = BASE_PRICE[symbol.id] ?? 100;
   const now = Date.now();
-  const interval = 15 * 60 * 1000;
   let price = base * (0.97 + (seed % 12) / 100);
   const candles: Candle[] = [];
 
@@ -43,4 +42,12 @@ export function createMockCandles(symbol: MarketSymbol, count = 96): Candle[] {
   }
 
   return candles;
+}
+
+export function createMockCandles(symbol: MarketSymbol, count = 96): Candle[] {
+  return createCandles(symbol, count, 60 * 1000);
+}
+
+export function createMockDailyCandles(symbol: MarketSymbol, count = 6): Candle[] {
+  return createCandles(symbol, count, 24 * 60 * 60 * 1000);
 }

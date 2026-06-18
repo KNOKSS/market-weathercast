@@ -35,9 +35,18 @@ export interface Candle {
 export interface MarketData {
   symbol: MarketSymbol;
   candles: Candle[];
+  dailyCandles: Candle[];
+  dayChangePercent?: number | null;
   status: DataStatus;
   sourceLabel: string;
   message?: string;
+}
+
+export interface ScoreContribution {
+  id: "trend" | "momentum" | "volatility" | "activity" | "risk" | "benchmark";
+  label: string;
+  value: number;
+  reason: string;
 }
 
 export interface WeatherScore {
@@ -50,12 +59,19 @@ export interface WeatherScore {
   dust: DustLevel;
   currentPrice: number | null;
   changePercent: number | null;
+  dayChangePercent: number | null;
   rsi: number | null;
   atrPercent: number | null;
   volumeRatio: number | null;
   trendScore: number;
   momentumScore: number;
   volatilityScore: number;
+  activityScore: number;
+  confidence: number;
+  daily5Change: number | null;
+  daily20Change: number | null;
+  calculationBasis: string;
+  contributions: ScoreContribution[];
   dataStatus: DataStatus;
   sourceLabel: string;
   summary: string;

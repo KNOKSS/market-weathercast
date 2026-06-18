@@ -20,34 +20,46 @@ export function WeatherIcon({ label, size = 96 }: WeatherIconProps) {
       role="img"
       aria-label={label}
     >
-      {sunny && <circle cx="44" cy="42" r="22" className="icon-sun" />}
+      {sunny && (
+        <g className={cloudy ? "icon-sun-group icon-sun-behind" : "icon-sun-group"}>
+          <circle cx={cloudy ? 35 : 60} cy={cloudy ? 36 : 54} r={cloudy ? 18 : 25} className="icon-sun" />
+          <g className="icon-rays">
+            {cloudy ? (
+              <>
+                <path d="M35 8v10" />
+                <path d="M7 36h10" />
+                <path d="M15 16l7 7" />
+                <path d="M55 16l-7 7" />
+              </>
+            ) : (
+              <>
+                <path d="M60 9v13" />
+                <path d="M60 86v13" />
+                <path d="M15 54h13" />
+                <path d="M92 54h13" />
+                <path d="M28 22l10 10" />
+                <path d="M82 76l10 10" />
+                <path d="M92 22 82 32" />
+                <path d="M38 76 28 86" />
+              </>
+            )}
+          </g>
+        </g>
+      )}
       {cloudy && (
         <path
           className="icon-cloud"
-          d="M34 76h50c13 0 24-10 24-23s-11-23-24-23c-3 0-6 1-9 2-7-14-21-23-38-23-22 0-40 18-40 40 0 2 0 4 1 6-12 3-21 13-21 26 0 15 12 27 27 27h80"
-          transform="translate(8 -2)"
+          d="M91 94H30C15 94 3 83 3 69c0-11 8-20 19-24 3-15 17-27 33-27 14 0 26 8 31 20 2 0 4-1 6-1 16 0 28 13 28 29 0 15-13 28-29 28Z"
         />
-      )}
-      {!cloudy && sunny && (
-        <g className="icon-rays">
-          <path d="M44 9v12" />
-          <path d="M44 63v12" />
-          <path d="M11 42h12" />
-          <path d="M65 42h12" />
-          <path d="M20 18l9 9" />
-          <path d="M59 57l9 9" />
-          <path d="M68 18l-9 9" />
-          <path d="M29 57l-9 9" />
-        </g>
       )}
       {rainy && (
         <g className="icon-rain">
-          <path d="M38 86l-8 17" />
-          <path d="M61 86l-8 17" />
-          <path d="M84 86l-8 17" />
+          <path d="M34 99l-6 12" />
+          <path d="M59 99l-6 12" />
+          <path d="M84 99l-6 12" />
         </g>
       )}
-      {storm && <path className="icon-lightning" d="M62 74 48 99h16l-7 16 24-29H65l9-12z" />}
+      {storm && <path className="icon-lightning" d="M63 84 49 105h14l-5 14 22-26H66l8-9Z" />}
     </svg>
   );
 }

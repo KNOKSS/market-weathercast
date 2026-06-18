@@ -1,12 +1,12 @@
 import type { Candle, MarketSymbol, WeatherScore } from "../types/market";
 import { formatPercent, formatPrice, statusLabel } from "../utils/format";
-import { MiniChart } from "./MiniChart";
 import { WeatherIcon } from "./WeatherIcon";
+import { FiveDayForecast } from "./FiveDayForecast";
 
 interface SymbolCardProps {
   symbol: MarketSymbol;
   score: WeatherScore;
-  candles: Candle[];
+  dailyCandles: Candle[];
   selected?: boolean;
   onSelect?: () => void;
   onRemove?: () => void;
@@ -25,7 +25,7 @@ function kindLabel(kind: MarketSymbol["kind"]): string {
 export function SymbolCard({
   symbol,
   score,
-  candles,
+  dailyCandles,
   selected = false,
   onSelect,
   onRemove,
@@ -46,15 +46,15 @@ export function SymbolCard({
           </div>
           <WeatherIcon label={score.label} size={58} />
         </div>
-        <MiniChart candles={candles} />
+        <FiveDayForecast candles={dailyCandles} kind={symbol.kind} compact />
         <div className="symbol-stats">
           <span>
             현재가
             <strong>{formatPrice(score.currentPrice, symbol.id)}</strong>
           </span>
           <span>
-            24h 흐름
-            <strong>{formatPercent(score.changePercent)}</strong>
+            {symbol.kind === "crypto" ? "24시간 등락" : "오늘 등락"}
+            <strong>{formatPercent(score.dayChangePercent)}</strong>
           </span>
           <span>
             날씨

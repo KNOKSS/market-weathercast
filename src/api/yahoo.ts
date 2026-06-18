@@ -1,11 +1,15 @@
 import type { Candle, MarketData, MarketSymbol } from "../types/market";
 import { fetchWithTimeout } from "./fetchWithTimeout";
-import { createMockCandles } from "./mockData";
+import { createMockCandles, createMockDailyCandles } from "./mockData";
 
 interface YahooChartResponse {
   chart?: {
     result?: Array<{
       timestamp?: number[];
+      meta?: {
+        chartPreviousClose?: number;
+        previousClose?: number;
+      };
       indicators?: {
         quote?: Array<{
           open?: Array<number | null>;
@@ -57,10 +61,15 @@ function parseYahooCandles(payload: YahooChartResponse): Candle[] {
 }
 
 export async function fetchYahooMarket(symbol: MarketSymbol): Promise<MarketData> {
-  const url = `/api/yahoo?symbol=${encodeURIComponent(symbol.remoteSymbol)}&range=5d&interval=1m&_=${Date.now()}`;
+  const nonce = Date.now();
+  const url = `/api/yahoo?symbol=${encodeURIComponent(symbol.remoteSymbol)}&range=5d&interval=1m&_=${nonce}`;
+  const dailyUrl = `/api/yahoo?symbol=${encodeURIComponent(symbol.remoteSymbol)}&range=1mo&interval=1d&_=${nonce}`;
 
   try {
-    const response = await fetchWithTimeout(url);
+    const [response, dailyResponse] = await Promise.all([
+      fetchWithTimeout(url),
+      fetchWithTimeout(dailyUrl).catch(() => null),
+    ]);
     if (!response.ok) {
       throw new Error(`Yahoo ${response.status}`);
     }
@@ -71,9 +80,25 @@ export async function fetchYahooMarket(symbol: MarketSymbol): Promise<MarketData
       throw new Error("Yahoo response has too few candles");
     }
 
+    let dailyCandles: Candle[] = [];
+    if (dailyResponse?.ok) {
+      const dailyPayload = (await dailyResponse.json()) as YahooChartResponse;
+      dailyCandles = parseYahooCandles(dailyPayload).slice(-30);
+    }
+
+    const meta = payload.chart?.result?.[0]?.meta;
+    const currentPrice = candles.at(-1)?.close;
+    const previousClose = meta?.previousClose ?? meta?.chartPreviousClose;
+    const dayChangePercent =
+      currentPrice && previousClose
+        ? ((currentPrice - previousClose) / previousClose) * 100
+        : null;
+
     return {
       symbol,
       candles,
+      dailyCandles,
+      dayChangePercent,
       status: "live",
       sourceLabel: "Yahoo Finance",
     };
@@ -81,6 +106,7 @@ export async function fetchYahooMarket(symbol: MarketSymbol): Promise<MarketData
     return {
       symbol,
       candles: createMockCandles(symbol),
+      dailyCandles: createMockDailyCandles(symbol, 30),
       status: "mock",
       sourceLabel: "샘플 데이터",
       message: "지수 데이터 연결이 불안정해 샘플로 표시 중입니다.",

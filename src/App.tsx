@@ -1,23 +1,26 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { fetchMarket } from "./api/markets";
-import { DEFAULT_SYMBOLS } from "./data/symbols";
+import { NavIcon } from "./components/NavIcon";
+import { BENCHMARK_SYMBOLS, DEFAULT_SYMBOLS } from "./data/symbols";
 import { createAlerts } from "./engine/alertEngine";
 import { DISCLOSURE } from "./engine/messages";
-import { aggregateScores, scoreMarket } from "./engine/weatherScore";
+import { aggregateBenchmarkScores, scoreMarket } from "./engine/weatherScore";
 import { AlertsPage } from "./pages/AlertsPage";
 import { ChecklistPage } from "./pages/ChecklistPage";
 import { HomePage } from "./pages/HomePage";
+import { SituationRoomPage } from "./pages/SituationRoomPage";
 import { SymbolsPage } from "./pages/SymbolsPage";
 import type { MarketData, MarketSymbol } from "./types/market";
 
-type Tab = "home" | "symbols" | "alerts" | "checklist";
+type Tab = "situation" | "weather" | "alerts" | "checklist";
+type WeatherView = "forecast" | "stations";
 
 const USER_SYMBOLS_KEY = "market-weather-user-symbols";
 const AUTO_REFRESH_MS = 60_000;
 const tabLabels: Record<Tab, string> = {
-  home: "홈",
-  symbols: "시장",
-  alerts: "주의보",
+  situation: "상황실",
+  weather: "시장날씨",
+  alerts: "브리핑",
   checklist: "체크",
 };
 
@@ -46,7 +49,8 @@ function saveUserSymbols(symbols: MarketSymbol[]) {
 }
 
 function App() {
-  const [activeTab, setActiveTab] = useState<Tab>("home");
+  const [activeTab, setActiveTab] = useState<Tab>("situation");
+  const [weatherView, setWeatherView] = useState<WeatherView>("forecast");
   const [symbols, setSymbols] = useState<MarketSymbol[]>(() => [
     ...DEFAULT_SYMBOLS,
     ...loadSavedSymbols().filter(
@@ -70,7 +74,13 @@ function App() {
 
     async function loadMarkets() {
       setLoading(true);
-      const results = await Promise.all(symbols.map((symbol) => fetchMarket(symbol)));
+      const requestedSymbols = [
+        ...symbols,
+        ...BENCHMARK_SYMBOLS.filter(
+          (benchmark) => !symbols.some((symbol) => symbol.id === benchmark.id),
+        ),
+      ];
+      const results = await Promise.all(requestedSymbols.map((symbol) => fetchMarket(symbol)));
       if (!alive || requestId !== latestRequestId.current) {
         return;
       }
@@ -121,7 +131,8 @@ function App() {
 
     if (existing) {
       setSelectedSymbolId(existing.id);
-      setActiveTab("home");
+      setWeatherView("forecast");
+      setActiveTab("weather");
       return;
     }
 
@@ -132,7 +143,8 @@ function App() {
       return next;
     });
     setSelectedSymbolId(nextSymbol.id);
-    setActiveTab("home");
+    setWeatherView("forecast");
+    setActiveTab("weather");
   }
 
   function handleRemoveSymbol(symbolId: string) {
@@ -153,7 +165,7 @@ function App() {
     });
     if (selectedSymbolId === symbolId) {
       setSelectedSymbolId(DEFAULT_SYMBOLS[0].id);
-      setActiveTab("home");
+      setActiveTab("weather");
     }
   }
 
@@ -163,8 +175,15 @@ function App() {
     );
   }, [marketData]);
 
-  const scoreList = useMemo(() => Object.values(scores), [scores]);
-  const overallScore = useMemo(() => aggregateScores(scoreList), [scoreList]);
+  const scoreList = useMemo(
+    () => symbols.flatMap((symbol) => scores[symbol.id] ? [scores[symbol.id]] : []),
+    [scores, symbols],
+  );
+  const benchmarkScores = useMemo(
+    () => ["SP500", "NASDAQ", "VIX", "BTCUSDT"].flatMap((id) => scores[id] ? [scores[id]] : []),
+    [scores],
+  );
+  const overallScore = useMemo(() => aggregateBenchmarkScores(benchmarkScores), [benchmarkScores]);
   const selectedSymbol = symbols.find((symbol) => symbol.id === selectedSymbolId) ?? symbols[0];
   const selectedData = selectedSymbol ? marketData[selectedSymbol.id] : undefined;
   const selectedScore = selectedSymbol ? scores[selectedSymbol.id] : undefined;
@@ -175,31 +194,51 @@ function App() {
   return (
     <div className="app-shell">
       <header className="app-header">
-        <div>
-          <p className="app-kicker">매매해도 좋은데이?</p>
-          <strong>시장기상청</strong>
+        <div className="masthead-row">
+          <div className="brand-lockup">
+            <span className="brand-mark" aria-hidden="true"><i /></span>
+            <div>
+              <p className="app-kicker"><span className="live-dot" /> MARKET WEATHER LIVE</p>
+              <strong>시장기상청</strong>
+              <small>글로벌 마켓 뉴스룸</small>
+            </div>
+          </div>
+          <div className="masthead-actions">
+            <div className="header-observation">
+              <span>{loading ? "관측 중" : "마지막 관측"}</span>
+              <strong>{refreshedAt ? refreshedAt.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit" }) : "--:--"}</strong>
+            </div>
+            <button
+              className={`refresh-button ${loading ? "refreshing" : ""}`}
+              type="button"
+              onClick={handleRefresh}
+              disabled={loading}
+              aria-label={loading ? "시장 데이터 관측 중" : "시장 데이터 새로고침"}
+              title={loading ? "관측 중" : "새로고침"}
+            >
+              <span aria-hidden="true">↻</span>
+            </button>
+          </div>
         </div>
-        <button className="refresh-button" type="button" onClick={handleRefresh} disabled={loading}>
-          {loading ? "관측 중" : "새로고침"}
-        </button>
+        <nav className="bottom-nav" aria-label="주요 화면">
+          {(Object.keys(tabLabels) as Tab[]).map((tab) => (
+            <button
+              key={tab}
+              className={activeTab === tab ? "active" : ""}
+              type="button"
+              onClick={() => setActiveTab(tab)}
+            >
+              <NavIcon name={tab} />
+              {tabLabels[tab]}
+            </button>
+          ))}
+        </nav>
       </header>
 
-      <nav className="bottom-nav" aria-label="주요 화면">
-        {(Object.keys(tabLabels) as Tab[]).map((tab) => (
-          <button
-            key={tab}
-            className={activeTab === tab ? "active" : ""}
-            type="button"
-            onClick={() => setActiveTab(tab)}
-          >
-            <span className={`nav-icon nav-icon-${tab}`} aria-hidden="true" />
-            {tabLabels[tab]}
-          </button>
-        ))}
-      </nav>
-
       <main className="app-main">
-        {!ready ? (
+        {activeTab === "situation" ? (
+          <SituationRoomPage marketData={marketData} scores={scores} />
+        ) : !ready ? (
           <section className="loading-panel">
             <div className="loader" />
             <h1>시장 구름을 관측 중입니다</h1>
@@ -207,30 +246,54 @@ function App() {
           </section>
         ) : (
           <>
-            {activeTab === "home" && (
-              <HomePage
-                symbols={symbols}
-                selectedSymbol={selectedSymbol}
-                selectedScore={selectedScore}
-                selectedCandles={selectedData.candles}
+            {activeTab === "weather" && (
+              <div className="weather-workspace page-flow">
+                <section className="weather-workspace-head">
+                  <div>
+                    <p className="eyebrow">MARKET OBSERVATORY</p>
+                    <h2>{weatherView === "forecast" ? "시장 날씨" : "관측소 관리"}</h2>
+                  </div>
+                  <div className="weather-subnav">
+                    <button className={weatherView === "forecast" ? "active" : ""} type="button" onClick={() => setWeatherView("forecast")}>날씨 보기</button>
+                    <button className={weatherView === "stations" ? "active" : ""} type="button" onClick={() => setWeatherView("stations")}>관측소 관리</button>
+                  </div>
+                </section>
+                {weatherView === "forecast" ? (
+                  <HomePage
+                    symbols={symbols}
+                    selectedSymbol={selectedSymbol}
+                    selectedScore={selectedScore}
+                    selectedCandles={selectedData.candles}
+                    selectedDailyCandles={selectedData.dailyCandles}
+                    overallScore={overallScore}
+                    marketData={marketData}
+                    scores={scores}
+                    onSelect={setSelectedSymbolId}
+                  />
+                ) : (
+                  <SymbolsPage
+                    symbols={symbols}
+                    marketData={marketData}
+                    scores={scores}
+                    selectedSymbolId={selectedSymbolId}
+                    onSelect={(symbolId) => {
+                      setSelectedSymbolId(symbolId);
+                      setWeatherView("forecast");
+                    }}
+                    onAddSymbol={handleAddSymbol}
+                    onRemoveSymbol={handleRemoveSymbol}
+                  />
+                )}
+              </div>
+            )}
+            {activeTab === "alerts" && (
+              <AlertsPage
+                alerts={alerts}
                 overallScore={overallScore}
-                marketData={marketData}
                 scores={scores}
-                onSelect={setSelectedSymbolId}
+                refreshedAt={refreshedAt}
               />
             )}
-            {activeTab === "symbols" && (
-              <SymbolsPage
-                symbols={symbols}
-                marketData={marketData}
-                scores={scores}
-                selectedSymbolId={selectedSymbolId}
-                onSelect={setSelectedSymbolId}
-                onAddSymbol={handleAddSymbol}
-                onRemoveSymbol={handleRemoveSymbol}
-              />
-            )}
-            {activeTab === "alerts" && <AlertsPage alerts={alerts} />}
             {activeTab === "checklist" && (
               <ChecklistPage
                 symbols={symbols}
