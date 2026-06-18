@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { fetchMarket } from "./api/markets";
 import { DEFAULT_SYMBOLS } from "./data/symbols";
 import { createAlerts } from "./engine/alertEngine";
@@ -13,6 +13,7 @@ import type { MarketData, MarketSymbol } from "./types/market";
 type Tab = "home" | "symbols" | "alerts" | "checklist";
 
 const USER_SYMBOLS_KEY = "market-weather-user-symbols";
+const AUTO_REFRESH_MS = 60_000;
 const tabLabels: Record<Tab, string> = {
   home: "홈",
   symbols: "시장",
@@ -60,14 +61,17 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [refreshedAt, setRefreshedAt] = useState<Date | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
+  const latestRequestId = useRef(0);
 
   useEffect(() => {
     let alive = true;
+    const requestId = latestRequestId.current + 1;
+    latestRequestId.current = requestId;
 
     async function loadMarkets() {
       setLoading(true);
       const results = await Promise.all(symbols.map((symbol) => fetchMarket(symbol)));
-      if (!alive) {
+      if (!alive || requestId !== latestRequestId.current) {
         return;
       }
       setMarketData(Object.fromEntries(results.map((result) => [result.symbol.id, result])));
@@ -81,6 +85,30 @@ function App() {
       alive = false;
     };
   }, [symbols, refreshToken]);
+
+  useEffect(() => {
+    const refresh = () => setRefreshToken((current) => current + 1);
+    const timer = window.setInterval(() => {
+      if (document.visibilityState === "visible") {
+        refresh();
+      }
+    }, AUTO_REFRESH_MS);
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        refresh();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("online", refresh);
+
+    return () => {
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("online", refresh);
+    };
+  }, []);
 
   function handleRefresh() {
     setRefreshToken((current) => current + 1);
@@ -217,7 +245,11 @@ function App() {
 
       <footer className="app-footer">
         <p>{DISCLOSURE}</p>
-        {refreshedAt && <span>마지막 관측 {refreshedAt.toLocaleTimeString("ko-KR")}</span>}
+        <div className="observation-status">
+          <span>관측주기 자동 1분</span>
+          {refreshedAt && <span>마지막 관측 {refreshedAt.toLocaleTimeString("ko-KR")}</span>}
+          <small>1분봉 기준 · 휴장 및 시세 제공처 사정에 따라 지연될 수 있습니다.</small>
+        </div>
       </footer>
     </div>
   );

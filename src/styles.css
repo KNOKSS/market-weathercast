@@ -729,12 +729,23 @@ input:focus {
   font-size: 0.78rem;
 }
 
-.app-footer span {
-  display: block;
+.observation-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
   margin-top: 8px;
+}
+
+.observation-status span,
+.observation-status small {
   color: var(--muted);
   font-size: 0.76rem;
   font-weight: 800;
+}
+
+.observation-status small {
+  flex-basis: 100%;
+  font-weight: 600;
 }
 
 .bottom-nav {
