@@ -26,7 +26,9 @@ export default {
         status: upstream.status,
         headers: {
           "content-type": upstream.headers.get("content-type") || "application/json",
-          "cache-control": "s-maxage=60, stale-while-revalidate=300",
+          "cache-control": "no-store, max-age=0",
+          "cdn-cache-control": "no-store",
+          "vercel-cdn-cache-control": "no-store",
         },
       });
     } catch {
