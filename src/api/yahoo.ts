@@ -57,7 +57,7 @@ function parseYahooCandles(payload: YahooChartResponse): Candle[] {
 }
 
 export async function fetchYahooMarket(symbol: MarketSymbol): Promise<MarketData> {
-  const url = `/api/yahoo?symbol=${encodeURIComponent(symbol.remoteSymbol)}&range=5d&interval=15m`;
+  const url = `/api/yahoo?symbol=${encodeURIComponent(symbol.remoteSymbol)}&range=5d&interval=1m&_=${Date.now()}`;
 
   try {
     const response = await fetchWithTimeout(url);

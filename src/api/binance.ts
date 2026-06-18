@@ -37,7 +37,7 @@ function parseBinanceCandles(rows: BinanceKline[]): Candle[] {
 export async function fetchBinanceMarket(symbol: MarketSymbol): Promise<MarketData> {
   const url = `${BINANCE_BASE_URL}/klines?symbol=${encodeURIComponent(
     symbol.remoteSymbol,
-  )}&interval=15m&limit=96`;
+  )}&interval=1m&limit=96`;
 
   try {
     const response = await fetchWithTimeout(url);
