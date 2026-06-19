@@ -106,12 +106,14 @@ export async function fetchDashboardQuote(
   }
 }
 
-export async function fetchDashboardQuotes(): Promise<DashboardQuote[]> {
+export async function fetchDashboardQuotes(
+  definitions: DashboardMarketDefinition[] = DASHBOARD_MARKETS,
+): Promise<DashboardQuote[]> {
   const quotes: DashboardQuote[] = [];
-  for (let index = 0; index < DASHBOARD_MARKETS.length; index += 3) {
-    const batch = DASHBOARD_MARKETS.slice(index, index + 3);
+  for (let index = 0; index < definitions.length; index += 3) {
+    const batch = definitions.slice(index, index + 3);
     quotes.push(...(await Promise.all(batch.map(fetchDashboardQuote))));
-    if (index + 3 < DASHBOARD_MARKETS.length) {
+    if (index + 3 < definitions.length) {
       await new Promise((resolve) => window.setTimeout(resolve, 180));
     }
   }

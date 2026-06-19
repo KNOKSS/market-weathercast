@@ -16,7 +16,11 @@ type Tab = "situation" | "weather" | "alerts" | "checklist";
 type WeatherView = "forecast" | "stations";
 
 const USER_SYMBOLS_KEY = "market-weather-user-symbols";
+const MARKET_SYMBOLS_KEY = "market-weather-symbols-v2";
+const UI_STATE_KEY = "market-weather-ui-state-v1";
 const AUTO_REFRESH_MS = 60_000;
+const VALID_TABS: Tab[] = ["situation", "weather", "alerts", "checklist"];
+const VALID_WEATHER_VIEWS: WeatherView[] = ["forecast", "stations"];
 const tabLabels: Record<Tab, string> = {
   situation: "상황실",
   weather: "시장날씨",
@@ -24,43 +28,93 @@ const tabLabels: Record<Tab, string> = {
   checklist: "체크",
 };
 
-function loadSavedSymbols(): MarketSymbol[] {
+interface PersistedUiState {
+  activeTab: Tab;
+  weatherView: WeatherView;
+  selectedSymbolId: string;
+}
+
+function loadUiState(): PersistedUiState {
+  const fallback: PersistedUiState = {
+    activeTab: "situation",
+    weatherView: "forecast",
+    selectedSymbolId: DEFAULT_SYMBOLS[0].id,
+  };
+
   try {
-    const saved = localStorage.getItem(USER_SYMBOLS_KEY);
-    if (!saved) {
-      return [];
-    }
-
-    const parsed = JSON.parse(saved) as MarketSymbol[];
-    if (!Array.isArray(parsed)) {
-      return [];
-    }
-
-    return parsed
-      .filter((symbol) => symbol?.id && symbol?.remoteSymbol && symbol?.source === "yahoo")
-      .map((symbol) => ({ ...symbol, userAdded: true }));
+    const saved = JSON.parse(localStorage.getItem(UI_STATE_KEY) || "{}") as Partial<PersistedUiState>;
+    return {
+      activeTab: VALID_TABS.includes(saved.activeTab as Tab) ? saved.activeTab as Tab : fallback.activeTab,
+      weatherView: VALID_WEATHER_VIEWS.includes(saved.weatherView as WeatherView)
+        ? saved.weatherView as WeatherView
+        : fallback.weatherView,
+      selectedSymbolId: typeof saved.selectedSymbolId === "string"
+        ? saved.selectedSymbolId
+        : fallback.selectedSymbolId,
+    };
   } catch {
-    return [];
+    return fallback;
   }
 }
 
-function saveUserSymbols(symbols: MarketSymbol[]) {
-  localStorage.setItem(USER_SYMBOLS_KEY, JSON.stringify(symbols.filter((symbol) => symbol.userAdded)));
+function saveUiState(state: PersistedUiState) {
+  try {
+    localStorage.setItem(UI_STATE_KEY, JSON.stringify(state));
+  } catch {
+    // Private browsing or storage restrictions must not block the dashboard.
+  }
+}
+
+function isSavedSymbol(symbol: MarketSymbol): boolean {
+  return Boolean(
+    symbol?.id &&
+    symbol?.remoteSymbol &&
+    ["binance", "yahoo", "sample"].includes(symbol.source),
+  );
+}
+
+function loadSymbols(): MarketSymbol[] {
+  try {
+    const savedLayout = localStorage.getItem(MARKET_SYMBOLS_KEY);
+    if (savedLayout) {
+      const parsedLayout = JSON.parse(savedLayout) as MarketSymbol[];
+      if (Array.isArray(parsedLayout)) {
+        return parsedLayout.filter(isSavedSymbol);
+      }
+    }
+
+    const legacy = JSON.parse(localStorage.getItem(USER_SYMBOLS_KEY) || "[]") as MarketSymbol[];
+    const userSymbols = Array.isArray(legacy)
+      ? legacy.filter(isSavedSymbol).map((symbol) => ({ ...symbol, userAdded: true }))
+      : [];
+
+    return [
+      ...DEFAULT_SYMBOLS,
+      ...userSymbols.filter(
+        (saved) => !DEFAULT_SYMBOLS.some(
+          (symbol) => symbol.id === saved.id || symbol.remoteSymbol === saved.remoteSymbol,
+        ),
+      ),
+    ];
+  } catch {
+    return DEFAULT_SYMBOLS;
+  }
+}
+
+function saveSymbols(symbols: MarketSymbol[]) {
+  try {
+    localStorage.setItem(MARKET_SYMBOLS_KEY, JSON.stringify(symbols));
+  } catch {
+    // Storage restrictions must not block editing the observatory list.
+  }
 }
 
 function App() {
-  const [activeTab, setActiveTab] = useState<Tab>("situation");
-  const [weatherView, setWeatherView] = useState<WeatherView>("forecast");
-  const [symbols, setSymbols] = useState<MarketSymbol[]>(() => [
-    ...DEFAULT_SYMBOLS,
-    ...loadSavedSymbols().filter(
-      (saved) =>
-        !DEFAULT_SYMBOLS.some(
-          (symbol) => symbol.id === saved.id || symbol.remoteSymbol === saved.remoteSymbol,
-        ),
-    ),
-  ]);
-  const [selectedSymbolId, setSelectedSymbolId] = useState(DEFAULT_SYMBOLS[0].id);
+  const [initialUiState] = useState(loadUiState);
+  const [activeTab, setActiveTab] = useState<Tab>(initialUiState.activeTab);
+  const [weatherView, setWeatherView] = useState<WeatherView>(initialUiState.weatherView);
+  const [symbols, setSymbols] = useState<MarketSymbol[]>(loadSymbols);
+  const [selectedSymbolId, setSelectedSymbolId] = useState(initialUiState.selectedSymbolId);
   const [marketData, setMarketData] = useState<Record<string, MarketData>>({});
   const [loading, setLoading] = useState(true);
   const [refreshedAt, setRefreshedAt] = useState<Date | null>(null);
@@ -95,6 +149,22 @@ function App() {
       alive = false;
     };
   }, [symbols, refreshToken]);
+
+  useEffect(() => {
+    saveUiState({ activeTab, weatherView, selectedSymbolId });
+  }, [activeTab, weatherView, selectedSymbolId]);
+
+  useEffect(() => {
+    if (symbols.length === 0) {
+      if (selectedSymbolId !== "") {
+        setSelectedSymbolId("");
+      }
+      return;
+    }
+    if (!symbols.some((symbol) => symbol.id === selectedSymbolId)) {
+      setSelectedSymbolId(symbols[0].id);
+    }
+  }, [selectedSymbolId, symbols]);
 
   useEffect(() => {
     const refresh = () => setRefreshToken((current) => current + 1);
@@ -139,7 +209,7 @@ function App() {
     const nextSymbol = { ...symbol, userAdded: true };
     setSymbols((current) => {
       const next = [...current, nextSymbol];
-      saveUserSymbols(next);
+      saveSymbols(next);
       return next;
     });
     setSelectedSymbolId(nextSymbol.id);
@@ -148,25 +218,35 @@ function App() {
   }
 
   function handleRemoveSymbol(symbolId: string) {
-    const symbol = symbols.find((current) => current.id === symbolId);
-    if (!symbol?.userAdded) {
-      return;
-    }
-
-    setSymbols((current) => {
-      const next = current.filter((item) => item.id !== symbolId);
-      saveUserSymbols(next);
-      return next;
-    });
+    const nextSymbols = symbols.filter((item) => item.id !== symbolId);
+    setSymbols(nextSymbols);
+    saveSymbols(nextSymbols);
     setMarketData((current) => {
       const next = { ...current };
       delete next[symbolId];
       return next;
     });
     if (selectedSymbolId === symbolId) {
-      setSelectedSymbolId(DEFAULT_SYMBOLS[0].id);
+      setSelectedSymbolId(nextSymbols[0]?.id ?? "");
+      setWeatherView(nextSymbols.length ? "forecast" : "stations");
       setActiveTab("weather");
     }
+  }
+
+  function handleRestoreDefaults() {
+    const next = [
+      ...DEFAULT_SYMBOLS,
+      ...symbols.filter(
+        (saved) => !DEFAULT_SYMBOLS.some(
+          (symbol) => symbol.id === saved.id || symbol.remoteSymbol === saved.remoteSymbol,
+        ),
+      ),
+    ];
+    setSymbols(next);
+    saveSymbols(next);
+    setSelectedSymbolId(DEFAULT_SYMBOLS[0].id);
+    setWeatherView("forecast");
+    setActiveTab("weather");
   }
 
   const scores = useMemo(() => {
@@ -237,7 +317,26 @@ function App() {
 
       <main className="app-main">
         {activeTab === "situation" ? (
-          <SituationRoomPage marketData={marketData} scores={scores} />
+          <SituationRoomPage marketData={marketData} scores={scores} overallScore={overallScore} />
+        ) : activeTab === "weather" && symbols.length === 0 ? (
+          <div className="weather-workspace page-flow">
+            <section className="weather-workspace-head">
+              <div>
+                <p className="eyebrow">MARKET OBSERVATORY</p>
+                <h2>관측소 관리</h2>
+              </div>
+            </section>
+            <SymbolsPage
+              symbols={symbols}
+              marketData={marketData}
+              scores={scores}
+              selectedSymbolId=""
+              onSelect={setSelectedSymbolId}
+              onAddSymbol={handleAddSymbol}
+              onRemoveSymbol={handleRemoveSymbol}
+              onRestoreDefaults={handleRestoreDefaults}
+            />
+          </div>
         ) : !ready ? (
           <section className="loading-panel">
             <div className="loader" />
@@ -265,7 +364,6 @@ function App() {
                     selectedScore={selectedScore}
                     selectedCandles={selectedData.candles}
                     selectedDailyCandles={selectedData.dailyCandles}
-                    overallScore={overallScore}
                     marketData={marketData}
                     scores={scores}
                     onSelect={setSelectedSymbolId}
@@ -282,6 +380,7 @@ function App() {
                     }}
                     onAddSymbol={handleAddSymbol}
                     onRemoveSymbol={handleRemoveSymbol}
+                    onRestoreDefaults={handleRestoreDefaults}
                   />
                 )}
               </div>

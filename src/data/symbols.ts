@@ -49,6 +49,7 @@ export const DEFAULT_SYMBOLS: MarketSymbol[] = [
 ];
 
 export const BENCHMARK_SYMBOLS: MarketSymbol[] = [
+  ...DEFAULT_SYMBOLS.filter((symbol) => ["BTCUSDT", "SP500", "NASDAQ"].includes(symbol.id)),
   {
     id: "VIX",
     label: "CBOE Volatility Index",

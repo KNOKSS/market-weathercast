@@ -1,11 +1,41 @@
 import { useEffect, useMemo, useState } from "react";
-import { fetchDashboardQuotes, type DashboardQuote } from "../api/overview";
+import {
+  DASHBOARD_MARKETS,
+  fetchDashboardQuotes,
+  type DashboardMarketDefinition,
+  type DashboardQuote,
+} from "../api/overview";
+import { searchYahooSymbols } from "../api/search";
+import { MarketBenchmarkPanel } from "../components/MarketBenchmarkPanel";
 import { MarketPulseCard } from "../components/MarketPulseCard";
-import type { MarketData, WeatherScore } from "../types/market";
+import type { MarketData, SymbolSearchResult, WeatherScore } from "../types/market";
 
 interface SituationRoomPageProps {
   marketData: Record<string, MarketData>;
   scores: Record<string, WeatherScore>;
+  overallScore: WeatherScore | null;
+}
+
+const CUSTOM_DASHBOARD_KEY = "market-weather-situation-symbols-v1";
+const CORE_REMOTE_SYMBOLS = new Set(["^GSPC", "^IXIC", "^VIX"]);
+
+function loadCustomDefinitions(): DashboardMarketDefinition[] {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(CUSTOM_DASHBOARD_KEY) || "[]") as DashboardMarketDefinition[];
+    return Array.isArray(parsed)
+      ? parsed.filter((item) => item?.id && item?.label && item?.remoteSymbol)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveCustomDefinitions(definitions: DashboardMarketDefinition[]) {
+  try {
+    localStorage.setItem(CUSTOM_DASHBOARD_KEY, JSON.stringify(definitions));
+  } catch {
+    // A storage restriction should not block editing the dashboard.
+  }
 }
 
 interface MarketClock {
@@ -107,10 +137,16 @@ function formatPercent(value: number | null): string {
   return `${value > 0 ? "+" : ""}${value.toFixed(2)}%`;
 }
 
-export function SituationRoomPage({ marketData, scores }: SituationRoomPageProps) {
+export function SituationRoomPage({ marketData, scores, overallScore }: SituationRoomPageProps) {
   const [now, setNow] = useState(() => new Date());
   const [extraQuotes, setExtraQuotes] = useState<DashboardQuote[]>([]);
   const [loading, setLoading] = useState(true);
+  const [customDefinitions, setCustomDefinitions] = useState<DashboardMarketDefinition[]>(loadCustomDefinitions);
+  const [editingDashboard, setEditingDashboard] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<SymbolSearchResult[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [searchMessage, setSearchMessage] = useState("");
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 1000);
@@ -120,7 +156,7 @@ export function SituationRoomPage({ marketData, scores }: SituationRoomPageProps
   useEffect(() => {
     let alive = true;
     async function load() {
-      const quotes = await fetchDashboardQuotes();
+      const quotes = await fetchDashboardQuotes([...DASHBOARD_MARKETS, ...customDefinitions]);
       if (alive) {
         setExtraQuotes(quotes);
         setLoading(false);
@@ -136,7 +172,60 @@ export function SituationRoomPage({ marketData, scores }: SituationRoomPageProps
       alive = false;
       window.clearInterval(timer);
     };
-  }, []);
+  }, [customDefinitions]);
+
+  async function handleDashboardSearch(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!searchQuery.trim()) return;
+    setSearching(true);
+    setSearchMessage("");
+    try {
+      const results = await searchYahooSymbols(searchQuery);
+      setSearchResults(results);
+      if (!results.length) setSearchMessage("검색 결과가 없습니다.");
+    } catch {
+      setSearchResults([]);
+      setSearchMessage("검색 연결이 지연되고 있습니다. 잠시 뒤 다시 시도해 주세요.");
+    } finally {
+      setSearching(false);
+    }
+  }
+
+  function addDashboardSymbol(result: SymbolSearchResult) {
+    const symbol = result.symbol;
+    const exists = CORE_REMOTE_SYMBOLS.has(symbol.remoteSymbol) ||
+      DASHBOARD_MARKETS.some((item) => item.remoteSymbol === symbol.remoteSymbol) ||
+      customDefinitions.some((item) => item.remoteSymbol === symbol.remoteSymbol);
+    if (exists) {
+      setSearchMessage("이미 상황판에 있는 지표입니다.");
+      return;
+    }
+    const next = [...customDefinitions, {
+      id: `CUSTOM:${symbol.remoteSymbol}`,
+      label: symbol.label,
+      shortLabel: symbol.shortLabel,
+      remoteSymbol: symbol.remoteSymbol,
+      category: "index" as const,
+    }];
+    setCustomDefinitions(next);
+    saveCustomDefinitions(next);
+    setSearchMessage(`${symbol.shortLabel} 지표를 추가했습니다.`);
+  }
+
+  function removeDashboardSymbol(id: string) {
+    const next = customDefinitions.filter((item) => item.id !== id);
+    setCustomDefinitions(next);
+    saveCustomDefinitions(next);
+  }
+
+  function moveDashboardSymbol(index: number, direction: -1 | 1) {
+    const target = index + direction;
+    if (target < 0 || target >= customDefinitions.length) return;
+    const next = [...customDefinitions];
+    [next[index], next[target]] = [next[target], next[index]];
+    setCustomDefinitions(next);
+    saveCustomDefinitions(next);
+  }
 
   const quotes = useMemo(() => {
     const existing = [
@@ -181,6 +270,13 @@ export function SituationRoomPage({ marketData, scores }: SituationRoomPageProps
         </div>
       </section>
 
+      {overallScore ? <MarketBenchmarkPanel score={overallScore} /> : (
+        <section className="benchmark-panel benchmark-loading">
+          <div className="loader" />
+          <div><strong>전체 시장 기준온도 관측 중</strong><small>S&amp;P 500 · NASDAQ · VIX · BTC</small></div>
+        </section>
+      )}
+
       <section className="situation-section world-clock-section">
         <div className="situation-section-head">
           <div>
@@ -218,10 +314,58 @@ export function SituationRoomPage({ marketData, scores }: SituationRoomPageProps
         <div className="situation-section-head">
           <div>
             <p className="eyebrow">GLOBAL INDICES</p>
-            <h2>세계 주요 지수</h2>
+            <h2>세계 주요 지수·관심 지표</h2>
           </div>
-          <small>{loading ? "상황판 연결 중" : "5분 단위 상황판 갱신"}</small>
+          <div className="dashboard-head-actions">
+            <small>{loading ? "상황판 연결 중" : "5분 단위 상황판 갱신"}</small>
+            <button type="button" onClick={() => setEditingDashboard((current) => !current)}>
+              {editingDashboard ? "편집 닫기" : "지표 편집"}
+            </button>
+          </div>
         </div>
+        {editingDashboard && (
+          <section className="dashboard-editor">
+            <div>
+              <strong>상황판 지표 추가</strong>
+              <p>종목명이나 티커를 검색해 세계 지수 옆에 고정할 수 있습니다.</p>
+            </div>
+            <form onSubmit={handleDashboardSearch}>
+              <input
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                placeholder="예: AAPL, Tesla, Dow Jones"
+                aria-label="상황판 지표 검색"
+              />
+              <button type="submit" disabled={searching}>{searching ? "검색 중" : "검색"}</button>
+            </form>
+            {searchMessage && <p className="dashboard-editor-message">{searchMessage}</p>}
+            {searchResults.length > 0 && (
+              <div className="dashboard-search-results">
+                {searchResults.map((result) => (
+                  <button type="button" key={result.symbol.id} onClick={() => addDashboardSymbol(result)}>
+                    <strong>{result.symbol.shortLabel}</strong>
+                    <span>{result.symbol.label}</span>
+                    <small>＋ 추가</small>
+                  </button>
+                ))}
+              </div>
+            )}
+            {customDefinitions.length > 0 && (
+              <div className="dashboard-custom-list">
+                {customDefinitions.map((item, index) => (
+                  <div key={item.id}>
+                    <span><strong>{item.shortLabel}</strong>{item.label}</span>
+                    <div>
+                      <button type="button" disabled={index === 0} onClick={() => moveDashboardSymbol(index, -1)} aria-label={`${item.shortLabel} 앞으로 이동`}>↑</button>
+                      <button type="button" disabled={index === customDefinitions.length - 1} onClick={() => moveDashboardSymbol(index, 1)} aria-label={`${item.shortLabel} 뒤로 이동`}>↓</button>
+                      <button type="button" onClick={() => removeDashboardSymbol(item.id)}>삭제</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
         <div className="market-pulse-grid">
           {indexQuotes.map((quote) => <MarketPulseCard quote={quote} key={quote.id} />)}
         </div>

@@ -69,9 +69,9 @@ export function SymbolCard({
       <div className="symbol-foot">
         <span>{statusLabel(score.dataStatus)}</span>
         <span>{score.sourceLabel}</span>
-        {symbol.userAdded && (
+        {onRemove && (
           <button className="remove-symbol-button" type="button" onClick={onRemove}>
-            빼기
+            삭제
           </button>
         )}
       </div>

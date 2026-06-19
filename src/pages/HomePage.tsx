@@ -12,7 +12,6 @@ interface HomePageProps {
   selectedScore: WeatherScore;
   selectedCandles: Candle[];
   selectedDailyCandles: Candle[];
-  overallScore: WeatherScore;
   marketData: Record<string, MarketData>;
   scores: Record<string, WeatherScore>;
   onSelect: (symbolId: string) => void;
@@ -36,7 +35,6 @@ export function HomePage({
   selectedScore,
   selectedCandles,
   selectedDailyCandles,
-  overallScore,
   marketData,
   scores,
   onSelect,
@@ -46,7 +44,7 @@ export function HomePage({
   function handleSymbolSelect(symbolId: string) {
     onSelect(symbolId);
     window.setTimeout(() => {
-      document.getElementById("selected-market-panel")?.scrollIntoView({
+      document.getElementById("market-weather-top")?.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
@@ -55,25 +53,14 @@ export function HomePage({
 
   return (
     <div className="page-flow">
-      <WeatherCard
-        key={`weather-${selectedSymbol.id}`}
-        title={`오늘의 ${getWeatherDisplayName(selectedSymbol)} 날씨`}
-        symbol={selectedSymbol}
-        score={selectedScore}
-      />
-
-      <section className="toolbar-band">
-        <label>
-          세부 지표
-          <select value={selectedSymbol.id} onChange={(event) => handleSymbolSelect(event.target.value)}>
-            {symbols.map((symbol) => (
-              <option key={symbol.id} value={symbol.id}>
-                {symbol.shortLabel} · {symbol.label}
-              </option>
-            ))}
-          </select>
-        </label>
-      </section>
+      <div id="market-weather-top" className="weather-top-anchor">
+        <WeatherCard
+          key={`weather-${selectedSymbol.id}`}
+          title={`오늘의 ${getWeatherDisplayName(selectedSymbol)} 날씨`}
+          symbol={selectedSymbol}
+          score={selectedScore}
+        />
+      </div>
 
       <section
         className="detail-band selected-market-panel"
@@ -140,44 +127,13 @@ export function HomePage({
         <p className="detail-summary">{selectedScore.summary}</p>
       </section>
 
-      <section className="benchmark-panel" data-weather={overallScore.label}>
-        <div className="benchmark-main">
-          <div>
-            <p className="eyebrow">FIXED MARKET BENCHMARK</p>
-            <h2>전체 시장 기준온도</h2>
-            <p>핵심 자산의 흐름을 합산해 시장 전반의 위험선호와 방향을 보여줍니다.</p>
-          </div>
-          <div className="benchmark-temperature">
-            <WeatherIcon label={overallScore.label} size={68} />
-            <div><strong>{overallScore.temperature}</strong><small>/ 100 · {overallScore.label}</small></div>
-          </div>
-        </div>
-        <div className="benchmark-track"><i style={{ width: `${overallScore.temperature}%` }} /></div>
-        <div className="benchmark-basis">
-          <span>S&amp;P 500 <strong>35%</strong></span>
-          <span>NASDAQ <strong>30%</strong></span>
-          <span>VIX <strong>20%</strong></span>
-          <span>BTC <strong>15%</strong></span>
-        </div>
-        <div className="benchmark-contributions">
-          {overallScore.contributions.map((item) => (
-            <span key={item.label}>
-              {item.label}
-              <strong className={item.value >= 0 ? "value-up" : "value-down"}>
-                {item.value > 0 ? "+" : ""}{item.value.toFixed(1)}점
-              </strong>
-            </span>
-          ))}
-        </div>
-      </section>
-
       <section className="individual-observatories">
         <div className="section-head">
           <div>
             <p className="eyebrow">INDIVIDUAL OBSERVATORIES</p>
             <h2>개별 종목 날씨</h2>
           </div>
-          <small>전체 시장 기준온도에 사용자 추가 종목은 반영되지 않습니다.</small>
+          <small>종목을 선택하면 상단 관측소가 바뀝니다. 사용자 추가 종목은 전체 시장 기준온도에 반영되지 않습니다.</small>
         </div>
         <div className="score-strip" aria-label="개별 종목 지표 요약">
         {symbols.map((symbol) => {
