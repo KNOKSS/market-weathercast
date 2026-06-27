@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "policyId": "market-weather-shadow-evaluation-v1",
+  "registeredAt": "2026-06-20T11:14:37.533148+00:00",
+  "registeredBeforeAnySettlement": true,
+  "primaryTarget": "next-day true range percent",
+  "primaryBaseline": "training-fitted ATR14 scale",
+  "atrScale": 0.930263088065123,
+  "secondaryBaseline": "last observed next-day true range",
+  "intervalTargets": {
+    "50": 0.5,
+    "80": 0.8
+  },
+  "weatherEvent": "actual true range above the asset's prior 252-observation 90th percentile",
+  "tailMetric": "Brier score; experimental and not promotion-eligible",
+  "checkpointsTradingDays": [
+    60,
+    120
+  ],
+  "noTuningBeforeCheckpoint": true,
+  "policySha256": "4a0f363397d5f4f14d4f47e3a336f540f291f62a9038e90149473441b17a6771"
+}
