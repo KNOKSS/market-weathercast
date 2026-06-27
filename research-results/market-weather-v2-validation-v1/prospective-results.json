@@ -1,0 +1,332 @@
+{
+  "schemaVersion": 1,
+  "reportId": "market-weather-v2-prospective-settlement-v1",
+  "reportAsOf": "2026-06-21T09:48:49.519432+00:00",
+  "status": "preliminary",
+  "minimumCheckpointSettlements": 60,
+  "recommendedCheckpointSettlements": 120,
+  "counts": {
+    "forecasts": 28,
+    "benchmarks": 28,
+    "settlements": 2,
+    "pairedSettlements": 2
+  },
+  "chainHeads": {
+    "forecast": "2c80dee7ee55523e75267c805305758d7b32a30f64487cdb7fe8d322f79bb7b5",
+    "benchmark": "eb4274ee1f114a47152ce524d5a12b3063bde8934f9a2368fc28797a1c10a5e8",
+    "settlement": "9901881083c556129d80345542fa8a4f5fe2c7f8aa642c15ea3e08a53cf3fd9f"
+  },
+  "overall": {
+    "comparison": {
+      "rows": 2,
+      "candidate": {
+        "mae": 1.0392583030969549,
+        "rmse": 1.0438247141709742,
+        "r2": -6.467438040000001
+      },
+      "atrBaseline": {
+        "mae": 1.4684064110034993,
+        "rmse": 1.4926894740903622,
+        "r2": -14.270575972617964
+      },
+      "improvement": {
+        "maePercent": 29.22543137177312,
+        "rmsePercent": 30.07087326002108,
+        "r2Delta": 7.803137932617963,
+        "mseSkillVsAtr": 0.5109917233383965
+      }
+    },
+    "coverage": {
+      "rows": 2,
+      "coverage50": 0.0,
+      "coverage50Wilson95": [
+        0.0,
+        0.6576197724933469
+      ],
+      "targetGap50PercentagePoints": -50.0,
+      "coverage80": 1.0,
+      "coverage80Wilson95": [
+        0.34238022750665303,
+        1.0
+      ],
+      "targetGap80PercentagePoints": 19.999999999999996
+    },
+    "weather": {
+      "quiet": {
+        "label": "고요",
+        "rows": 0,
+        "actualMeanTrueRangePercent": null,
+        "actualHighRangeEventRate": null,
+        "exactGradeHitRate": null
+      },
+      "normal": {
+        "label": "보통",
+        "rows": 2,
+        "actualMeanTrueRangePercent": 2.276403,
+        "actualHighRangeEventRate": 0.0,
+        "exactGradeHitRate": null
+      },
+      "strong": {
+        "label": "강풍",
+        "rows": 0,
+        "actualMeanTrueRangePercent": null,
+        "actualHighRangeEventRate": null,
+        "exactGradeHitRate": null
+      },
+      "storm": {
+        "label": "폭풍",
+        "rows": 0,
+        "actualMeanTrueRangePercent": null,
+        "actualHighRangeEventRate": null,
+        "exactGradeHitRate": null
+      }
+    },
+    "storm": {
+      "rows": 2,
+      "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+      "confusionMatrix": {
+        "truePositive": 0,
+        "falsePositive": 0,
+        "falseNegative": 0,
+        "trueNegative": 2
+      },
+      "alerts": 0,
+      "actualEvents": 0,
+      "precision": null,
+      "precisionWilson95": [
+        null,
+        null
+      ],
+      "recall": null,
+      "recallWilson95": [
+        null,
+        null
+      ],
+      "f1": null,
+      "specificity": 1.0,
+      "baseRate": 0.0,
+      "lift": null
+    }
+  },
+  "byAsset": {
+    "BTCUSDT": {
+      "comparison": {
+        "rows": 1,
+        "candidate": {
+          "mae": 0.9417277265675708,
+          "rmse": 0.9417277265675708,
+          "r2": null
+        },
+        "atrBaseline": {
+          "mae": 1.200256307173603,
+          "rmse": 1.200256307173603,
+          "r2": null
+        },
+        "improvement": {
+          "maePercent": 21.539447788016425,
+          "rmsePercent": 21.539447788016425,
+          "r2Delta": null,
+          "mseSkillVsAtr": 0.3843941746590599
+        }
+      },
+      "coverage": {
+        "rows": 1,
+        "coverage50": 0.0,
+        "coverage50Wilson95": [
+          0.0,
+          0.7934506856227626
+        ],
+        "targetGap50PercentagePoints": -50.0,
+        "coverage80": 1.0,
+        "coverage80Wilson95": [
+          0.20654931437723745,
+          1.0
+        ],
+        "targetGap80PercentagePoints": 19.999999999999996
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 0,
+          "actualMeanTrueRangePercent": null,
+          "actualHighRangeEventRate": null,
+          "exactGradeHitRate": null
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 1,
+          "actualMeanTrueRangePercent": 1.894422,
+          "actualHighRangeEventRate": 0.0,
+          "exactGradeHitRate": null
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 0,
+          "actualMeanTrueRangePercent": null,
+          "actualHighRangeEventRate": null,
+          "exactGradeHitRate": null
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 0,
+          "actualMeanTrueRangePercent": null,
+          "actualHighRangeEventRate": null,
+          "exactGradeHitRate": null
+        }
+      },
+      "storm": {
+        "rows": 1,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 0,
+          "falsePositive": 0,
+          "falseNegative": 0,
+          "trueNegative": 1
+        },
+        "alerts": 0,
+        "actualEvents": 0,
+        "precision": null,
+        "precisionWilson95": [
+          null,
+          null
+        ],
+        "recall": null,
+        "recallWilson95": [
+          null,
+          null
+        ],
+        "f1": null,
+        "specificity": 1.0,
+        "baseRate": 0.0,
+        "lift": null
+      }
+    },
+    "ETHUSDT": {
+      "comparison": {
+        "rows": 1,
+        "candidate": {
+          "mae": 1.136788879626339,
+          "rmse": 1.136788879626339,
+          "r2": null
+        },
+        "atrBaseline": {
+          "mae": 1.7365565148333957,
+          "rmse": 1.7365565148333957,
+          "r2": null
+        },
+        "improvement": {
+          "maePercent": 34.537755039005916,
+          "rmsePercent": 34.537755039005916,
+          "r2Delta": null,
+          "mseSkillVsAtr": 0.5714694484666806
+        }
+      },
+      "coverage": {
+        "rows": 1,
+        "coverage50": 0.0,
+        "coverage50Wilson95": [
+          0.0,
+          0.7934506856227626
+        ],
+        "targetGap50PercentagePoints": -50.0,
+        "coverage80": 1.0,
+        "coverage80Wilson95": [
+          0.20654931437723745,
+          1.0
+        ],
+        "targetGap80PercentagePoints": 19.999999999999996
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 0,
+          "actualMeanTrueRangePercent": null,
+          "actualHighRangeEventRate": null,
+          "exactGradeHitRate": null
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 1,
+          "actualMeanTrueRangePercent": 2.658384,
+          "actualHighRangeEventRate": 0.0,
+          "exactGradeHitRate": null
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 0,
+          "actualMeanTrueRangePercent": null,
+          "actualHighRangeEventRate": null,
+          "exactGradeHitRate": null
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 0,
+          "actualMeanTrueRangePercent": null,
+          "actualHighRangeEventRate": null,
+          "exactGradeHitRate": null
+        }
+      },
+      "storm": {
+        "rows": 1,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 0,
+          "falsePositive": 0,
+          "falseNegative": 0,
+          "trueNegative": 1
+        },
+        "alerts": 0,
+        "actualEvents": 0,
+        "precision": null,
+        "precisionWilson95": [
+          null,
+          null
+        ],
+        "recall": null,
+        "recallWilson95": [
+          null,
+          null
+        ],
+        "f1": null,
+        "specificity": 1.0,
+        "baseRate": 0.0,
+        "lift": null
+      }
+    }
+  },
+  "dailySettlements": [
+    {
+      "asset": "BTCUSDT",
+      "date": "2026-06-19",
+      "actual": 1.894422,
+      "prediction": 2.836149726567571,
+      "atrBaseline": 3.094678307173603,
+      "lastRangeBaseline": 2.143587,
+      "covered50": false,
+      "covered80": true,
+      "predictedGrade": "normal",
+      "actualGrade": null,
+      "actualHighRangeEvent": false,
+      "absoluteError": 0.9417277265675708,
+      "atrAbsoluteError": 1.200256307173603,
+      "settledAt": "2026-06-21T09:48:49.519432+00:00"
+    },
+    {
+      "asset": "ETHUSDT",
+      "date": "2026-06-19",
+      "actual": 2.658384,
+      "prediction": 3.795172879626339,
+      "atrBaseline": 4.3949405148333955,
+      "lastRangeBaseline": 2.36104,
+      "covered50": false,
+      "covered80": true,
+      "predictedGrade": "normal",
+      "actualGrade": null,
+      "actualHighRangeEvent": false,
+      "absoluteError": 1.136788879626339,
+      "atrAbsoluteError": 1.7365565148333957,
+      "settledAt": "2026-06-21T09:48:49.519432+00:00"
+    }
+  ],
+  "warning": "No promotion, tuning, or performance claim before the registered 60/120-settlement checkpoints."
+}

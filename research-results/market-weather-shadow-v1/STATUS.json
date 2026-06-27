@@ -1,0 +1,29 @@
+{
+  "generatedAt": "2026-06-21T09:48:52.415225+00:00",
+  "modelArtifactSha256": "fb89083281ccfa4a3688514b4bf305949005aa1cf84abcebdac6e31e5ea4b4a4",
+  "officialForecasts": 28,
+  "registeredBenchmarks": 28,
+  "settlements": 2,
+  "unsettled": 26,
+  "latestAssets": 26,
+  "latestWeatherCounts": {
+    "strong": 10,
+    "normal": 6,
+    "storm": 8,
+    "quiet": 2
+  },
+  "performance": {
+    "settled": 2,
+    "rangeMae": 1.0392583030969549,
+    "coverage50": 0.0,
+    "coverage80": 1.0,
+    "tailBrierExperimental": 0.012600680972996565,
+    "atrBaselineMae": 1.4684064110034993,
+    "lastRangeBaselineMae": 0.27325449999999996
+  },
+  "chainHeads": {
+    "forecast": "2c80dee7ee55523e75267c805305758d7b32a30f64487cdb7fe8d322f79bb7b5",
+    "benchmark": "eb4274ee1f114a47152ce524d5a12b3063bde8934f9a2368fc28797a1c10a5e8",
+    "settlement": "9901881083c556129d80345542fa8a4f5fe2c7f8aa642c15ea3e08a53cf3fd9f"
+  }
+}

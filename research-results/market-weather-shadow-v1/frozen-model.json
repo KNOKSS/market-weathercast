@@ -1,0 +1,252 @@
+{
+  "schemaVersion": 1,
+  "modelId": "market-weather-shadow-frozen-v1",
+  "frozenAt": "2026-06-20T11:02:11.051204+00:00",
+  "candidateId": "market-weather-presealed-candidate-v2",
+  "trainingPolicy": "development assets only, labels through each asset's frozen 2024 validation end",
+  "trainingRows": 87501,
+  "trainingLastDate": "2024-12-23",
+  "rangeModel": {
+    "task": "range",
+    "features": [
+      "log_atr",
+      "downside_vol_log",
+      "return1_z",
+      "abs_return1_z",
+      "sma20_percentile",
+      "close_percentile",
+      "rsi_scaled",
+      "atr_percentile",
+      "realized_vol_percentile",
+      "volume_percentile",
+      "drawdown_atr",
+      "v01_rain",
+      "v01_temperature",
+      "v01_volatility",
+      "v01_momentum"
+    ],
+    "regularization": 0.001,
+    "mean": [
+      0.31096321413750544,
+      2.143101041427643,
+      -0.01148411671704704,
+      0.7543448185781946,
+      0.49535154049201974,
+      0.6977777902747578,
+      0.5450022129267768,
+      0.463994230642659,
+      0.47445433051240676,
+      0.5035862694415688,
+      -2.334908827785375,
+      0.4177454401586335,
+      0.5391143503049071,
+      0.6461602891927433,
+      0.580091134739935
+    ],
+    "scale": [
+      0.4781739740344019,
+      0.592270151822391,
+      1.0598173814252192,
+      0.7445190807440675,
+      0.2919055222534876,
+      0.33017099329324473,
+      0.1601537343130245,
+      0.31410340772170137,
+      0.31373954362234885,
+      0.2872095703436945,
+      2.081033349319944,
+      0.1689131950624368,
+      0.14249592048998583,
+      0.1856882248309569,
+      0.29238036019395525
+    ],
+    "coefficients": [
+      0.23867537166541042,
+      0.4387722375030364,
+      -0.01696648899136099,
+      -0.03337424032751807,
+      0.015574961455285382,
+      -0.09938121966689398,
+      -0.033229313565806676,
+      -0.013032214803304718,
+      -0.06076777899267557,
+      -0.0024015841482879683,
+      0.053941795905413314,
+      -0.033736901481452905,
+      0.019257336505463688,
+      -0.025926289190328897,
+      0.006577846713856433,
+      0.09095218894402438
+    ]
+  },
+  "tailModel": {
+    "task": "tail_y",
+    "features": [
+      "return1_z",
+      "abs_return1_z",
+      "sma20_percentile",
+      "close_percentile",
+      "rsi_scaled",
+      "atr_percentile",
+      "realized_vol_percentile",
+      "volume_percentile",
+      "drawdown_atr"
+    ],
+    "regularization": 0.01,
+    "mean": [
+      -0.01148411671704704,
+      0.7543448185781946,
+      0.49535154049201974,
+      0.6977777902747578,
+      0.5450022129267768,
+      0.463994230642659,
+      0.47445433051240676,
+      0.5035862694415688,
+      -2.334908827785375
+    ],
+    "scale": [
+      1.0598173814252192,
+      0.7445190807440675,
+      0.2919055222534876,
+      0.33017099329324473,
+      0.1601537343130245,
+      0.31410340772170137,
+      0.31373954362234885,
+      0.2872095703436945,
+      2.081033349319944
+    ],
+    "coefficients": [
+      -2.388352783186203,
+      0.023757191232443468,
+      0.020909576701080974,
+      -0.11643250575595393,
+      -0.23127861943168318,
+      0.0007184763247560911,
+      0.3396133720966278,
+      0.12986860747627546,
+      0.10602614603786109,
+      0.03906590764056205
+    ]
+  },
+  "tailBaseRate": 0.09770592555096114,
+  "interval": {
+    "scheme": "shrunk252",
+    "lookback": 252,
+    "shrinkageStrength": 100,
+    "minimumHistory": 60,
+    "globalCausalOofQuantiles": {
+      "q10": 0.594448255216722,
+      "q25": 0.7498380075044507,
+      "q75": 1.3060831731976197,
+      "q90": 1.69959408318108
+    },
+    "calibrationRows": 69087
+  },
+  "weather": {
+    "lookback": 252,
+    "bins": [
+      0,
+      25,
+      75,
+      90,
+      100
+    ]
+  },
+  "tail": {
+    "status": "experimental-internal",
+    "recentPriorLookback": 252,
+    "priorStrength": 100,
+    "logOddsAdjustment": 1.0
+  },
+  "directionForecast": null,
+  "sourceHashes": {
+    "candidateManifest": "78f741ac0ab47861fb6656634f42e9f35c2335fa9dfcc6138adc969c5b42d512",
+    "mainPanel": "25ac1dee82fa0989762acf937f43411bec260e92b516910043db96a85f1182fb",
+    "splitManifest": "528e0cbfd5113293057bec896fad018cc5fa63c60a48ed2328f0abae2e5525af"
+  },
+  "causalTapeAudit": [
+    {
+      "fold": 1,
+      "trainEnd": "2006-12-31",
+      "predictionStart": "2007-01-01",
+      "predictionEnd": "2008-12-31",
+      "trainingRows": 18424,
+      "predictionRows": 9072,
+      "causal": true
+    },
+    {
+      "fold": 2,
+      "trainEnd": "2008-12-31",
+      "predictionStart": "2009-01-01",
+      "predictionEnd": "2010-12-31",
+      "trainingRows": 25480,
+      "predictionRows": 9072,
+      "causal": true
+    },
+    {
+      "fold": 3,
+      "trainEnd": "2010-12-31",
+      "predictionStart": "2011-01-01",
+      "predictionEnd": "2012-12-31",
+      "trainingRows": 32536,
+      "predictionRows": 9036,
+      "causal": true
+    },
+    {
+      "fold": 4,
+      "trainEnd": "2012-12-31",
+      "predictionStart": "2013-01-01",
+      "predictionEnd": "2014-12-31",
+      "trainingRows": 39564,
+      "predictionRows": 9707,
+      "causal": true
+    },
+    {
+      "fold": 5,
+      "trainEnd": "2014-12-31",
+      "predictionStart": "2015-01-01",
+      "predictionEnd": "2016-12-31",
+      "trainingRows": 47245,
+      "predictionRows": 10080,
+      "causal": true
+    },
+    {
+      "fold": 6,
+      "trainEnd": "2016-12-31",
+      "predictionStart": "2017-01-01",
+      "predictionEnd": "2018-12-31",
+      "trainingRows": 55309,
+      "predictionRows": 10242,
+      "causal": true
+    },
+    {
+      "fold": 7,
+      "trainEnd": "2018-12-31",
+      "predictionStart": "2019-01-01",
+      "predictionEnd": "2020-12-31",
+      "trainingRows": 63341,
+      "predictionRows": 10831,
+      "causal": true
+    },
+    {
+      "fold": 8,
+      "trainEnd": "2020-12-31",
+      "predictionStart": "2021-01-01",
+      "predictionEnd": "2022-12-31",
+      "trainingRows": 71421,
+      "predictionRows": 10790,
+      "causal": true
+    },
+    {
+      "fold": "outer-validation",
+      "trainEnd": "2022-12-31",
+      "predictionStart": "2023-01-01",
+      "predictionEnd": "2024-12-31",
+      "trainingRows": 79469,
+      "predictionRows": 10771,
+      "causal": true
+    }
+  ],
+  "appFormulaChanged": false,
+  "artifactSha256": "fb89083281ccfa4a3688514b4bf305949005aa1cf84abcebdac6e31e5ea4b4a4"
+}

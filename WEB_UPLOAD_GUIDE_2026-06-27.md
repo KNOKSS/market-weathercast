@@ -43,7 +43,7 @@ GitHub 웹 업로드는 한 번에 너무 많은 파일을 올리면 `Yowza, tha
 
 폴더:
 
-- `part-03-v2-model-ledgers`
+- `part-03-v2-model-ledgers-websafe`
 
 커밋 메시지 예시:
 
@@ -56,10 +56,11 @@ GitHub 웹 업로드는 한 번에 너무 많은 파일을 올리면 `Yowza, tha
 - 반드시 파트 폴더 안의 내용물을 선택해서 올리세요.
 - `.github` 폴더가 올라가야 자동 예보/정산 Actions가 생깁니다.
 - `node_modules`, `dist`, `research-data`, `backtest-data`, `backtest-results`는 웹 업로드용 파트에서 제외했습니다.
+- GitHub 웹 업로드는 단일 파일 25MB 제한이 있으므로, 큰 `panel.jsonl.gz` 파일은 `.part-00`, `.part-01` 조각으로 나누어 올립니다.
+- GitHub Actions가 실행될 때 이 조각들을 자동으로 합쳐 원래 `panel.jsonl.gz`를 복원합니다.
 
 ## 소급 기록 원칙
 
 오늘까지 빠진 날짜는 공식 예보 기록으로 소급 입력하지 않습니다.
 
 공식 V2 shadow 관측 기록은 이 배포가 GitHub에 올라간 뒤, GitHub Actions가 실제로 실행되는 시점부터 쌓입니다.
-

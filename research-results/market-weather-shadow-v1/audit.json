@@ -1,0 +1,13 @@
+{
+  "auditedAt": "2026-06-21T09:48:53.121250+00:00",
+  "forecasts": 28,
+  "settlements": 2,
+  "benchmarks": 28,
+  "unsettled": 26,
+  "forecastChainHead": "2c80dee7ee55523e75267c805305758d7b32a30f64487cdb7fe8d322f79bb7b5",
+  "settlementChainHead": "9901881083c556129d80345542fa8a4f5fe2c7f8aa642c15ea3e08a53cf3fd9f",
+  "benchmarkChainHead": "eb4274ee1f114a47152ce524d5a12b3063bde8934f9a2368fc28797a1c10a5e8",
+  "orphanSettlements": 0,
+  "orphanBenchmarks": 0,
+  "modelArtifactSha256": "fb89083281ccfa4a3688514b4bf305949005aa1cf84abcebdac6e31e5ea4b4a4"
+}
