@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 2,
+  "candidateId": "market-weather-presealed-candidate-v2",
+  "frozenAt": "2026-06-20T00:00:00+09:00",
+  "sourceModelArtifactSha256": "24ad1b0b59b5a924e6cbff35cd0b5513e13672cdc1dbc5ff2fd6bf8b2e7d341a",
+  "sourceCalibrationFileSha256": "47d099940460a40c4ade392df83ee5f39dc30f8e06d8861e8ef0cfbf78298e82",
+  "sourceRobustnessFileSha256": "00f9cf0ddcc1960a43542ad18f25df69a77fdd5331c6b24818d9f49461df907d",
+  "sourceCausalIntervalFileSha256": "3ab6d10fcf187ab7236c2258be91954de3827cbbbb3c43ac97d8bcd5d093e526",
+  "sealedTestOpened": false,
+  "appFormulaChanged": false
+}
