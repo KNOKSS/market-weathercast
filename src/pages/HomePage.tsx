@@ -1,10 +1,13 @@
 import { useState } from "react";
-import type { Candle, MarketData, MarketSymbol, WeatherScore } from "../types/market";
+import type { Candle, MarketData, MarketSymbol, TomorrowForecastData, WeatherScore } from "../types/market";
 import { FiveDayForecast } from "../components/FiveDayForecast";
 import { formatPercent, formatPrice } from "../utils/format";
 import { MiniChart } from "../components/MiniChart";
 import { WeatherCard } from "../components/WeatherCard";
 import { WeatherIcon } from "../components/WeatherIcon";
+import { TomorrowForecast } from "../components/TomorrowForecast";
+
+export type MarketWeatherMode = "today" | "tomorrow";
 
 interface HomePageProps {
   symbols: MarketSymbol[];
@@ -15,12 +18,17 @@ interface HomePageProps {
   marketData: Record<string, MarketData>;
   scores: Record<string, WeatherScore>;
   onSelect: (symbolId: string) => void;
+  onAddSymbol: (symbol: MarketSymbol) => void;
+  onRemoveSymbol: (symbolId: string) => void;
+  weatherMode: MarketWeatherMode;
+  onWeatherModeChange: (mode: MarketWeatherMode) => void;
+  tomorrowForecast: TomorrowForecastData | null;
+  tomorrowForecastLoading: boolean;
 }
 
 const WEATHER_DISPLAY_NAMES: Record<string, string> = {
   BTCUSDT: "비트코인",
   ETHUSDT: "이더리움",
-  SOLUSDT: "솔라나",
   SP500: "S&P 500",
   NASDAQ: "나스닥",
 };
@@ -38,6 +46,12 @@ export function HomePage({
   marketData,
   scores,
   onSelect,
+  onAddSymbol,
+  onRemoveSymbol,
+  weatherMode,
+  onWeatherModeChange,
+  tomorrowForecast,
+  tomorrowForecastLoading,
 }: HomePageProps) {
   const [chartPeriod, setChartPeriod] = useState<"five-day" | "today">("five-day");
 
@@ -53,6 +67,27 @@ export function HomePage({
 
   return (
     <div className="page-flow">
+      <section className="observation-mode-switch" aria-label="시장날씨 시점 선택">
+        <button className={weatherMode === "today" ? "active" : ""} type="button" onClick={() => onWeatherModeChange("today")}>
+          <span>실시간</span><strong>오늘 관측</strong><small>장중 데이터</small>
+        </button>
+        <button className={weatherMode === "tomorrow" ? "active" : ""} type="button" onClick={() => onWeatherModeChange("tomorrow")}>
+          <span className="new-mode-label">NEW</span><strong>내일 예보</strong><small>공식 v2 · 장 마감</small>
+        </button>
+      </section>
+
+      {weatherMode === "tomorrow" ? (
+        <TomorrowForecast
+          symbols={symbols}
+          selectedSymbol={selectedSymbol}
+          data={tomorrowForecast}
+          loading={tomorrowForecastLoading}
+          onSelect={handleSymbolSelect}
+          onAddSymbol={onAddSymbol}
+          onRemoveSymbol={onRemoveSymbol}
+        />
+      ) : (
+      <>
       <div id="market-weather-top" className="weather-top-anchor">
         <WeatherCard
           key={`weather-${selectedSymbol.id}`}
@@ -163,6 +198,8 @@ export function HomePage({
         })}
         </div>
       </section>
+      </>
+      )}
     </div>
   );
 }

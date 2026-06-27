@@ -107,3 +107,59 @@ export interface ChecklistResult {
   finalMessage: string;
   tone: "calm" | "caution" | "danger";
 }
+
+export type TomorrowWeatherGrade = "quiet" | "normal" | "strong" | "storm";
+
+export interface TomorrowForecastSettlement {
+  actualTrueRangePercent: number;
+  covered50: boolean;
+  covered80: boolean;
+  settledAt: string;
+}
+
+export interface TomorrowForecastItem {
+  assetId: string;
+  asOfDate: string;
+  forecastPolicy: "US_CLOSE" | "UTC_DAILY_CLOSE";
+  createdAt: string;
+  expectedTrueRangePercent: number;
+  interval50: [number, number];
+  interval80: [number, number];
+  weatherPercentile252: number;
+  weatherGrade: TomorrowWeatherGrade;
+  weatherLabel: "고요" | "보통" | "강풍" | "폭풍";
+  status: "pending" | "settled";
+  settlement: TomorrowForecastSettlement | null;
+}
+
+export interface TomorrowForecastHistoryItem {
+  assetId: string;
+  asOfDate: string;
+  expectedTrueRangePercent: number;
+  actualTrueRangePercent: number;
+  covered50: boolean;
+  covered80: boolean;
+  settledAt: string;
+}
+
+export interface TomorrowForecastData {
+  schemaVersion: 1;
+  generatedAt: string;
+  model: {
+    id: string;
+    version: "v2";
+    status: "official-shadow";
+    target: "next-day true range";
+    directionForecast: false;
+  };
+  aliases: Record<string, string>;
+  forecasts: TomorrowForecastItem[];
+  recentSettlements: TomorrowForecastHistoryItem[];
+  integrity: {
+    forecastChainHead: string;
+    settlementChainHead: string;
+    officialForecasts: number;
+    settlements: number;
+  };
+  disclosure: string;
+}

@@ -26,3 +26,6 @@ export function windMessage(wind: WindLevel): string {
 
 export const DISCLOSURE =
   "이 앱은 투자 조언이나 매수/매도 추천을 제공하지 않습니다. 시장 데이터를 기상 정보처럼 시각화한 보조 도구이며, 모든 투자 판단과 책임은 사용자 본인에게 있습니다.";
+
+export const FORECAST_DISCLOSURE =
+  "내일 시장예보는 과거 일봉 데이터에 기반한 통계적 변동폭 예측입니다. 예정된 금리 발표·경제지표·기업 실적·정책 변화와 시장 돌발 이벤트·천재지변 등 예보 시점 이후의 외생 변수는 반영하지 않습니다.";

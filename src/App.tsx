@@ -1,16 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { fetchMarket } from "./api/markets";
+import { fetchTomorrowForecast } from "./api/forecast";
 import { NavIcon } from "./components/NavIcon";
 import { BENCHMARK_SYMBOLS, DEFAULT_SYMBOLS } from "./data/symbols";
 import { createAlerts } from "./engine/alertEngine";
-import { DISCLOSURE } from "./engine/messages";
+import { DISCLOSURE, FORECAST_DISCLOSURE } from "./engine/messages";
 import { aggregateBenchmarkScores, scoreMarket } from "./engine/weatherScore";
 import { AlertsPage } from "./pages/AlertsPage";
 import { ChecklistPage } from "./pages/ChecklistPage";
-import { HomePage } from "./pages/HomePage";
+import { HomePage, type MarketWeatherMode } from "./pages/HomePage";
 import { SituationRoomPage } from "./pages/SituationRoomPage";
 import { SymbolsPage } from "./pages/SymbolsPage";
-import type { MarketData, MarketSymbol } from "./types/market";
+import type { MarketData, MarketSymbol, TomorrowForecastData } from "./types/market";
 
 type Tab = "situation" | "weather" | "alerts" | "checklist";
 type WeatherView = "forecast" | "stations";
@@ -21,6 +22,7 @@ const UI_STATE_KEY = "market-weather-ui-state-v1";
 const AUTO_REFRESH_MS = 60_000;
 const VALID_TABS: Tab[] = ["situation", "weather", "alerts", "checklist"];
 const VALID_WEATHER_VIEWS: WeatherView[] = ["forecast", "stations"];
+const VALID_MARKET_WEATHER_MODES: MarketWeatherMode[] = ["today", "tomorrow"];
 const tabLabels: Record<Tab, string> = {
   situation: "상황실",
   weather: "시장날씨",
@@ -32,6 +34,7 @@ interface PersistedUiState {
   activeTab: Tab;
   weatherView: WeatherView;
   selectedSymbolId: string;
+  marketWeatherMode: MarketWeatherMode;
 }
 
 function loadUiState(): PersistedUiState {
@@ -39,18 +42,32 @@ function loadUiState(): PersistedUiState {
     activeTab: "situation",
     weatherView: "forecast",
     selectedSymbolId: DEFAULT_SYMBOLS[0].id,
+    marketWeatherMode: "today",
   };
 
   try {
     const saved = JSON.parse(localStorage.getItem(UI_STATE_KEY) || "{}") as Partial<PersistedUiState>;
+    const query = new URLSearchParams(window.location.search);
+    const requestedTab = query.get("tab") as Tab | null;
+    const requestedMode = query.get("mode") as MarketWeatherMode | null;
+    const requestedSymbol = query.get("symbol");
     return {
-      activeTab: VALID_TABS.includes(saved.activeTab as Tab) ? saved.activeTab as Tab : fallback.activeTab,
-      weatherView: VALID_WEATHER_VIEWS.includes(saved.weatherView as WeatherView)
+      activeTab: requestedTab && VALID_TABS.includes(requestedTab)
+        ? requestedTab
+        : VALID_TABS.includes(saved.activeTab as Tab) ? saved.activeTab as Tab : fallback.activeTab,
+      weatherView: requestedTab === "weather"
+        ? "forecast"
+        : VALID_WEATHER_VIEWS.includes(saved.weatherView as WeatherView)
         ? saved.weatherView as WeatherView
         : fallback.weatherView,
-      selectedSymbolId: typeof saved.selectedSymbolId === "string"
+      selectedSymbolId: requestedSymbol || (typeof saved.selectedSymbolId === "string"
         ? saved.selectedSymbolId
-        : fallback.selectedSymbolId,
+        : fallback.selectedSymbolId),
+      marketWeatherMode: requestedMode && VALID_MARKET_WEATHER_MODES.includes(requestedMode)
+        ? requestedMode
+        : VALID_MARKET_WEATHER_MODES.includes(saved.marketWeatherMode as MarketWeatherMode)
+        ? saved.marketWeatherMode as MarketWeatherMode
+        : fallback.marketWeatherMode,
     };
   } catch {
     return fallback;
@@ -79,13 +96,13 @@ function loadSymbols(): MarketSymbol[] {
     if (savedLayout) {
       const parsedLayout = JSON.parse(savedLayout) as MarketSymbol[];
       if (Array.isArray(parsedLayout)) {
-        return parsedLayout.filter(isSavedSymbol);
+        return parsedLayout.filter((symbol) => isSavedSymbol(symbol) && symbol.id !== "SOLUSDT");
       }
     }
 
     const legacy = JSON.parse(localStorage.getItem(USER_SYMBOLS_KEY) || "[]") as MarketSymbol[];
     const userSymbols = Array.isArray(legacy)
-      ? legacy.filter(isSavedSymbol).map((symbol) => ({ ...symbol, userAdded: true }))
+      ? legacy.filter((symbol) => isSavedSymbol(symbol) && symbol.id !== "SOLUSDT").map((symbol) => ({ ...symbol, userAdded: true }))
       : [];
 
     return [
@@ -115,11 +132,23 @@ function App() {
   const [weatherView, setWeatherView] = useState<WeatherView>(initialUiState.weatherView);
   const [symbols, setSymbols] = useState<MarketSymbol[]>(loadSymbols);
   const [selectedSymbolId, setSelectedSymbolId] = useState(initialUiState.selectedSymbolId);
+  const [marketWeatherMode, setMarketWeatherMode] = useState<MarketWeatherMode>(initialUiState.marketWeatherMode);
   const [marketData, setMarketData] = useState<Record<string, MarketData>>({});
+  const [tomorrowForecast, setTomorrowForecast] = useState<TomorrowForecastData | null>(null);
+  const [tomorrowForecastLoading, setTomorrowForecastLoading] = useState(true);
   const [loading, setLoading] = useState(true);
   const [refreshedAt, setRefreshedAt] = useState<Date | null>(null);
   const [refreshToken, setRefreshToken] = useState(0);
   const latestRequestId = useRef(0);
+
+  useEffect(() => {
+    if (!symbols.some((symbol) => symbol.id === "SOLUSDT")) return;
+    setSymbols((current) => {
+      const next = current.filter((symbol) => symbol.id !== "SOLUSDT");
+      saveSymbols(next);
+      return next;
+    });
+  }, [symbols]);
 
   useEffect(() => {
     let alive = true;
@@ -151,8 +180,21 @@ function App() {
   }, [symbols, refreshToken]);
 
   useEffect(() => {
-    saveUiState({ activeTab, weatherView, selectedSymbolId });
-  }, [activeTab, weatherView, selectedSymbolId]);
+    let alive = true;
+    setTomorrowForecastLoading(true);
+    fetchTomorrowForecast().then((result) => {
+      if (!alive) return;
+      setTomorrowForecast(result);
+      setTomorrowForecastLoading(false);
+    });
+    return () => {
+      alive = false;
+    };
+  }, [refreshToken]);
+
+  useEffect(() => {
+    saveUiState({ activeTab, weatherView, selectedSymbolId, marketWeatherMode });
+  }, [activeTab, weatherView, selectedSymbolId, marketWeatherMode]);
 
   useEffect(() => {
     if (symbols.length === 0) {
@@ -350,7 +392,7 @@ function App() {
                 <section className="weather-workspace-head">
                   <div>
                     <p className="eyebrow">MARKET OBSERVATORY</p>
-                    <h2>{weatherView === "forecast" ? "시장 날씨" : "관측소 관리"}</h2>
+                    <h2>{weatherView === "forecast" ? marketWeatherMode === "tomorrow" ? "내일 시장예보" : "시장 날씨" : "관측소 관리"}</h2>
                   </div>
                   <div className="weather-subnav">
                     <button className={weatherView === "forecast" ? "active" : ""} type="button" onClick={() => setWeatherView("forecast")}>날씨 보기</button>
@@ -367,6 +409,12 @@ function App() {
                     marketData={marketData}
                     scores={scores}
                     onSelect={setSelectedSymbolId}
+                    onAddSymbol={handleAddSymbol}
+                    onRemoveSymbol={handleRemoveSymbol}
+                    weatherMode={marketWeatherMode}
+                    onWeatherModeChange={setMarketWeatherMode}
+                    tomorrowForecast={tomorrowForecast}
+                    tomorrowForecastLoading={tomorrowForecastLoading}
                   />
                 ) : (
                   <SymbolsPage
@@ -407,6 +455,7 @@ function App() {
 
       <footer className="app-footer">
         <p>{DISCLOSURE}</p>
+        <p className="forecast-disclosure"><strong>내일 시장예보 안내</strong>{FORECAST_DISCLOSURE}</p>
         <div className="observation-status">
           <span>관측주기 자동 1분</span>
           {refreshedAt && <span>마지막 관측 {refreshedAt.toLocaleTimeString("ko-KR")}</span>}

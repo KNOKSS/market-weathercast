@@ -1,4 +1,4 @@
-const CACHE_NAME = "market-weather-v3";
+const CACHE_NAME = "market-weather-v5";
 const APP_SHELL = ["/", "/index.html", "/manifest.webmanifest", "/icon.svg"];
 
 self.addEventListener("install", (event) => {
@@ -31,7 +31,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (url.pathname.startsWith("/api/")) {
+  if (url.pathname.startsWith("/api/") || url.pathname.startsWith("/data/")) {
     event.respondWith(fetch(request, { cache: "no-store" }));
     return;
   }

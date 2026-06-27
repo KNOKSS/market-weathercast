@@ -20,15 +20,6 @@ export const DEFAULT_SYMBOLS: MarketSymbol[] = [
     description: "알트코인 체력과 유동성 확인용",
   },
   {
-    id: "SOLUSDT",
-    label: "Solana",
-    shortLabel: "SOL",
-    kind: "crypto",
-    source: "binance",
-    remoteSymbol: "SOLUSDT",
-    description: "고베타 코인 분위기 확인용",
-  },
-  {
     id: "SP500",
     label: "S&P 500",
     shortLabel: "S&P",

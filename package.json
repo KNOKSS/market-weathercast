@@ -11,7 +11,26 @@
     "dev": "vite --host 0.0.0.0",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "deploy:check": "tsc -b && vite build"
+    "deploy:check": "tsc -b && vite build",
+    "backtest": "tsx scripts/backtest/run.ts",
+    "backtest:refresh": "tsx scripts/backtest/run.ts --refresh",
+    "dataset:audit": "tsx scripts/dataset/run.ts",
+    "dataset:refresh": "tsx scripts/dataset/run.ts --refresh",
+    "panel:build": "tsx scripts/panel/run.ts",
+    "panel:refresh": "tsx scripts/panel/run.ts --refresh",
+    "evaluation:baseline": "tsx scripts/evaluation/run.ts"
+    ,"shadow:freeze": "python scripts/shadow/run.py freeze"
+    ,"shadow:snapshot": "tsx scripts/shadow/snapshot.ts"
+    ,"shadow:refresh": "tsx scripts/shadow/snapshot.ts --refresh"
+    ,"shadow:forecast": "python scripts/shadow/run.py forecast"
+    ,"shadow:register": "python scripts/shadow/run.py register"
+    ,"shadow:settle": "python scripts/shadow/run.py settle"
+    ,"shadow:audit": "python scripts/shadow/run.py audit"
+    ,"shadow:report": "python scripts/shadow/run.py report"
+    ,"shadow:export": "python scripts/shadow/run.py export"
+    ,"shadow:self-test": "python scripts/shadow/run.py self-test"
+    ,"shadow:dry-run": "tsx scripts/shadow/snapshot.ts --dry-run && python scripts/shadow/run.py forecast --dry-run"
+    ,"v2:validate": "python scripts/v2_validation/run.py"
   },
   "dependencies": {
     "react": "^19.2.1",
@@ -21,6 +40,7 @@
     "@types/node": "^24.10.2",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "tsx": "^4.22.4",
     "typescript": "^5.9.3",
     "vite": "^7.2.7"
   }
