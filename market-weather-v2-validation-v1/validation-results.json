@@ -1,0 +1,4558 @@
+{
+  "schemaVersion": 1,
+  "reportId": "market-weather-v2-validation-v1",
+  "reportAsOf": "2026-06-20T11:02:11.051204+00:00",
+  "evaluationWindow": {
+    "firstDate": "2025-01-06",
+    "lastDate": "2026-06-13"
+  },
+  "audit": {
+    "target": {
+      "rawLabelFormula": "max(H[t+1]-L[t+1], abs(H[t+1]-C[t]), abs(L[t+1]-C[t])) / C[t] * 100",
+      "modelTargetFormula": "log(max(nextDayTrueRangePercent, 0.01))",
+      "conclusion": "log(True Range / prior close * 100); multiplying by 100 only shifts the intercept",
+      "absolutePriceLevelNormalized": true
+    },
+    "standardization": {
+      "policy": "weighted mean and scale are fitted only on the records passed to fit_ridge; validation/test rows are transformed with stored training statistics",
+      "trainingRows": 87501,
+      "trainingLastDate": "2024-12-23",
+      "evaluationFirstDate": "2025-01-06",
+      "storedMeanMatchesApprovedTraining": true,
+      "storedScaleMatchesApprovedTraining": true,
+      "evaluationRowsUsedToFitStandardizer": 0,
+      "expandingFoldAudit": [
+        {
+          "trainEnd": "2014-12-31",
+          "validationStart": "2015-01-01",
+          "validationEnd": "2016-12-31",
+          "trainingRows": 47245,
+          "validationRows": 7984,
+          "latestTrainingDate": "2014-12-23",
+          "earliestValidationDate": "2015-01-09",
+          "strictlyOrdered": true,
+          "meanMatchesFoldTrainOnly": true,
+          "scaleMatchesFoldTrainOnly": true
+        },
+        {
+          "trainEnd": "2016-12-31",
+          "validationStart": "2017-01-01",
+          "validationEnd": "2018-12-31",
+          "trainingRows": 55309,
+          "validationRows": 7952,
+          "latestTrainingDate": "2016-12-22",
+          "earliestValidationDate": "2017-01-10",
+          "strictlyOrdered": true,
+          "meanMatchesFoldTrainOnly": true,
+          "scaleMatchesFoldTrainOnly": true
+        },
+        {
+          "trainEnd": "2018-12-31",
+          "validationStart": "2019-01-01",
+          "validationEnd": "2020-12-31",
+          "trainingRows": 63341,
+          "validationRows": 8000,
+          "latestTrainingDate": "2018-12-21",
+          "earliestValidationDate": "2019-01-09",
+          "strictlyOrdered": true,
+          "meanMatchesFoldTrainOnly": true,
+          "scaleMatchesFoldTrainOnly": true
+        },
+        {
+          "trainEnd": "2020-12-31",
+          "validationStart": "2021-01-01",
+          "validationEnd": "2022-12-31",
+          "trainingRows": 71421,
+          "validationRows": 7968,
+          "latestTrainingDate": "2020-12-23",
+          "earliestValidationDate": "2021-01-11",
+          "strictlyOrdered": true,
+          "meanMatchesFoldTrainOnly": true,
+          "scaleMatchesFoldTrainOnly": true
+        }
+      ],
+      "allExpandingFoldsTrainOnly": true
+    },
+    "freezeIntegrity": {
+      "modelId": "market-weather-shadow-frozen-v1",
+      "artifactSha256": "fb89083281ccfa4a3688514b4bf305949005aa1cf84abcebdac6e31e5ea4b4a4",
+      "artifactHashMatches": true,
+      "trainingPolicy": "development assets only, labels through each asset's frozen 2024 validation end",
+      "directionForecast": null
+    }
+  },
+  "data": {
+    "rows": 9592,
+    "assets": 26,
+    "assetIds": [
+      "BTCUSDT",
+      "EEM",
+      "EFA",
+      "ETHUSDT",
+      "IWD",
+      "IWF",
+      "IWM",
+      "IYR",
+      "MTUM",
+      "NVDA",
+      "QQQ",
+      "SPY",
+      "TSLA",
+      "USMV",
+      "VOX",
+      "XLB",
+      "XLC",
+      "XLE",
+      "XLF",
+      "XLI",
+      "XLK",
+      "XLP",
+      "XLRE",
+      "XLU",
+      "XLV",
+      "XLY"
+    ],
+    "cohorts": {
+      "seen-assets": 5696,
+      "asset-holdout": 1948,
+      "transfer-holdout": 1948
+    }
+  },
+  "overallPooled": {
+    "comparison": {
+      "rows": 9592,
+      "candidate": {
+        "mae": 0.7207286531535817,
+        "rmse": 1.328318848114512,
+        "r2": 0.5127276140718082
+      },
+      "atrBaseline": {
+        "mae": 0.7686529639071098,
+        "rmse": 1.3946766053409807,
+        "r2": 0.4628270166015157
+      },
+      "improvement": {
+        "maePercent": 6.234843681591483,
+        "rmsePercent": 4.757931478333288,
+        "r2Delta": 0.04990059747029252,
+        "mseSkillVsAtr": 0.09289483837141421
+      }
+    },
+    "coverage": {
+      "rows": 9592,
+      "coverage50": 0.5003127606338615,
+      "coverage50Wilson95": [
+        0.49030857103619896,
+        0.5103166998194888
+      ],
+      "targetGap50PercentagePoints": 0.031276063386154185,
+      "coverage80": 0.7971226021684737,
+      "coverage80Wilson95": [
+        0.7889566675317047,
+        0.8050506453715783
+      ],
+      "targetGap80PercentagePoints": -0.2877397831526296
+    },
+    "weather": {
+      "quiet": {
+        "label": "고요",
+        "rows": 2353,
+        "share": 0.24530859049207673,
+        "actualMeanTrueRangePercent": 1.6494072163195919,
+        "actualMedianTrueRangePercent": 1.175397,
+        "actualMeanPriorMedianRatio": 0.8868869619816948,
+        "exactGradeHitRate": 0.42413939651508714,
+        "withinOneGradeHitRate": 0.894177645558861,
+        "actualHighRangeEventRate": 0.02847428814279643
+      },
+      "normal": {
+        "label": "보통",
+        "rows": 4470,
+        "share": 0.46601334445371145,
+        "actualMeanTrueRangePercent": 1.8514025337807605,
+        "actualMedianTrueRangePercent": 1.3864305,
+        "actualMeanPriorMedianRatio": 1.0936417522277657,
+        "exactGradeHitRate": 0.5434004474272931,
+        "withinOneGradeHitRate": 0.9299776286353467,
+        "actualHighRangeEventRate": 0.07046979865771812
+      },
+      "strong": {
+        "label": "강풍",
+        "rows": 1539,
+        "share": 0.16044620517097583,
+        "actualMeanTrueRangePercent": 2.378016714100065,
+        "actualMedianTrueRangePercent": 1.75863,
+        "actualMeanPriorMedianRatio": 1.4249314003747608,
+        "exactGradeHitRate": 0.24496426250812214,
+        "withinOneGradeHitRate": 0.9096816114359974,
+        "actualHighRangeEventRate": 0.17348927875243664
+      },
+      "storm": {
+        "label": "폭풍",
+        "rows": 1230,
+        "share": 0.12823185988323604,
+        "actualMeanTrueRangePercent": 3.347325155284553,
+        "actualMedianTrueRangePercent": 2.3047895,
+        "actualMeanPriorMedianRatio": 2.0728987847360623,
+        "exactGradeHitRate": 0.39186991869918697,
+        "withinOneGradeHitRate": 0.6658536585365854,
+        "actualHighRangeEventRate": 0.3934959349593496
+      }
+    },
+    "storm": {
+      "rows": 9592,
+      "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+      "confusionMatrix": {
+        "truePositive": 484,
+        "falsePositive": 746,
+        "falseNegative": 649,
+        "trueNegative": 7713
+      },
+      "alerts": 1230,
+      "actualEvents": 1133,
+      "precision": 0.3934959349593496,
+      "precisionWilson95": [
+        0.3665667934234883,
+        0.4210882589116637
+      ],
+      "recall": 0.42718446601941745,
+      "recallWilson95": [
+        0.398674469120752,
+        0.45618655945999376
+      ],
+      "f1": 0.40964875158696573,
+      "specificity": 0.9118099066083462,
+      "baseRate": 0.11811926605504587,
+      "lift": 3.33134422606362
+    },
+    "blockBootstrap": {
+      "samples": 300,
+      "blockLength": 20,
+      "maeImprovementPercent": {
+        "mean": 6.250980973333833,
+        "ci95": [
+          5.058994154122279,
+          7.539988321242014
+        ]
+      },
+      "rmseImprovementPercent": {
+        "mean": 4.767326999541745,
+        "ci95": [
+          3.434310064926839,
+          6.296965440038616
+        ]
+      },
+      "mseSkillVsAtr": {
+        "mean": 0.09302318702275424,
+        "ci95": [
+          0.06750674640460039,
+          0.12197396399237012
+        ]
+      },
+      "coverage50": {
+        "mean": 0.5008785098693356,
+        "ci95": [
+          0.49040867389491244,
+          0.5106442869057548
+        ]
+      },
+      "coverage80": {
+        "mean": 0.7974933972755074,
+        "ci95": [
+          0.7894417222685571,
+          0.8048920975813177
+        ]
+      }
+    }
+  },
+  "overallAssetEqual": {
+    "assets": 26,
+    "maeImprovementPercent": 6.488246016047057,
+    "rmseImprovementPercent": 6.518326770949547,
+    "mseSkillVsAtr": 0.1252142277039137,
+    "coverage50": 0.5010515151715083,
+    "coverage80": 0.797828683024669,
+    "stormPrecision": 0.396368990050417,
+    "stormRecall": 0.42930669094531054
+  },
+  "byCohort": {
+    "seen-assets": {
+      "comparison": {
+        "rows": 5696,
+        "candidate": {
+          "mae": 0.506995841348911,
+          "rmse": 0.8613314328822332,
+          "r2": 0.3452741086466852
+        },
+        "atrBaseline": {
+          "mae": 0.5472449499248637,
+          "rmse": 0.9303123122497748,
+          "r2": 0.2362056170328687
+        },
+        "improvement": {
+          "maePercent": 7.354861580993838,
+          "rmsePercent": 7.414808818419817,
+          "r2Delta": 0.10906849161381649,
+          "mseSkillVsAtr": 0.14279823738702468
+        }
+      },
+      "coverage": {
+        "rows": 5696,
+        "coverage50": 0.503686797752809,
+        "coverage50Wilson95": [
+          0.4907043065384346,
+          0.5166643194669439
+        ],
+        "targetGap50PercentagePoints": 0.3686797752809001,
+        "coverage80": 0.8024929775280899,
+        "coverage80Wilson95": [
+          0.7919516681757153,
+          0.8126265512179489
+        ],
+        "targetGap80PercentagePoints": 0.2492977528089857
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 1270,
+          "share": 0.22296348314606743,
+          "actualMeanTrueRangePercent": 1.0444873062992126,
+          "actualMedianTrueRangePercent": 0.9356175,
+          "actualMeanPriorMedianRatio": 0.8786625493439444,
+          "exactGradeHitRate": 0.44724409448818897,
+          "withinOneGradeHitRate": 0.9,
+          "actualHighRangeEventRate": 0.024409448818897637
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 2694,
+          "share": 0.4729634831460674,
+          "actualMeanTrueRangePercent": 1.3413176826280622,
+          "actualMedianTrueRangePercent": 1.206024,
+          "actualMeanPriorMedianRatio": 1.1049490495275165,
+          "exactGradeHitRate": 0.5582776540460282,
+          "withinOneGradeHitRate": 0.9320712694877505,
+          "actualHighRangeEventRate": 0.06829992576095026
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 995,
+          "share": 0.17468398876404495,
+          "actualMeanTrueRangePercent": 1.7489856673366833,
+          "actualMedianTrueRangePercent": 1.534026,
+          "actualMeanPriorMedianRatio": 1.4322797996182954,
+          "exactGradeHitRate": 0.2422110552763819,
+          "withinOneGradeHitRate": 0.9226130653266331,
+          "actualHighRangeEventRate": 0.17688442211055277
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 737,
+          "share": 0.12938904494382023,
+          "actualMeanTrueRangePercent": 2.6370182591587517,
+          "actualMedianTrueRangePercent": 2.053397,
+          "actualMeanPriorMedianRatio": 2.2075719991287053,
+          "exactGradeHitRate": 0.43012211668928085,
+          "withinOneGradeHitRate": 0.6960651289009498,
+          "actualHighRangeEventRate": 0.4314789687924016
+        }
+      },
+      "storm": {
+        "rows": 5696,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 318,
+          "falsePositive": 419,
+          "falseNegative": 391,
+          "trueNegative": 4568
+        },
+        "alerts": 737,
+        "actualEvents": 709,
+        "precision": 0.4314789687924016,
+        "precisionWilson95": [
+          0.39616780197245033,
+          0.46750073493586936
+        ],
+        "recall": 0.44851904090267986,
+        "recallWilson95": [
+          0.4122857940328423,
+          0.48530714322312324
+        ],
+        "f1": 0.43983402489626555,
+        "specificity": 0.9159815520352917,
+        "baseRate": 0.12447331460674158,
+        "lift": 3.466437526433737
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 7.325119720341348,
+          "ci95": [
+            5.728509691669468,
+            8.865063450887293
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 7.391560758985171,
+          "ci95": [
+            5.869253454369804,
+            8.58168337300593
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.14232332396838557,
+          "ci95": [
+            0.11394010172513533,
+            0.16426910843008036
+          ]
+        },
+        "coverage50": {
+          "mean": 0.5038366104868914,
+          "ci95": [
+            0.4907786165730337,
+            0.5183505969101123
+          ]
+        },
+        "coverage80": {
+          "mean": 0.802435627340824,
+          "ci95": [
+            0.7902870435393259,
+            0.8137377106741573
+          ]
+        }
+      }
+    },
+    "asset-holdout": {
+      "comparison": {
+        "rows": 1948,
+        "candidate": {
+          "mae": 0.7953079112406772,
+          "rmse": 1.3102701317264163,
+          "r2": 0.37117848252242214
+        },
+        "atrBaseline": {
+          "mae": 0.8408864558386504,
+          "rmse": 1.3838564505722362,
+          "r2": 0.2985644113003888
+        },
+        "improvement": {
+          "maePercent": 5.420297149692562,
+          "rmsePercent": 5.3174820853269384,
+          "r2Delta": 0.07261407122203334,
+          "mseSkillVsAtr": 0.10352208013376152
+        }
+      },
+      "coverage": {
+        "rows": 1948,
+        "coverage50": 0.4948665297741273,
+        "coverage50Wilson95": [
+          0.4726960488685314,
+          0.5170572172537672
+        ],
+        "targetGap50PercentagePoints": -0.5133470225872683,
+        "coverage80": 0.7890143737166324,
+        "coverage80Wilson95": [
+          0.7703359506988484,
+          0.8065551666157366
+        ],
+        "targetGap80PercentagePoints": -1.0985626283367633
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 500,
+          "share": 0.25667351129363447,
+          "actualMeanTrueRangePercent": 1.776449064,
+          "actualMedianTrueRangePercent": 1.5091655,
+          "actualMeanPriorMedianRatio": 0.9157219895785229,
+          "exactGradeHitRate": 0.364,
+          "withinOneGradeHitRate": 0.868,
+          "actualHighRangeEventRate": 0.036
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 877,
+          "share": 0.4502053388090349,
+          "actualMeanTrueRangePercent": 2.0095172782212085,
+          "actualMedianTrueRangePercent": 1.650555,
+          "actualMeanPriorMedianRatio": 1.1161036384914218,
+          "exactGradeHitRate": 0.5222348916761688,
+          "withinOneGradeHitRate": 0.9042189281641961,
+          "actualHighRangeEventRate": 0.09578107183580388
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 298,
+          "share": 0.15297741273100615,
+          "actualMeanTrueRangePercent": 2.580839496644295,
+          "actualMedianTrueRangePercent": 1.9671575,
+          "actualMeanPriorMedianRatio": 1.4475682824831706,
+          "exactGradeHitRate": 0.2483221476510067,
+          "withinOneGradeHitRate": 0.8959731543624161,
+          "actualHighRangeEventRate": 0.1644295302013423
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 273,
+          "share": 0.14014373716632444,
+          "actualMeanTrueRangePercent": 3.3527455494505496,
+          "actualMedianTrueRangePercent": 2.508837,
+          "actualMeanPriorMedianRatio": 1.938868196907521,
+          "exactGradeHitRate": 0.336996336996337,
+          "withinOneGradeHitRate": 0.6446886446886447,
+          "actualHighRangeEventRate": 0.34065934065934067
+        }
+      },
+      "storm": {
+        "rows": 1948,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 93,
+          "falsePositive": 180,
+          "falseNegative": 151,
+          "trueNegative": 1524
+        },
+        "alerts": 273,
+        "actualEvents": 244,
+        "precision": 0.34065934065934067,
+        "precisionWilson95": [
+          0.2869991634434926,
+          0.39874154760965747
+        ],
+        "recall": 0.38114754098360654,
+        "recallWilson95": [
+          0.32249705074690105,
+          0.4434823770857874
+        ],
+        "f1": 0.3597678916827853,
+        "specificity": 0.8943661971830986,
+        "baseRate": 0.12525667351129363,
+        "lift": 2.719690145919654
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 5.3702942787297685,
+          "ci95": [
+            2.823678224028297,
+            7.7747506724376185
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 5.170530591494766,
+          "ci95": [
+            2.023049360482524,
+            8.092501780061676
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.10046537242284775,
+          "ci95": [
+            0.04005171342884964,
+            0.1552989180048961
+          ]
+        },
+        "coverage50": {
+          "mean": 0.49520362765229287,
+          "ci95": [
+            0.473305954825462,
+            0.5198793634496919
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7880715263518138,
+          "ci95": [
+            0.7684804928131417,
+            0.8082777207392197
+          ]
+        }
+      }
+    },
+    "transfer-holdout": {
+      "comparison": {
+        "rows": 1948,
+        "candidate": {
+          "mae": 1.2711094033002668,
+          "rmse": 2.1913428996647535,
+          "r2": 0.44011709443017055
+        },
+        "atrBaseline": {
+          "mae": 1.3438219604986055,
+          "rmse": 2.265410850216397,
+          "r2": 0.40162908127068075
+        },
+        "improvement": {
+          "maePercent": 5.410877284023529,
+          "rmsePercent": 3.2695151320815987,
+          "r2Delta": 0.0384880131594898,
+          "mseSkillVsAtr": 0.06432132972174076
+        }
+      },
+      "coverage": {
+        "rows": 1948,
+        "coverage50": 0.49589322381930184,
+        "coverage50Wilson95": [
+          0.4737203021941382,
+          0.5180823107037007
+        ],
+        "targetGap50PercentagePoints": -0.41067761806981573,
+        "coverage80": 0.7895277207392197,
+        "coverage80Wilson95": [
+          0.7708644011301544,
+          0.8070513895722009
+        ],
+        "targetGap80PercentagePoints": -1.0472279260780315
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 583,
+          "share": 0.29928131416837783,
+          "actualMeanTrueRangePercent": 2.8582020051457975,
+          "actualMedianTrueRangePercent": 2.324937,
+          "actualMeanPriorMedianRatio": 0.8800730516069588,
+          "exactGradeHitRate": 0.42538593481989706,
+          "withinOneGradeHitRate": 0.9039451114922813,
+          "actualHighRangeEventRate": 0.030874785591766724
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 899,
+          "share": 0.46149897330595485,
+          "actualMeanTrueRangePercent": 3.225709494994438,
+          "actualMedianTrueRangePercent": 2.503445,
+          "actualMeanPriorMedianRatio": 1.0378453860667487,
+          "exactGradeHitRate": 0.5194660734149055,
+          "withinOneGradeHitRate": 0.9488320355951056,
+          "actualHighRangeEventRate": 0.05228031145717464
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 246,
+          "share": 0.12628336755646818,
+          "actualMeanTrueRangePercent": 4.676572414634147,
+          "actualMedianTrueRangePercent": 4.096004,
+          "actualMeanPriorMedianRatio": 1.3677873023437714,
+          "exactGradeHitRate": 0.25203252032520324,
+          "withinOneGradeHitRate": 0.8739837398373984,
+          "actualHighRangeEventRate": 0.17073170731707318
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 220,
+          "share": 0.11293634496919917,
+          "actualMeanTrueRangePercent": 5.72012704090909,
+          "actualMedianTrueRangePercent": 5.1880135,
+          "actualMeanPriorMedianRatio": 1.7880632914170351,
+          "exactGradeHitRate": 0.33181818181818185,
+          "withinOneGradeHitRate": 0.5909090909090909,
+          "actualHighRangeEventRate": 0.33181818181818185
+        }
+      },
+      "storm": {
+        "rows": 1948,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 73,
+          "falsePositive": 147,
+          "falseNegative": 107,
+          "trueNegative": 1621
+        },
+        "alerts": 220,
+        "actualEvents": 180,
+        "precision": 0.33181818181818185,
+        "precisionWilson95": [
+          0.2729525631293112,
+          0.3964563104999617
+        ],
+        "recall": 0.40555555555555556,
+        "recallWilson95": [
+          0.33652629847443355,
+          0.4785317400218711
+        ],
+        "f1": 0.365,
+        "specificity": 0.9168552036199095,
+        "baseRate": 0.09240246406570841,
+        "lift": 3.5910101010101014
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 5.4571385407574065,
+          "ci95": [
+            3.2159686183328646,
+            7.880178777528339
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 3.352664692953195,
+          "ci95": [
+            1.2139513571205596,
+            5.686897098691361
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.06579545178516735,
+          "ci95": [
+            0.02413127096316551,
+            0.11050386144773547
+          ]
+        },
+        "coverage50": {
+          "mean": 0.49663757700205335,
+          "ci95": [
+            0.476090862422998,
+            0.5203157084188912
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7907340862422998,
+          "ci95": [
+            0.7705338809034907,
+            0.8080082135523614
+          ]
+        }
+      }
+    }
+  },
+  "byAsset": {
+    "BTCUSDT": {
+      "comparison": {
+        "rows": 524,
+        "candidate": {
+          "mae": 1.3097230064821417,
+          "rmse": 1.938891426625671,
+          "r2": 0.19098890134145563
+        },
+        "atrBaseline": {
+          "mae": 1.403509999580039,
+          "rmse": 2.0550968355779013,
+          "r2": 0.09110841998677066
+        },
+        "improvement": {
+          "maePercent": 6.682317413196951,
+          "rmsePercent": 5.654497975009192,
+          "r2Delta": 0.09988048135468497,
+          "mseSkillVsAtr": 0.10989262476524553
+        }
+      },
+      "coverage": {
+        "rows": 524,
+        "coverage50": 0.47900763358778625,
+        "coverage50Wilson95": [
+          0.43654309960927173,
+          0.5217777188252021
+        ],
+        "targetGap50PercentagePoints": -2.099236641221375,
+        "coverage80": 0.7843511450381679,
+        "coverage80Wilson95": [
+          0.7471354536897091,
+          0.8174280056978748
+        ],
+        "targetGap80PercentagePoints": -1.5648854961832104
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 167,
+          "share": 0.3187022900763359,
+          "actualMeanTrueRangePercent": 2.568751239520958,
+          "actualMedianTrueRangePercent": 2.301953,
+          "actualMeanPriorMedianRatio": 0.8033369128594219,
+          "exactGradeHitRate": 0.4311377245508982,
+          "withinOneGradeHitRate": 0.9221556886227545,
+          "actualHighRangeEventRate": 0.011976047904191617
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 210,
+          "share": 0.40076335877862596,
+          "actualMeanTrueRangePercent": 3.262826161904761,
+          "actualMedianTrueRangePercent": 2.8923959999999997,
+          "actualMeanPriorMedianRatio": 1.0550668249996857,
+          "exactGradeHitRate": 0.5476190476190477,
+          "withinOneGradeHitRate": 0.919047619047619,
+          "actualHighRangeEventRate": 0.08095238095238096
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 82,
+          "share": 0.15648854961832062,
+          "actualMeanTrueRangePercent": 4.305214292682927,
+          "actualMedianTrueRangePercent": 3.8650145,
+          "actualMeanPriorMedianRatio": 1.465189265572846,
+          "exactGradeHitRate": 0.21951219512195122,
+          "withinOneGradeHitRate": 0.8902439024390244,
+          "actualHighRangeEventRate": 0.2073170731707317
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 65,
+          "share": 0.12404580152671756,
+          "actualMeanTrueRangePercent": 5.437217846153847,
+          "actualMedianTrueRangePercent": 4.978038,
+          "actualMeanPriorMedianRatio": 1.8675174855164598,
+          "exactGradeHitRate": 0.3076923076923077,
+          "withinOneGradeHitRate": 0.6615384615384615,
+          "actualHighRangeEventRate": 0.3076923076923077
+        }
+      },
+      "storm": {
+        "rows": 524,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 20,
+          "falsePositive": 45,
+          "falseNegative": 36,
+          "trueNegative": 423
+        },
+        "alerts": 65,
+        "actualEvents": 56,
+        "precision": 0.3076923076923077,
+        "precisionWilson95": [
+          0.20887031366921027,
+          0.4279764291472733
+        ],
+        "recall": 0.35714285714285715,
+        "recallWilson95": [
+          0.24456571707649905,
+          0.4880611219860049
+        ],
+        "f1": 0.3305785123966942,
+        "specificity": 0.9038461538461539,
+        "baseRate": 0.10687022900763359,
+        "lift": 2.8791208791208796
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 6.7368954750303525,
+          "ci95": [
+            2.326453715793801,
+            11.135801168914996
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 5.720265946123756,
+          "ci95": [
+            1.2558462663901275,
+            10.454292831737328
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.11053492719038498,
+          "ci95": [
+            0.024958887370159312,
+            0.19815605178645898
+          ]
+        },
+        "coverage50": {
+          "mean": 0.480617048346056,
+          "ci95": [
+            0.44174618320610687,
+            0.5190839694656488
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7839567430025445,
+          "ci95": [
+            0.7451812977099237,
+            0.8206106870229007
+          ]
+        }
+      }
+    },
+    "EEM": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.6027897449819245,
+          "rmse": 0.9892911773779035,
+          "r2": 0.23743672518396497
+        },
+        "atrBaseline": {
+          "mae": 0.6419602540595405,
+          "rmse": 1.0215615663685877,
+          "r2": 0.18687614111027606
+        },
+        "improvement": {
+          "maePercent": 6.101703155283349,
+          "rmsePercent": 3.158927474669776,
+          "r2Delta": 0.05056058407368891,
+          "mseSkillVsAtr": 0.06218066721437321
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.4747191011235955,
+        "coverage50Wilson95": [
+          0.42339339443620533,
+          0.5265845762540223
+        ],
+        "targetGap50PercentagePoints": -2.52808988764045,
+        "coverage80": 0.7612359550561798,
+        "coverage80Wilson95": [
+          0.7143099026823132,
+          0.8025844001853344
+        ],
+        "targetGap80PercentagePoints": -3.876404494382024
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 89,
+          "share": 0.25,
+          "actualMeanTrueRangePercent": 0.9233490898876404,
+          "actualMedianTrueRangePercent": 0.842688,
+          "actualMeanPriorMedianRatio": 0.9146572911090342,
+          "exactGradeHitRate": 0.34831460674157305,
+          "withinOneGradeHitRate": 0.8876404494382022,
+          "actualHighRangeEventRate": 0.033707865168539325
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 135,
+          "share": 0.3792134831460674,
+          "actualMeanTrueRangePercent": 1.2029886148148148,
+          "actualMedianTrueRangePercent": 1.088643,
+          "actualMeanPriorMedianRatio": 1.2117911046519183,
+          "exactGradeHitRate": 0.48148148148148145,
+          "withinOneGradeHitRate": 0.8962962962962963,
+          "actualHighRangeEventRate": 0.1037037037037037
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 76,
+          "share": 0.21348314606741572,
+          "actualMeanTrueRangePercent": 1.8783280394736848,
+          "actualMedianTrueRangePercent": 1.6198405,
+          "actualMeanPriorMedianRatio": 1.7736750990875436,
+          "exactGradeHitRate": 0.3026315789473684,
+          "withinOneGradeHitRate": 0.9605263157894737,
+          "actualHighRangeEventRate": 0.2236842105263158
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 56,
+          "share": 0.15730337078651685,
+          "actualMeanTrueRangePercent": 2.645676107142857,
+          "actualMedianTrueRangePercent": 2.2225385,
+          "actualMeanPriorMedianRatio": 2.528530452590122,
+          "exactGradeHitRate": 0.4642857142857143,
+          "withinOneGradeHitRate": 0.7678571428571429,
+          "actualHighRangeEventRate": 0.4642857142857143
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 26,
+          "falsePositive": 30,
+          "falseNegative": 34,
+          "trueNegative": 266
+        },
+        "alerts": 56,
+        "actualEvents": 60,
+        "precision": 0.4642857142857143,
+        "precisionWilson95": [
+          0.34019852912223775,
+          0.5929581806433883
+        ],
+        "recall": 0.43333333333333335,
+        "recallWilson95": [
+          0.3157239680468677,
+          0.5589656122387444
+        ],
+        "f1": 0.4482758620689655,
+        "specificity": 0.8986486486486487,
+        "baseRate": 0.16853932584269662,
+        "lift": 2.7547619047619047
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 5.994410836690207,
+          "ci95": [
+            0.7221989712405255,
+            12.398420618442703
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 3.0768192114645383,
+          "ci95": [
+            -2.681503890125433,
+            9.181677700027471
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.05949887771778859,
+          "ci95": [
+            -0.0543491624432879,
+            0.17520322664041768
+          ]
+        },
+        "coverage50": {
+          "mean": 0.47578651685393264,
+          "ci95": [
+            0.4241573033707865,
+            0.5211376404494381
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7608426966292136,
+          "ci95": [
+            0.7148174157303371,
+            0.797752808988764
+          ]
+        }
+      }
+    },
+    "EFA": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.4562609285031864,
+          "rmse": 0.7604046090393491,
+          "r2": 0.281733049993801
+        },
+        "atrBaseline": {
+          "mae": 0.5062220803464429,
+          "rmse": 0.8343119034720582,
+          "r2": 0.1353242444379652
+        },
+        "improvement": {
+          "maePercent": 9.869413797411726,
+          "rmsePercent": 8.85847296738039,
+          "r2Delta": 0.1464088055558358,
+          "mseSkillVsAtr": 0.16932220501622686
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.4887640449438202,
+        "coverage50Wilson95": [
+          0.43723593707919256,
+          0.5405320498942421
+        ],
+        "targetGap50PercentagePoints": -1.1235955056179803,
+        "coverage80": 0.7865168539325843,
+        "coverage80Wilson95": [
+          0.7410100208689655,
+          0.8259063113084545
+        ],
+        "targetGap80PercentagePoints": -1.348314606741574
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 112,
+          "share": 0.3146067415730337,
+          "actualMeanTrueRangePercent": 0.8462944732142856,
+          "actualMedianTrueRangePercent": 0.7571745,
+          "actualMeanPriorMedianRatio": 0.9349689099450208,
+          "exactGradeHitRate": 0.4107142857142857,
+          "withinOneGradeHitRate": 0.8928571428571429,
+          "actualHighRangeEventRate": 0.03571428571428571
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 134,
+          "share": 0.37640449438202245,
+          "actualMeanTrueRangePercent": 1.0330033582089553,
+          "actualMedianTrueRangePercent": 0.890804,
+          "actualMeanPriorMedianRatio": 1.1416945569663044,
+          "exactGradeHitRate": 0.5970149253731343,
+          "withinOneGradeHitRate": 0.9328358208955224,
+          "actualHighRangeEventRate": 0.06716417910447761
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 62,
+          "share": 0.17415730337078653,
+          "actualMeanTrueRangePercent": 1.4273925806451615,
+          "actualMedianTrueRangePercent": 1.243485,
+          "actualMeanPriorMedianRatio": 1.5819222252578624,
+          "exactGradeHitRate": 0.14516129032258066,
+          "withinOneGradeHitRate": 0.9354838709677419,
+          "actualHighRangeEventRate": 0.25806451612903225
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 48,
+          "share": 0.1348314606741573,
+          "actualMeanTrueRangePercent": 2.2691503958333334,
+          "actualMedianTrueRangePercent": 1.8159805,
+          "actualMeanPriorMedianRatio": 2.48152352740246,
+          "exactGradeHitRate": 0.5,
+          "withinOneGradeHitRate": 0.7291666666666666,
+          "actualHighRangeEventRate": 0.5
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 24,
+          "falsePositive": 24,
+          "falseNegative": 29,
+          "trueNegative": 279
+        },
+        "alerts": 48,
+        "actualEvents": 53,
+        "precision": 0.5,
+        "precisionWilson95": [
+          0.36389330502679385,
+          0.6361066949732062
+        ],
+        "recall": 0.4528301886792453,
+        "recallWilson95": [
+          0.3265757915292224,
+          0.5854602451289419
+        ],
+        "f1": 0.4752475247524752,
+        "specificity": 0.9207920792079208,
+        "baseRate": 0.14887640449438203,
+        "lift": 3.358490566037736
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 9.215536689209397,
+          "ci95": [
+            2.774706520930642,
+            17.41760287636613
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 7.870214398607257,
+          "ci95": [
+            0.5465987816010732,
+            13.889997224766518
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.14991264532356122,
+          "ci95": [
+            0.010901824541682132,
+            0.25850670687915367
+          ]
+        },
+        "coverage50": {
+          "mean": 0.4890917602996255,
+          "ci95": [
+            0.4353932584269663,
+            0.5421348314606742
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7867977528089888,
+          "ci95": [
+            0.7443820224719101,
+            0.8329353932584269
+          ]
+        }
+      }
+    },
+    "ETHUSDT": {
+      "comparison": {
+        "rows": 524,
+        "candidate": {
+          "mae": 2.2258089375977543,
+          "rmse": 3.298196263903336,
+          "r2": 0.06612727983947986
+        },
+        "atrBaseline": {
+          "mae": 2.349962271353517,
+          "rmse": 3.4288703479628584,
+          "r2": -0.009338469922357762
+        },
+        "improvement": {
+          "maePercent": 5.283205405857587,
+          "rmsePercent": 3.810995190796811,
+          "r2Delta": 0.07546574976183762,
+          "mseSkillVsAtr": 0.0747675353815086
+        }
+      },
+      "coverage": {
+        "rows": 524,
+        "coverage50": 0.48091603053435117,
+        "coverage50Wilson95": [
+          0.4384311255769754,
+          0.5236787093634554
+        ],
+        "targetGap50PercentagePoints": -1.9083969465648831,
+        "coverage80": 0.7709923664122137,
+        "coverage80Wilson95": [
+          0.733119492831158,
+          0.8049208510147274
+        ],
+        "targetGap80PercentagePoints": -2.9007633587786352
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 139,
+          "share": 0.2652671755725191,
+          "actualMeanTrueRangePercent": 4.552157863309353,
+          "actualMedianTrueRangePercent": 3.908735,
+          "actualMeanPriorMedianRatio": 0.934038253908261,
+          "exactGradeHitRate": 0.3669064748201439,
+          "withinOneGradeHitRate": 0.8705035971223022,
+          "actualHighRangeEventRate": 0.04316546762589928
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 234,
+          "share": 0.44656488549618323,
+          "actualMeanTrueRangePercent": 5.210775042735042,
+          "actualMedianTrueRangePercent": 4.6003215,
+          "actualMeanPriorMedianRatio": 1.073466731526162,
+          "exactGradeHitRate": 0.48717948717948717,
+          "withinOneGradeHitRate": 0.9316239316239316,
+          "actualHighRangeEventRate": 0.06837606837606838
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 84,
+          "share": 0.16030534351145037,
+          "actualMeanTrueRangePercent": 6.425671726190475,
+          "actualMedianTrueRangePercent": 5.7977875,
+          "actualMeanPriorMedianRatio": 1.34883586362848,
+          "exactGradeHitRate": 0.27380952380952384,
+          "withinOneGradeHitRate": 0.8452380952380952,
+          "actualHighRangeEventRate": 0.11904761904761904
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 67,
+          "share": 0.12786259541984732,
+          "actualMeanTrueRangePercent": 8.092288029850748,
+          "actualMedianTrueRangePercent": 6.773316,
+          "actualMeanPriorMedianRatio": 1.704514129255782,
+          "exactGradeHitRate": 0.3283582089552239,
+          "withinOneGradeHitRate": 0.5223880597014925,
+          "actualHighRangeEventRate": 0.3283582089552239
+        }
+      },
+      "storm": {
+        "rows": 524,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 22,
+          "falsePositive": 45,
+          "falseNegative": 32,
+          "trueNegative": 425
+        },
+        "alerts": 67,
+        "actualEvents": 54,
+        "precision": 0.3283582089552239,
+        "precisionWilson95": [
+          0.22791317376089593,
+          0.44741818752268525
+        ],
+        "recall": 0.4074074074074074,
+        "recallWilson95": [
+          0.2867821208591458,
+          0.5403315065650943
+        ],
+        "f1": 0.36363636363636365,
+        "specificity": 0.9042553191489362,
+        "baseRate": 0.10305343511450382,
+        "lift": 3.1862907683803203
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 5.049901584921569,
+          "ci95": [
+            1.245799330391441,
+            9.033621913922584
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 3.7205622263500344,
+          "ci95": [
+            0.6277961948215887,
+            6.7634967769757175
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.07277459870459502,
+          "ci95": [
+            0.012516502785623962,
+            0.13069510431619955
+          ]
+        },
+        "coverage50": {
+          "mean": 0.4813740458015267,
+          "ci95": [
+            0.4436545801526718,
+            0.5190839694656488
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7720419847328244,
+          "ci95": [
+            0.7366412213740458,
+            0.8044370229007632
+          ]
+        }
+      }
+    },
+    "IWD": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.39295285537078195,
+          "rmse": 0.7073327567202704,
+          "r2": 0.33131061529358086
+        },
+        "atrBaseline": {
+          "mae": 0.4375883699659724,
+          "rmse": 0.7894260572065169,
+          "r2": 0.16708669018190414
+        },
+        "improvement": {
+          "maePercent": 10.20034298412944,
+          "rmsePercent": 10.399112081091415,
+          "r2Delta": 0.16422392511167672,
+          "mseSkillVsAtr": 0.1971680884143182
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5224719101123596,
+        "coverage50Wilson95": [
+          0.4706226952213227,
+          0.5738413308318083
+        ],
+        "targetGap50PercentagePoints": 2.2471910112359605,
+        "coverage80": 0.7921348314606742,
+        "coverage80Wilson95": [
+          0.7469743889191386,
+          0.8310579497715641
+        ],
+        "targetGap80PercentagePoints": -0.786516853932584
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 108,
+          "share": 0.30337078651685395,
+          "actualMeanTrueRangePercent": 0.8756746944444445,
+          "actualMedianTrueRangePercent": 0.778541,
+          "actualMeanPriorMedianRatio": 0.9210919665296189,
+          "exactGradeHitRate": 0.4166666666666667,
+          "withinOneGradeHitRate": 0.8703703703703703,
+          "actualHighRangeEventRate": 0.037037037037037035
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 154,
+          "share": 0.43258426966292135,
+          "actualMeanTrueRangePercent": 1.0035440649350647,
+          "actualMedianTrueRangePercent": 0.943551,
+          "actualMeanPriorMedianRatio": 1.0571433974281017,
+          "exactGradeHitRate": 0.5584415584415584,
+          "withinOneGradeHitRate": 0.935064935064935,
+          "actualHighRangeEventRate": 0.06493506493506493
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 52,
+          "share": 0.14606741573033707,
+          "actualMeanTrueRangePercent": 1.3573295384615387,
+          "actualMedianTrueRangePercent": 1.2089345,
+          "actualMeanPriorMedianRatio": 1.4302027039398868,
+          "exactGradeHitRate": 0.3076923076923077,
+          "withinOneGradeHitRate": 0.9423076923076923,
+          "actualHighRangeEventRate": 0.15384615384615385
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 42,
+          "share": 0.11797752808988764,
+          "actualMeanTrueRangePercent": 2.293135785714285,
+          "actualMedianTrueRangePercent": 1.6775415,
+          "actualMeanPriorMedianRatio": 2.4380016000818885,
+          "exactGradeHitRate": 0.5,
+          "withinOneGradeHitRate": 0.7619047619047619,
+          "actualHighRangeEventRate": 0.5
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 21,
+          "falsePositive": 21,
+          "falseNegative": 22,
+          "trueNegative": 292
+        },
+        "alerts": 42,
+        "actualEvents": 43,
+        "precision": 0.5,
+        "precisionWilson95": [
+          0.3552598959637448,
+          0.6447401040362553
+        ],
+        "recall": 0.4883720930232558,
+        "recallWilson95": [
+          0.3461744754671859,
+          0.632476915305507
+        ],
+        "f1": 0.4941176470588235,
+        "specificity": 0.9329073482428115,
+        "baseRate": 0.12078651685393259,
+        "lift": 4.1395348837209305
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 10.174954410434033,
+          "ci95": [
+            5.414838005605943,
+            14.49701763906232
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 9.970478468156882,
+          "ci95": [
+            4.418439592205892,
+            13.456769691459778
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.18891855624377646,
+          "ci95": [
+            0.08641638402722529,
+            0.25102679098743474
+          ]
+        },
+        "coverage50": {
+          "mean": 0.5219569288389513,
+          "ci95": [
+            0.4732443820224719,
+            0.5730337078651685
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7910112359550561,
+          "ci95": [
+            0.7443820224719101,
+            0.8342696629213483
+          ]
+        }
+      }
+    },
+    "IWF": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.5753320603570189,
+          "rmse": 0.9860305376395688,
+          "r2": 0.3347354939359134
+        },
+        "atrBaseline": {
+          "mae": 0.6217191025407859,
+          "rmse": 1.0697679193919143,
+          "r2": 0.21694410693789457
+        },
+        "improvement": {
+          "maePercent": 7.461093280582273,
+          "rmsePercent": 7.827621321823159,
+          "r2Delta": 0.11779138699801883,
+          "mseSkillVsAtr": 0.1504252608806771
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5140449438202247,
+        "coverage50Wilson95": [
+          0.46225421300845504,
+          0.5655358032747517
+        ],
+        "targetGap50PercentagePoints": 1.4044943820224698,
+        "coverage80": 0.8033707865168539,
+        "coverage80Wilson95": [
+          0.7589394117386036,
+          0.8413249399786645
+        ],
+        "targetGap80PercentagePoints": 0.3370786516853852
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 79,
+          "share": 0.22191011235955055,
+          "actualMeanTrueRangePercent": 1.0978381518987341,
+          "actualMedianTrueRangePercent": 1.035008,
+          "actualMeanPriorMedianRatio": 0.8123823837293929,
+          "exactGradeHitRate": 0.46835443037974683,
+          "withinOneGradeHitRate": 0.9493670886075949,
+          "actualHighRangeEventRate": 0.012658227848101266
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 174,
+          "share": 0.4887640449438202,
+          "actualMeanTrueRangePercent": 1.4600052873563218,
+          "actualMedianTrueRangePercent": 1.3308415,
+          "actualMeanPriorMedianRatio": 1.0925802403187674,
+          "exactGradeHitRate": 0.5862068965517241,
+          "withinOneGradeHitRate": 0.9540229885057471,
+          "actualHighRangeEventRate": 0.04597701149425287
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 58,
+          "share": 0.16292134831460675,
+          "actualMeanTrueRangePercent": 1.8929547931034483,
+          "actualMedianTrueRangePercent": 1.6865395,
+          "actualMeanPriorMedianRatio": 1.4251412493466415,
+          "exactGradeHitRate": 0.3275862068965517,
+          "withinOneGradeHitRate": 0.9137931034482759,
+          "actualHighRangeEventRate": 0.10344827586206896
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 45,
+          "share": 0.12640449438202248,
+          "actualMeanTrueRangePercent": 3.2096568222222217,
+          "actualMedianTrueRangePercent": 2.487057,
+          "actualMeanPriorMedianRatio": 2.366562332476981,
+          "exactGradeHitRate": 0.4444444444444444,
+          "withinOneGradeHitRate": 0.7333333333333333,
+          "actualHighRangeEventRate": 0.4444444444444444
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 20,
+          "falsePositive": 25,
+          "falseNegative": 15,
+          "trueNegative": 296
+        },
+        "alerts": 45,
+        "actualEvents": 35,
+        "precision": 0.4444444444444444,
+        "precisionWilson95": [
+          0.30938930034997586,
+          0.5882386550647896
+        ],
+        "recall": 0.5714285714285714,
+        "recallWilson95": [
+          0.4085741114397492,
+          0.7201543182281931
+        ],
+        "f1": 0.5,
+        "specificity": 0.9221183800623053,
+        "baseRate": 0.09831460674157304,
+        "lift": 4.520634920634921
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 7.379928952475469,
+          "ci95": [
+            3.9137855214045674,
+            11.086789418077528
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 7.5676885911489595,
+          "ci95": [
+            4.15541103515464,
+            10.674352381366033
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.14535603964085192,
+          "ci95": [
+            0.08138144458416398,
+            0.20209260751202363
+          ]
+        },
+        "coverage50": {
+          "mean": 0.5140917602996254,
+          "ci95": [
+            0.4606741573033708,
+            0.5674157303370787
+          ]
+        },
+        "coverage80": {
+          "mean": 0.8009456928838952,
+          "ci95": [
+            0.75,
+            0.848314606741573
+          ]
+        }
+      }
+    },
+    "IWM": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.6455901047898318,
+          "rmse": 1.0220215887730113,
+          "r2": 0.24334875989332105
+        },
+        "atrBaseline": {
+          "mae": 0.7010945868808076,
+          "rmse": 1.1138671558145332,
+          "r2": 0.10124275318020881
+        },
+        "improvement": {
+          "maePercent": 7.916832212029625,
+          "rmsePercent": 8.245648196203287,
+          "r2Delta": 0.14210600671311224,
+          "mseSkillVsAtr": 0.15811389250651064
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.4887640449438202,
+        "coverage50Wilson95": [
+          0.43723593707919256,
+          0.5405320498942421
+        ],
+        "targetGap50PercentagePoints": -1.1235955056179803,
+        "coverage80": 0.800561797752809,
+        "coverage80Wilson95": [
+          0.7559435051887134,
+          0.8387628432719133
+        ],
+        "targetGap80PercentagePoints": 0.05617977528089568
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 104,
+          "share": 0.29213483146067415,
+          "actualMeanTrueRangePercent": 1.564031951923077,
+          "actualMedianTrueRangePercent": 1.419127,
+          "actualMeanPriorMedianRatio": 0.9787245401153062,
+          "exactGradeHitRate": 0.36538461538461536,
+          "withinOneGradeHitRate": 0.8557692307692307,
+          "actualHighRangeEventRate": 0.04807692307692308
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 151,
+          "share": 0.4241573033707865,
+          "actualMeanTrueRangePercent": 1.683659046357616,
+          "actualMedianTrueRangePercent": 1.530337,
+          "actualMeanPriorMedianRatio": 1.0576058828352093,
+          "exactGradeHitRate": 0.46357615894039733,
+          "withinOneGradeHitRate": 0.9403973509933775,
+          "actualHighRangeEventRate": 0.059602649006622516
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 55,
+          "share": 0.1544943820224719,
+          "actualMeanTrueRangePercent": 2.218575963636364,
+          "actualMedianTrueRangePercent": 2.015511,
+          "actualMeanPriorMedianRatio": 1.3961948166612719,
+          "exactGradeHitRate": 0.2727272727272727,
+          "withinOneGradeHitRate": 0.9636363636363636,
+          "actualHighRangeEventRate": 0.10909090909090909
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 46,
+          "share": 0.12921348314606743,
+          "actualMeanTrueRangePercent": 3.1344642826086946,
+          "actualMedianTrueRangePercent": 2.5050395,
+          "actualMeanPriorMedianRatio": 1.9808226745686839,
+          "exactGradeHitRate": 0.32608695652173914,
+          "withinOneGradeHitRate": 0.6304347826086957,
+          "actualHighRangeEventRate": 0.32608695652173914
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 15,
+          "falsePositive": 31,
+          "falseNegative": 20,
+          "trueNegative": 290
+        },
+        "alerts": 46,
+        "actualEvents": 35,
+        "precision": 0.32608695652173914,
+        "precisionWilson95": [
+          0.2086594330925565,
+          0.4703226758067758
+        ],
+        "recall": 0.42857142857142855,
+        "recallWilson95": [
+          0.2798456817718068,
+          0.5914258885602508
+        ],
+        "f1": 0.37037037037037035,
+        "specificity": 0.9034267912772586,
+        "baseRate": 0.09831460674157304,
+        "lift": 3.3167701863354035
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 7.546663969964809,
+          "ci95": [
+            3.2186539178105695,
+            11.620937171919936
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 7.1055218039590935,
+          "ci95": [
+            1.158237046973752,
+            11.473852203229097
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.13623273464681618,
+          "ci95": [
+            0.023030530777904755,
+            0.21631203350757702
+          ]
+        },
+        "coverage50": {
+          "mean": 0.490440074906367,
+          "ci95": [
+            0.43672752808988763,
+            0.5436095505617977
+          ]
+        },
+        "coverage80": {
+          "mean": 0.8021629213483146,
+          "ci95": [
+            0.7541432584269663,
+            0.851123595505618
+          ]
+        }
+      }
+    },
+    "IYR": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.41849342794409744,
+          "rmse": 0.6942065382056561,
+          "r2": 0.2761029765238733
+        },
+        "atrBaseline": {
+          "mae": 0.45527403222741847,
+          "rmse": 0.7672832453860741,
+          "r2": 0.11567720177190122
+        },
+        "improvement": {
+          "maePercent": 8.078783695035868,
+          "rmsePercent": 9.524084830452397,
+          "r2Delta": 0.16042577475197206,
+          "mseSkillVsAtr": 0.18141087742328255
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5252808988764045,
+        "coverage50Wilson95": [
+          0.47341542374597767,
+          0.5766066055637947
+        ],
+        "targetGap50PercentagePoints": 2.52808988764045,
+        "coverage80": 0.8061797752808989,
+        "coverage80Wilson95": [
+          0.7619385003354178,
+          0.8438838546384919
+        ],
+        "targetGap80PercentagePoints": 0.6179775280898858
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 129,
+          "share": 0.36235955056179775,
+          "actualMeanTrueRangePercent": 1.16484392248062,
+          "actualMedianTrueRangePercent": 1.072133,
+          "actualMeanPriorMedianRatio": 0.9130063873501835,
+          "exactGradeHitRate": 0.4186046511627907,
+          "withinOneGradeHitRate": 0.8449612403100775,
+          "actualHighRangeEventRate": 0.007751937984496124
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 158,
+          "share": 0.4438202247191011,
+          "actualMeanTrueRangePercent": 1.337595253164557,
+          "actualMedianTrueRangePercent": 1.246329,
+          "actualMeanPriorMedianRatio": 1.0483767078536885,
+          "exactGradeHitRate": 0.5126582278481012,
+          "withinOneGradeHitRate": 0.9113924050632911,
+          "actualHighRangeEventRate": 0.08860759493670886
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 37,
+          "share": 0.10393258426966293,
+          "actualMeanTrueRangePercent": 1.6788983243243245,
+          "actualMedianTrueRangePercent": 1.509512,
+          "actualMeanPriorMedianRatio": 1.3238336179403123,
+          "exactGradeHitRate": 0.21621621621621623,
+          "withinOneGradeHitRate": 0.9459459459459459,
+          "actualHighRangeEventRate": 0.1891891891891892
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 32,
+          "share": 0.0898876404494382,
+          "actualMeanTrueRangePercent": 2.4933620000000003,
+          "actualMedianTrueRangePercent": 1.8301025000000002,
+          "actualMeanPriorMedianRatio": 1.9110434358593915,
+          "exactGradeHitRate": 0.40625,
+          "withinOneGradeHitRate": 0.5,
+          "actualHighRangeEventRate": 0.40625
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 13,
+          "falsePositive": 19,
+          "falseNegative": 22,
+          "trueNegative": 302
+        },
+        "alerts": 32,
+        "actualEvents": 35,
+        "precision": 0.40625,
+        "precisionWilson95": [
+          0.2551963484266544,
+          0.5773997512461713
+        ],
+        "recall": 0.37142857142857144,
+        "recallWilson95": [
+          0.2316581950336571,
+          0.5366306315640468
+        ],
+        "f1": 0.3880597014925374,
+        "specificity": 0.940809968847352,
+        "baseRate": 0.09831460674157304,
+        "lift": 4.132142857142857
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 7.792936760249612,
+          "ci95": [
+            1.3981145566800408,
+            14.685290975167861
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 8.461904554275156,
+          "ci95": [
+            0.6564119129388953,
+            13.980207678118749
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.16067661322273427,
+          "ci95": [
+            0.013085009242186287,
+            0.2600591490843749
+          ]
+        },
+        "coverage50": {
+          "mean": 0.52562734082397,
+          "ci95": [
+            0.4732443820224719,
+            0.574508426966292
+          ]
+        },
+        "coverage80": {
+          "mean": 0.8083333333333333,
+          "ci95": [
+            0.7640449438202247,
+            0.8554073033707864
+          ]
+        }
+      }
+    },
+    "MTUM": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.6895138811980418,
+          "rmse": 1.1278745028569774,
+          "r2": 0.27974972783489527
+        },
+        "atrBaseline": {
+          "mae": 0.7368076152750628,
+          "rmse": 1.1753062702359904,
+          "r2": 0.2178969502516459
+        },
+        "improvement": {
+          "maePercent": 6.418735786188288,
+          "rmsePercent": 4.035694233936925,
+          "r2Delta": 0.06185277758324936,
+          "mseSkillVsAtr": 0.07908520188375545
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.48314606741573035,
+        "coverage50Wilson95": [
+          0.43169407137463606,
+          0.5349579090855159
+        ],
+        "targetGap50PercentagePoints": -1.6853932584269649,
+        "coverage80": 0.7837078651685393,
+        "coverage80Wilson95": [
+          0.7380322197246311,
+          0.8233261091961473
+        ],
+        "targetGap80PercentagePoints": -1.6292134831460747
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 67,
+          "share": 0.18820224719101122,
+          "actualMeanTrueRangePercent": 1.2040664328358208,
+          "actualMedianTrueRangePercent": 0.969839,
+          "actualMeanPriorMedianRatio": 0.9068641566234397,
+          "exactGradeHitRate": 0.44776119402985076,
+          "withinOneGradeHitRate": 0.8955223880597015,
+          "actualHighRangeEventRate": 0.04477611940298507
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 163,
+          "share": 0.45786516853932585,
+          "actualMeanTrueRangePercent": 1.4932193619631902,
+          "actualMedianTrueRangePercent": 1.338784,
+          "actualMeanPriorMedianRatio": 1.1131760785910905,
+          "exactGradeHitRate": 0.5705521472392638,
+          "withinOneGradeHitRate": 0.9263803680981595,
+          "actualHighRangeEventRate": 0.0736196319018405
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 79,
+          "share": 0.22191011235955055,
+          "actualMeanTrueRangePercent": 2.332075873417722,
+          "actualMedianTrueRangePercent": 2.032153,
+          "actualMeanPriorMedianRatio": 1.7177672281317062,
+          "exactGradeHitRate": 0.2911392405063291,
+          "withinOneGradeHitRate": 0.9746835443037974,
+          "actualHighRangeEventRate": 0.24050632911392406
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 47,
+          "share": 0.13202247191011235,
+          "actualMeanTrueRangePercent": 3.4223108297872336,
+          "actualMedianTrueRangePercent": 2.879802,
+          "actualMeanPriorMedianRatio": 2.4871563755286856,
+          "exactGradeHitRate": 0.5106382978723404,
+          "withinOneGradeHitRate": 0.7659574468085106,
+          "actualHighRangeEventRate": 0.5106382978723404
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 24,
+          "falsePositive": 23,
+          "falseNegative": 34,
+          "trueNegative": 275
+        },
+        "alerts": 47,
+        "actualEvents": 58,
+        "precision": 0.5106382978723404,
+        "precisionWilson95": [
+          0.3724245374822684,
+          0.6472444496631784
+        ],
+        "recall": 0.41379310344827586,
+        "recallWilson95": [
+          0.29628026374083305,
+          0.5420159182914434
+        ],
+        "f1": 0.4571428571428571,
+        "specificity": 0.9228187919463087,
+        "baseRate": 0.16292134831460675,
+        "lift": 3.134262655906089
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 6.2148084748569925,
+          "ci95": [
+            0.7729780511752209,
+            10.433293646262035
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 3.577157093374996,
+          "ci95": [
+            -3.79247242507771,
+            8.148961881125102
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.0693559270197115,
+          "ci95": [
+            -0.07729717024702695,
+            0.1563382241428491
+          ]
+        },
+        "coverage50": {
+          "mean": 0.4811797752808989,
+          "ci95": [
+            0.4297752808988764,
+            0.5323735955056179
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7838295880149813,
+          "ci95": [
+            0.7443820224719101,
+            0.8258426966292135
+          ]
+        }
+      }
+    },
+    "NVDA": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 1.2634970122139493,
+          "rmse": 1.98734527108617,
+          "r2": 0.21792934632616567
+        },
+        "atrBaseline": {
+          "mae": 1.3648576594986348,
+          "rmse": 2.0725496110486157,
+          "r2": 0.14943166922841755
+        },
+        "improvement": {
+          "maePercent": 7.426462868070742,
+          "rmsePercent": 4.111088077613548,
+          "r2Delta": 0.06849767709774812,
+          "mseSkillVsAtr": 0.08053165703408138
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.4859550561797753,
+        "coverage50Wilson95": [
+          0.43446419672524833,
+          0.5377457869915451
+        ],
+        "targetGap50PercentagePoints": -1.4044943820224698,
+        "coverage80": 0.7640449438202247,
+        "coverage80Wilson95": [
+          0.717265793493113,
+          0.8051865126311759
+        ],
+        "targetGap80PercentagePoints": -3.5955056179775347
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 120,
+          "share": 0.33707865168539325,
+          "actualMeanTrueRangePercent": 2.8486052583333334,
+          "actualMedianTrueRangePercent": 2.527424,
+          "actualMeanPriorMedianRatio": 0.7996292130293684,
+          "exactGradeHitRate": 0.55,
+          "withinOneGradeHitRate": 0.95,
+          "actualHighRangeEventRate": 0.016666666666666666
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 149,
+          "share": 0.41853932584269665,
+          "actualMeanTrueRangePercent": 3.4232965436241614,
+          "actualMedianTrueRangePercent": 3.161444,
+          "actualMeanPriorMedianRatio": 1.0130857470645442,
+          "exactGradeHitRate": 0.5436241610738255,
+          "withinOneGradeHitRate": 0.9664429530201343,
+          "actualHighRangeEventRate": 0.03355704697986577
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 49,
+          "share": 0.13764044943820225,
+          "actualMeanTrueRangePercent": 5.022122551020408,
+          "actualMedianTrueRangePercent": 4.174689,
+          "actualMeanPriorMedianRatio": 1.4413599096784129,
+          "exactGradeHitRate": 0.16326530612244897,
+          "withinOneGradeHitRate": 0.9387755102040817,
+          "actualHighRangeEventRate": 0.2653061224489796
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 38,
+          "share": 0.10674157303370786,
+          "actualMeanTrueRangePercent": 5.9456165789473685,
+          "actualMedianTrueRangePercent": 5.402423499999999,
+          "actualMeanPriorMedianRatio": 1.5552779403777703,
+          "exactGradeHitRate": 0.23684210526315788,
+          "withinOneGradeHitRate": 0.5789473684210527,
+          "actualHighRangeEventRate": 0.23684210526315788
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 9,
+          "falsePositive": 29,
+          "falseNegative": 20,
+          "trueNegative": 298
+        },
+        "alerts": 38,
+        "actualEvents": 29,
+        "precision": 0.23684210526315788,
+        "precisionWilson95": [
+          0.12993707017054082,
+          0.39206812363239807
+        ],
+        "recall": 0.3103448275862069,
+        "recallWilson95": [
+          0.17275616744483216,
+          0.4923013423309317
+        ],
+        "f1": 0.2686567164179104,
+        "specificity": 0.9113149847094801,
+        "baseRate": 0.08146067415730338,
+        "lift": 2.907441016333938
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 7.289827473018743,
+          "ci95": [
+            2.1289169844697517,
+            12.362666878746335
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 3.893114971218894,
+          "ci95": [
+            0.34348700079568767,
+            6.990290911717558
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.07605317759875757,
+          "ci95": [
+            0.0068579406174965355,
+            0.13491854119672098
+          ]
+        },
+        "coverage50": {
+          "mean": 0.4845318352059925,
+          "ci95": [
+            0.419873595505618,
+            0.5436095505617977
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7635674157303372,
+          "ci95": [
+            0.7191011235955056,
+            0.800561797752809
+          ]
+        }
+      }
+    },
+    "QQQ": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.5799593799400103,
+          "rmse": 1.0003514042872066,
+          "r2": 0.3243746992137033
+        },
+        "atrBaseline": {
+          "mae": 0.6472000248219559,
+          "rmse": 1.0975191437731942,
+          "r2": 0.18674837276983614
+        },
+        "improvement": {
+          "maePercent": 10.38946883545677,
+          "rmsePercent": 8.853398142280385,
+          "r2Delta": 0.1376263264438672,
+          "mseSkillVsAtr": 0.16922969697903434
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.49719101123595505,
+        "coverage50Wilson95": [
+          0.44556084210826924,
+          0.5488811546350895
+        ],
+        "targetGap50PercentagePoints": -0.28089887640449507,
+        "coverage80": 0.8089887640449438,
+        "coverage80Wilson95": [
+          0.7649408225377577,
+          0.8464395356927931
+        ],
+        "targetGap80PercentagePoints": 0.8988764044943753
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 83,
+          "share": 0.23314606741573032,
+          "actualMeanTrueRangePercent": 1.0983661927710842,
+          "actualMedianTrueRangePercent": 0.971474,
+          "actualMeanPriorMedianRatio": 0.7835080256128671,
+          "exactGradeHitRate": 0.5662650602409639,
+          "withinOneGradeHitRate": 0.9397590361445783,
+          "actualHighRangeEventRate": 0.012048192771084338
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 178,
+          "share": 0.5,
+          "actualMeanTrueRangePercent": 1.5213755617977527,
+          "actualMedianTrueRangePercent": 1.4456315,
+          "actualMeanPriorMedianRatio": 1.10742272891918,
+          "exactGradeHitRate": 0.5898876404494382,
+          "withinOneGradeHitRate": 0.949438202247191,
+          "actualHighRangeEventRate": 0.05056179775280899
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 50,
+          "share": 0.1404494382022472,
+          "actualMeanTrueRangePercent": 2.1205282199999997,
+          "actualMedianTrueRangePercent": 1.8381735,
+          "actualMeanPriorMedianRatio": 1.548845119193801,
+          "exactGradeHitRate": 0.24,
+          "withinOneGradeHitRate": 0.94,
+          "actualHighRangeEventRate": 0.2
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 45,
+          "share": 0.12640449438202248,
+          "actualMeanTrueRangePercent": 3.197114444444444,
+          "actualMedianTrueRangePercent": 2.496215,
+          "actualMeanPriorMedianRatio": 2.2743823625582884,
+          "exactGradeHitRate": 0.35555555555555557,
+          "withinOneGradeHitRate": 0.7555555555555555,
+          "actualHighRangeEventRate": 0.35555555555555557
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 16,
+          "falsePositive": 29,
+          "falseNegative": 20,
+          "trueNegative": 291
+        },
+        "alerts": 45,
+        "actualEvents": 36,
+        "precision": 0.35555555555555557,
+        "precisionWilson95": [
+          0.23219082604215874,
+          0.5016418580362314
+        ],
+        "recall": 0.4444444444444444,
+        "recallWilson95": [
+          0.2954126874008022,
+          0.6041893824430271
+        ],
+        "f1": 0.3950617283950617,
+        "specificity": 0.909375,
+        "baseRate": 0.10112359550561797,
+        "lift": 3.5160493827160497
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 10.305336066362877,
+          "ci95": [
+            6.564176602355054,
+            14.29489696969823
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 8.497829373883143,
+          "ci95": [
+            3.930073218334332,
+            12.211606865739657
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.16226380176477703,
+          "ci95": [
+            0.07705683385728095,
+            0.22931966965351208
+          ]
+        },
+        "coverage50": {
+          "mean": 0.4937640449438203,
+          "ci95": [
+            0.43258426966292135,
+            0.5520365168539325
+          ]
+        },
+        "coverage80": {
+          "mean": 0.8086985018726591,
+          "ci95": [
+            0.7668539325842697,
+            0.8497893258426965
+          ]
+        }
+      }
+    },
+    "SPY": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.4555214855616599,
+          "rmse": 0.8384476143679549,
+          "r2": 0.3698988389597837
+        },
+        "atrBaseline": {
+          "mae": 0.5246559171881823,
+          "rmse": 0.9418967117990227,
+          "r2": 0.20482086735123273
+        },
+        "improvement": {
+          "maePercent": 13.177099382970537,
+          "rmsePercent": 10.98306174500599,
+          "r2Delta": 0.16507797160855098,
+          "mseSkillVsAtr": 0.20759847037065837
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5140449438202247,
+        "coverage50Wilson95": [
+          0.46225421300845504,
+          0.5655358032747517
+        ],
+        "targetGap50PercentagePoints": 1.4044943820224698,
+        "coverage80": 0.8089887640449438,
+        "coverage80Wilson95": [
+          0.7649408225377577,
+          0.8464395356927931
+        ],
+        "targetGap80PercentagePoints": 0.8988764044943753
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 87,
+          "share": 0.2443820224719101,
+          "actualMeanTrueRangePercent": 0.7973697126436781,
+          "actualMedianTrueRangePercent": 0.681865,
+          "actualMeanPriorMedianRatio": 0.7822327676972857,
+          "exactGradeHitRate": 0.5287356321839081,
+          "withinOneGradeHitRate": 0.9310344827586207,
+          "actualHighRangeEventRate": 0.011494252873563218
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 164,
+          "share": 0.4606741573033708,
+          "actualMeanTrueRangePercent": 1.0784564024390244,
+          "actualMedianTrueRangePercent": 0.986526,
+          "actualMeanPriorMedianRatio": 1.0705618589964736,
+          "exactGradeHitRate": 0.6219512195121951,
+          "withinOneGradeHitRate": 0.9695121951219512,
+          "actualHighRangeEventRate": 0.03048780487804878
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 62,
+          "share": 0.17415730337078653,
+          "actualMeanTrueRangePercent": 1.5949330806451614,
+          "actualMedianTrueRangePercent": 1.3735145,
+          "actualMeanPriorMedianRatio": 1.5745804164815798,
+          "exactGradeHitRate": 0.27419354838709675,
+          "withinOneGradeHitRate": 0.9516129032258065,
+          "actualHighRangeEventRate": 0.1935483870967742
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 43,
+          "share": 0.12078651685393259,
+          "actualMeanTrueRangePercent": 2.6944334186046515,
+          "actualMedianTrueRangePercent": 2.053397,
+          "actualMeanPriorMedianRatio": 2.607478348485496,
+          "exactGradeHitRate": 0.5116279069767442,
+          "withinOneGradeHitRate": 0.7674418604651163,
+          "actualHighRangeEventRate": 0.5116279069767442
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 22,
+          "falsePositive": 21,
+          "falseNegative": 18,
+          "trueNegative": 295
+        },
+        "alerts": 43,
+        "actualEvents": 40,
+        "precision": 0.5116279069767442,
+        "precisionWilson95": [
+          0.3675230846944931,
+          0.6538255245328142
+        ],
+        "recall": 0.55,
+        "recallWilson95": [
+          0.39829091798932054,
+          0.6929469218909508
+        ],
+        "f1": 0.5301204819277109,
+        "specificity": 0.9335443037974683,
+        "baseRate": 0.11235955056179775,
+        "lift": 4.553488372093024
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 13.00755970976613,
+          "ci95": [
+            9.005292442797865,
+            18.014627434655914
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 11.019534260470806,
+          "ci95": [
+            7.311463861993107,
+            16.451007201994233
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.2077034289018357,
+          "ci95": [
+            0.14088348449034058,
+            0.30195639673386526
+          ]
+        },
+        "coverage50": {
+          "mean": 0.5146910112359551,
+          "ci95": [
+            0.4606741573033708,
+            0.5646067415730337
+          ]
+        },
+        "coverage80": {
+          "mean": 0.8108426966292135,
+          "ci95": [
+            0.7612359550561798,
+            0.8469803370786516
+          ]
+        }
+      }
+    },
+    "TSLA": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 1.538069848259503,
+          "rmse": 2.2936203055348185,
+          "r2": 0.20380296573353074
+        },
+        "atrBaseline": {
+          "mae": 1.5844518352317234,
+          "rmse": 2.2823017408260142,
+          "r2": 0.21164172778426116
+        },
+        "improvement": {
+          "maePercent": 2.927320726378351,
+          "rmsePercent": -0.49592762018872627,
+          "r2Delta": -0.007838762050730419,
+          "mseSkillVsAtr": -0.009943146824221039
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.49157303370786515,
+        "coverage50Wilson95": [
+          0.4400092917553765,
+          0.5433166984746994
+        ],
+        "targetGap50PercentagePoints": -0.8426966292134852,
+        "coverage80": 0.7949438202247191,
+        "coverage80Wilson95": [
+          0.749961040972995,
+          0.8336293009743491
+        ],
+        "targetGap80PercentagePoints": -0.5056179775280945
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 118,
+          "share": 0.33146067415730335,
+          "actualMeanTrueRangePercent": 3.8698694661016946,
+          "actualMedianTrueRangePercent": 3.793018,
+          "actualMeanPriorMedianRatio": 0.8550510617835664,
+          "exactGradeHitRate": 0.3644067796610169,
+          "withinOneGradeHitRate": 0.9322033898305084,
+          "actualHighRangeEventRate": 0.01694915254237288
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 160,
+          "share": 0.449438202247191,
+          "actualMeanTrueRangePercent": 4.377853987500001,
+          "actualMedianTrueRangePercent": 4.0594665,
+          "actualMeanPriorMedianRatio": 0.9575954349307721,
+          "exactGradeHitRate": 0.49375,
+          "withinOneGradeHitRate": 0.95625,
+          "actualHighRangeEventRate": 0.04375
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 40,
+          "share": 0.11235955056179775,
+          "actualMeanTrueRangePercent": 6.05040225,
+          "actualMedianTrueRangePercent": 6.089653,
+          "actualMeanPriorMedianRatio": 1.3237698341017712,
+          "exactGradeHitRate": 0.35,
+          "withinOneGradeHitRate": 0.85,
+          "actualHighRangeEventRate": 0.125
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 38,
+          "share": 0.10674157303370786,
+          "actualMeanTrueRangePercent": 7.775201131578946,
+          "actualMedianTrueRangePercent": 6.7785705,
+          "actualMeanPriorMedianRatio": 1.7028480882014556,
+          "exactGradeHitRate": 0.2894736842105263,
+          "withinOneGradeHitRate": 0.6578947368421053,
+          "actualHighRangeEventRate": 0.2894736842105263
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 11,
+          "falsePositive": 27,
+          "falseNegative": 14,
+          "trueNegative": 304
+        },
+        "alerts": 38,
+        "actualEvents": 25,
+        "precision": 0.2894736842105263,
+        "precisionWilson95": [
+          0.17003277828483065,
+          0.44757137675752057
+        ],
+        "recall": 0.44,
+        "recallWilson95": [
+          0.26665638881067344,
+          0.6293266813020123
+        ],
+        "f1": 0.34920634920634924,
+        "specificity": 0.918429003021148,
+        "baseRate": 0.0702247191011236,
+        "lift": 4.122105263157895
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 3.075858127000557,
+          "ci95": [
+            -1.598482472678192,
+            7.061999623662586
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": -0.16738241329193254,
+          "ci95": [
+            -3.884367168808064,
+            3.541583359756145
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": -0.0037263453246591024,
+          "ci95": [
+            -0.07919676841503055,
+            0.06957738368524696
+          ]
+        },
+        "coverage50": {
+          "mean": 0.48931647940074907,
+          "ci95": [
+            0.4311095505617977,
+            0.5421348314606742
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7953183520599252,
+          "ci95": [
+            0.7485252808988764,
+            0.8398876404494382
+          ]
+        }
+      }
+    },
+    "USMV": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.29230573255729886,
+          "rmse": 0.5409588804229505,
+          "r2": 0.3182717508276618
+        },
+        "atrBaseline": {
+          "mae": 0.31918791429416915,
+          "rmse": 0.6028477370745223,
+          "r2": 0.1533614265677281
+        },
+        "improvement": {
+          "maePercent": 8.422055013052658,
+          "rmsePercent": 10.266084260663206,
+          "r2Delta": 0.16491032425993368,
+          "mseSkillVsAtr": 0.19478243660856032
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5393258426966292,
+        "coverage50Wilson95": [
+          0.4874033863896637,
+          0.5904086592033154
+        ],
+        "targetGap50PercentagePoints": 3.93258426966292,
+        "coverage80": 0.8370786516853933,
+        "coverage80Wilson95": [
+          0.7951547316208972,
+          0.8718056591760676
+        ],
+        "targetGap80PercentagePoints": 3.707865168539326
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 98,
+          "share": 0.2752808988764045,
+          "actualMeanTrueRangePercent": 0.6800088877551019,
+          "actualMedianTrueRangePercent": 0.647737,
+          "actualMeanPriorMedianRatio": 0.8412090052737193,
+          "exactGradeHitRate": 0.4387755102040816,
+          "withinOneGradeHitRate": 0.9081632653061225,
+          "actualHighRangeEventRate": 0.01020408163265306
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 167,
+          "share": 0.4691011235955056,
+          "actualMeanTrueRangePercent": 0.8491129341317366,
+          "actualMedianTrueRangePercent": 0.788588,
+          "actualMeanPriorMedianRatio": 1.0719775012552337,
+          "exactGradeHitRate": 0.5688622754491018,
+          "withinOneGradeHitRate": 0.9341317365269461,
+          "actualHighRangeEventRate": 0.0658682634730539
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 45,
+          "share": 0.12640449438202248,
+          "actualMeanTrueRangePercent": 0.9860745111111111,
+          "actualMedianTrueRangePercent": 0.907524,
+          "actualMeanPriorMedianRatio": 1.2511591802061832,
+          "exactGradeHitRate": 0.17777777777777778,
+          "withinOneGradeHitRate": 0.8888888888888888,
+          "actualHighRangeEventRate": 0.13333333333333333
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 46,
+          "share": 0.12921348314606743,
+          "actualMeanTrueRangePercent": 1.709317586956522,
+          "actualMedianTrueRangePercent": 1.245881,
+          "actualMeanPriorMedianRatio": 2.2332712837777473,
+          "exactGradeHitRate": 0.3695652173913043,
+          "withinOneGradeHitRate": 0.6086956521739131,
+          "actualHighRangeEventRate": 0.3695652173913043
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 17,
+          "falsePositive": 29,
+          "falseNegative": 18,
+          "trueNegative": 292
+        },
+        "alerts": 46,
+        "actualEvents": 35,
+        "precision": 0.3695652173913043,
+        "precisionWilson95": [
+          0.24523754590839622,
+          0.513999035766103
+        ],
+        "recall": 0.4857142857142857,
+        "recallWilson95": [
+          0.32994236002509725,
+          0.6443119540413141
+        ],
+        "f1": 0.4197530864197531,
+        "specificity": 0.9096573208722741,
+        "baseRate": 0.09831460674157304,
+        "lift": 3.759006211180124
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 7.921675219966576,
+          "ci95": [
+            1.5870130877344422,
+            13.71477821933538
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 9.868517812733838,
+          "ci95": [
+            2.6406967920833955,
+            16.58544903033226
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.1865577739161015,
+          "ci95": [
+            0.052116580848338374,
+            0.30420059510148423
+          ]
+        },
+        "coverage50": {
+          "mean": 0.5386329588014981,
+          "ci95": [
+            0.4788623595505618,
+            0.598314606741573
+          ]
+        },
+        "coverage80": {
+          "mean": 0.8387265917602996,
+          "ci95": [
+            0.7949438202247191,
+            0.8792134831460674
+          ]
+        }
+      }
+    },
+    "VOX": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.5251691944845626,
+          "rmse": 0.845419715325053,
+          "r2": 0.3003201229132958
+        },
+        "atrBaseline": {
+          "mae": 0.5619484959628298,
+          "rmse": 0.9102181083599533,
+          "r2": 0.1889538192406257
+        },
+        "improvement": {
+          "maePercent": 6.544959501181763,
+          "rmsePercent": 7.118996253728151,
+          "r2Delta": 0.11136630367267009,
+          "mseSkillVsAtr": 0.13731191430850342
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5056179775280899,
+        "coverage50Wilson95": [
+          0.45390026673767514,
+          0.5572157397756076
+        ],
+        "targetGap50PercentagePoints": 0.5617977528089901,
+        "coverage80": 0.8117977528089888,
+        "coverage80Wilson95": [
+          0.7679464318067178,
+          0.8489919296804745
+        ],
+        "targetGap80PercentagePoints": 1.179775280898876
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 68,
+          "share": 0.19101123595505617,
+          "actualMeanTrueRangePercent": 1.0662179999999999,
+          "actualMedianTrueRangePercent": 0.914766,
+          "actualMeanPriorMedianRatio": 0.81231383233818,
+          "exactGradeHitRate": 0.5735294117647058,
+          "withinOneGradeHitRate": 0.9411764705882353,
+          "actualHighRangeEventRate": 0.04411764705882353
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 184,
+          "share": 0.5168539325842697,
+          "actualMeanTrueRangePercent": 1.363498070652174,
+          "actualMedianTrueRangePercent": 1.2778079999999998,
+          "actualMeanPriorMedianRatio": 1.0646936144911352,
+          "exactGradeHitRate": 0.6086956521739131,
+          "withinOneGradeHitRate": 0.9728260869565217,
+          "actualHighRangeEventRate": 0.02717391304347826
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 54,
+          "share": 0.15168539325842698,
+          "actualMeanTrueRangePercent": 1.8828246481481483,
+          "actualMedianTrueRangePercent": 1.7642315000000002,
+          "actualMeanPriorMedianRatio": 1.4797907023615067,
+          "exactGradeHitRate": 0.2037037037037037,
+          "withinOneGradeHitRate": 0.9259259259259259,
+          "actualHighRangeEventRate": 0.25925925925925924
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 50,
+          "share": 0.1404494382022472,
+          "actualMeanTrueRangePercent": 2.6663774399999993,
+          "actualMedianTrueRangePercent": 2.0928035,
+          "actualMeanPriorMedianRatio": 2.097843620888839,
+          "exactGradeHitRate": 0.36,
+          "withinOneGradeHitRate": 0.68,
+          "actualHighRangeEventRate": 0.36
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 18,
+          "falsePositive": 32,
+          "falseNegative": 22,
+          "trueNegative": 284
+        },
+        "alerts": 50,
+        "actualEvents": 40,
+        "precision": 0.36,
+        "precisionWilson95": [
+          0.24138749651846741,
+          0.49858983123887307
+        ],
+        "recall": 0.45,
+        "recallWilson95": [
+          0.3070530781090492,
+          0.6017090820106794
+        ],
+        "f1": 0.39999999999999997,
+        "specificity": 0.8987341772151899,
+        "baseRate": 0.11235955056179775,
+        "lift": 3.204
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 6.263396252476717,
+          "ci95": [
+            2.1435325107340106,
+            9.825622450571283
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 6.527108281052544,
+          "ci95": [
+            2.0126160607455534,
+            9.491805097375092
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.12592101339109135,
+          "ci95": [
+            0.03984502364227493,
+            0.18082666522139634
+          ]
+        },
+        "coverage50": {
+          "mean": 0.5074531835205993,
+          "ci95": [
+            0.45224719101123595,
+            0.5674157303370787
+          ]
+        },
+        "coverage80": {
+          "mean": 0.810065543071161,
+          "ci95": [
+            0.7556179775280899,
+            0.8539325842696629
+          ]
+        }
+      }
+    },
+    "XLB": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.5253774861141915,
+          "rmse": 0.8348337083706052,
+          "r2": 0.25327862483131747
+        },
+        "atrBaseline": {
+          "mae": 0.55689133135932,
+          "rmse": 0.9154636076713114,
+          "r2": 0.10207347782106013
+        },
+        "improvement": {
+          "maePercent": 5.658885938878971,
+          "rmsePercent": 8.807548287561813,
+          "r2Delta": 0.15120514701025733,
+          "mseSkillVsAtr": 0.16839367506746294
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5112359550561798,
+        "coverage50Wilson95": [
+          0.4594679501057581,
+          0.5627640629208075
+        ],
+        "targetGap50PercentagePoints": 1.1235955056179803,
+        "coverage80": 0.8061797752808989,
+        "coverage80Wilson95": [
+          0.7619385003354178,
+          0.8438838546384919
+        ],
+        "targetGap80PercentagePoints": 0.6179775280898858
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 66,
+          "share": 0.1853932584269663,
+          "actualMeanTrueRangePercent": 1.2414774545454546,
+          "actualMedianTrueRangePercent": 1.182249,
+          "actualMeanPriorMedianRatio": 0.9556629914626003,
+          "exactGradeHitRate": 0.36363636363636365,
+          "withinOneGradeHitRate": 0.8636363636363636,
+          "actualHighRangeEventRate": 0.045454545454545456
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 175,
+          "share": 0.49157303370786515,
+          "actualMeanTrueRangePercent": 1.476957525714286,
+          "actualMedianTrueRangePercent": 1.340016,
+          "actualMeanPriorMedianRatio": 1.1604903582452357,
+          "exactGradeHitRate": 0.56,
+          "withinOneGradeHitRate": 0.9028571428571428,
+          "actualHighRangeEventRate": 0.10285714285714286
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 66,
+          "share": 0.1853932584269663,
+          "actualMeanTrueRangePercent": 1.6921380303030302,
+          "actualMedianTrueRangePercent": 1.4540060000000001,
+          "actualMeanPriorMedianRatio": 1.331181777952327,
+          "exactGradeHitRate": 0.2727272727272727,
+          "withinOneGradeHitRate": 0.8939393939393939,
+          "actualHighRangeEventRate": 0.15151515151515152
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 49,
+          "share": 0.13764044943820225,
+          "actualMeanTrueRangePercent": 2.5753069591836737,
+          "actualMedianTrueRangePercent": 1.961568,
+          "actualMeanPriorMedianRatio": 2.0967853275276958,
+          "exactGradeHitRate": 0.4489795918367347,
+          "withinOneGradeHitRate": 0.6938775510204082,
+          "actualHighRangeEventRate": 0.4489795918367347
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 22,
+          "falsePositive": 27,
+          "falseNegative": 31,
+          "trueNegative": 276
+        },
+        "alerts": 49,
+        "actualEvents": 53,
+        "precision": 0.4489795918367347,
+        "precisionWilson95": [
+          0.31852841068686644,
+          0.5868489178050209
+        ],
+        "recall": 0.41509433962264153,
+        "recallWilson95": [
+          0.29260908779813966,
+          0.549055778186556
+        ],
+        "f1": 0.43137254901960786,
+        "specificity": 0.9108910891089109,
+        "baseRate": 0.14887640449438203,
+        "lift": 3.015787447054293
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 5.161707419999166,
+          "ci95": [
+            -2.2714749562571694,
+            12.595832328646114
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 7.246645811160081,
+          "ci95": [
+            -2.0699627579961826,
+            14.068462953217514
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.13771032235879196,
+          "ci95": [
+            -0.041846188069797355,
+            0.2615722705829943
+          ]
+        },
+        "coverage50": {
+          "mean": 0.5147003745318353,
+          "ci95": [
+            0.4606741573033708,
+            0.5646067415730337
+          ]
+        },
+        "coverage80": {
+          "mean": 0.807378277153558,
+          "ci95": [
+            0.7597612359550562,
+            0.8455056179775281
+          ]
+        }
+      }
+    },
+    "XLC": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.44626191674340526,
+          "rmse": 0.7544821206720059,
+          "r2": 0.3442643471344563
+        },
+        "atrBaseline": {
+          "mae": 0.487821859302991,
+          "rmse": 0.8307496600353038,
+          "r2": 0.20499248014615812
+        },
+        "improvement": {
+          "maePercent": 8.519491647825573,
+          "rmsePercent": 9.180568230392872,
+          "r2Delta": 0.1392718669882982,
+          "mseSkillVsAtr": 0.1751830813045675
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5056179775280899,
+        "coverage50Wilson95": [
+          0.45390026673767514,
+          0.5572157397756076
+        ],
+        "targetGap50PercentagePoints": 0.5617977528089901,
+        "coverage80": 0.8286516853932584,
+        "coverage80Wilson95": [
+          0.7860523749635661,
+          0.8642340060634744
+        ],
+        "targetGap80PercentagePoints": 2.8651685393258353
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 70,
+          "share": 0.19662921348314608,
+          "actualMeanTrueRangePercent": 1.0205109142857143,
+          "actualMedianTrueRangePercent": 0.943668,
+          "actualMeanPriorMedianRatio": 0.8544023748471316,
+          "exactGradeHitRate": 0.4714285714285714,
+          "withinOneGradeHitRate": 0.9285714285714286,
+          "actualHighRangeEventRate": 0.02857142857142857
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 199,
+          "share": 0.5589887640449438,
+          "actualMeanTrueRangePercent": 1.2750036834170855,
+          "actualMedianTrueRangePercent": 1.187941,
+          "actualMeanPriorMedianRatio": 1.0679888196376233,
+          "exactGradeHitRate": 0.5527638190954773,
+          "withinOneGradeHitRate": 0.964824120603015,
+          "actualHighRangeEventRate": 0.035175879396984924
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 42,
+          "share": 0.11797752808988764,
+          "actualMeanTrueRangePercent": 1.6636933809523806,
+          "actualMedianTrueRangePercent": 1.471014,
+          "actualMeanPriorMedianRatio": 1.417029629146121,
+          "exactGradeHitRate": 0.23809523809523808,
+          "withinOneGradeHitRate": 0.8809523809523809,
+          "actualHighRangeEventRate": 0.19047619047619047
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 45,
+          "share": 0.12640449438202248,
+          "actualMeanTrueRangePercent": 2.5615894222222226,
+          "actualMedianTrueRangePercent": 2.038719,
+          "actualMeanPriorMedianRatio": 2.1370972584966372,
+          "exactGradeHitRate": 0.4222222222222222,
+          "withinOneGradeHitRate": 0.7111111111111111,
+          "actualHighRangeEventRate": 0.4222222222222222
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 19,
+          "falsePositive": 26,
+          "falseNegative": 17,
+          "trueNegative": 294
+        },
+        "alerts": 45,
+        "actualEvents": 36,
+        "precision": 0.4222222222222222,
+        "precisionWilson95": [
+          0.289687024672703,
+          0.5669921129079686
+        ],
+        "recall": 0.5277777777777778,
+        "recallWilson95": [
+          0.37005938022987594,
+          0.6801395848482095
+        ],
+        "f1": 0.46913580246913583,
+        "specificity": 0.91875,
+        "baseRate": 0.10112359550561797,
+        "lift": 4.175308641975309
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 8.085034472309959,
+          "ci95": [
+            3.850155271285248,
+            11.996508362926251
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 8.428098122081254,
+          "ci95": [
+            2.8073295691235747,
+            12.499456938235586
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.1608790491949206,
+          "ci95": [
+            0.055358356218785584,
+            0.2343654654898219
+          ]
+        },
+        "coverage50": {
+          "mean": 0.5066947565543072,
+          "ci95": [
+            0.4550561797752809,
+            0.5589887640449438
+          ]
+        },
+        "coverage80": {
+          "mean": 0.8314513108614231,
+          "ci95": [
+            0.770997191011236,
+            0.8764044943820225
+          ]
+        }
+      }
+    },
+    "XLE": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.7275635360760843,
+          "rmse": 1.1537630413975866,
+          "r2": 0.10350622902314377
+        },
+        "atrBaseline": {
+          "mae": 0.7294503467101922,
+          "rmse": 1.199170215230727,
+          "r2": 0.03155336084742666
+        },
+        "improvement": {
+          "maePercent": 0.2586619696073044,
+          "rmsePercent": 3.786549503683589,
+          "r2Delta": 0.07195286817571711,
+          "mseSkillVsAtr": 0.07429719435928706
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.49719101123595505,
+        "coverage50Wilson95": [
+          0.44556084210826924,
+          0.5488811546350895
+        ],
+        "targetGap50PercentagePoints": -0.28089887640449507,
+        "coverage80": 0.7780898876404494,
+        "coverage80Wilson95": [
+          0.7320851807351055,
+          0.8181571416723902
+        ],
+        "targetGap80PercentagePoints": -2.191011235955065
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 68,
+          "share": 0.19101123595505617,
+          "actualMeanTrueRangePercent": 1.7409599852941173,
+          "actualMedianTrueRangePercent": 1.6266945,
+          "actualMeanPriorMedianRatio": 1.0262432477676617,
+          "exactGradeHitRate": 0.2647058823529412,
+          "withinOneGradeHitRate": 0.7794117647058824,
+          "actualHighRangeEventRate": 0.07352941176470588
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 191,
+          "share": 0.5365168539325843,
+          "actualMeanTrueRangePercent": 1.9852818115183246,
+          "actualMedianTrueRangePercent": 1.782066,
+          "actualMeanPriorMedianRatio": 1.1790615340539699,
+          "exactGradeHitRate": 0.5497382198952879,
+          "withinOneGradeHitRate": 0.8795811518324608,
+          "actualHighRangeEventRate": 0.12041884816753927
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 40,
+          "share": 0.11235955056179775,
+          "actualMeanTrueRangePercent": 2.0933493750000003,
+          "actualMedianTrueRangePercent": 1.8948255,
+          "actualMeanPriorMedianRatio": 1.2278624587487572,
+          "exactGradeHitRate": 0.225,
+          "withinOneGradeHitRate": 0.775,
+          "actualHighRangeEventRate": 0.15
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 57,
+          "share": 0.1601123595505618,
+          "actualMeanTrueRangePercent": 2.9641133508771933,
+          "actualMedianTrueRangePercent": 2.368192,
+          "actualMeanPriorMedianRatio": 1.7675771927204866,
+          "exactGradeHitRate": 0.2982456140350877,
+          "withinOneGradeHitRate": 0.5789473684210527,
+          "actualHighRangeEventRate": 0.3157894736842105
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 18,
+          "falsePositive": 39,
+          "falseNegative": 34,
+          "trueNegative": 265
+        },
+        "alerts": 57,
+        "actualEvents": 52,
+        "precision": 0.3157894736842105,
+        "precisionWilson95": [
+          0.21004287638825245,
+          0.4447977469786344
+        ],
+        "recall": 0.34615384615384615,
+        "recallWilson95": [
+          0.2315100766646591,
+          0.48196445752729855
+        ],
+        "f1": 0.33027522935779813,
+        "specificity": 0.8717105263157895,
+        "baseRate": 0.14606741573033707,
+        "lift": 2.1619433198380564
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": -0.294573214556995,
+          "ci95": [
+            -8.033088211161788,
+            7.2650315493938855
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 1.6858577089283926,
+          "ci95": [
+            -9.378161804845181,
+            9.783005457943027
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.030094236126633346,
+          "ci95": [
+            -0.19635832653773858,
+            0.18608785403153336
+          ]
+        },
+        "coverage50": {
+          "mean": 0.4975561797752809,
+          "ci95": [
+            0.4410112359550562,
+            0.5660814606741572
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7778277153558052,
+          "ci95": [
+            0.720435393258427,
+            0.8413623595505617
+          ]
+        }
+      }
+    },
+    "XLF": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.4986222154100169,
+          "rmse": 0.8425479577733543,
+          "r2": 0.29931977807012966
+        },
+        "atrBaseline": {
+          "mae": 0.5373564786938967,
+          "rmse": 0.9127823513633895,
+          "r2": 0.17763415023209383
+        },
+        "improvement": {
+          "maePercent": 7.208299298452237,
+          "rmsePercent": 7.694538953906,
+          "r2Delta": 0.12168562783803583,
+          "mseSkillVsAtr": 0.14797018610680235
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5196629213483146,
+        "coverage50Wilson95": [
+          0.46783158465694247,
+          0.5710744381395472
+        ],
+        "targetGap50PercentagePoints": 1.96629213483146,
+        "coverage80": 0.8146067415730337,
+        "coverage80Wilson95": [
+          0.770955383601878,
+          0.8515409811419558
+        ],
+        "targetGap80PercentagePoints": 1.4606741573033655
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 63,
+          "share": 0.17696629213483145,
+          "actualMeanTrueRangePercent": 1.1352669523809522,
+          "actualMedianTrueRangePercent": 0.95057,
+          "actualMeanPriorMedianRatio": 0.9493312284253441,
+          "exactGradeHitRate": 0.3492063492063492,
+          "withinOneGradeHitRate": 0.9206349206349206,
+          "actualHighRangeEventRate": 0.031746031746031744
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 172,
+          "share": 0.48314606741573035,
+          "actualMeanTrueRangePercent": 1.297100593023256,
+          "actualMedianTrueRangePercent": 1.1650755,
+          "actualMeanPriorMedianRatio": 1.0874308213075892,
+          "exactGradeHitRate": 0.5406976744186046,
+          "withinOneGradeHitRate": 0.9244186046511628,
+          "actualHighRangeEventRate": 0.0755813953488372
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 71,
+          "share": 0.199438202247191,
+          "actualMeanTrueRangePercent": 1.6223435492957745,
+          "actualMedianTrueRangePercent": 1.457125,
+          "actualMeanPriorMedianRatio": 1.3483505368690807,
+          "exactGradeHitRate": 0.22535211267605634,
+          "withinOneGradeHitRate": 0.9295774647887324,
+          "actualHighRangeEventRate": 0.15492957746478872
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 50,
+          "share": 0.1404494382022472,
+          "actualMeanTrueRangePercent": 2.6252982000000005,
+          "actualMedianTrueRangePercent": 1.992624,
+          "actualMeanPriorMedianRatio": 2.2131117866524086,
+          "exactGradeHitRate": 0.38,
+          "withinOneGradeHitRate": 0.76,
+          "actualHighRangeEventRate": 0.38
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 19,
+          "falsePositive": 31,
+          "falseNegative": 26,
+          "trueNegative": 280
+        },
+        "alerts": 50,
+        "actualEvents": 45,
+        "precision": 0.38,
+        "precisionWilson95": [
+          0.25862789310193596,
+          0.5184955306900703
+        ],
+        "recall": 0.4222222222222222,
+        "recallWilson95": [
+          0.289687024672703,
+          0.5669921129079686
+        ],
+        "f1": 0.4,
+        "specificity": 0.9003215434083601,
+        "baseRate": 0.12640449438202248,
+        "lift": 3.006222222222222
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 7.113580311261139,
+          "ci95": [
+            1.598504576866909,
+            13.757987777635888
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 6.9453620180430695,
+          "ci95": [
+            0.37506713339159825,
+            12.745186910528734
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.13290785666739335,
+          "ci95": [
+            0.0074866085386058115,
+            0.2386583143411307
+          ]
+        },
+        "coverage50": {
+          "mean": 0.5200093632958801,
+          "ci95": [
+            0.46200842696629213,
+            0.5716994382022471
+          ]
+        },
+        "coverage80": {
+          "mean": 0.8156741573033708,
+          "ci95": [
+            0.7752808988764045,
+            0.8539325842696629
+          ]
+        }
+      }
+    },
+    "XLI": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.503804412818726,
+          "rmse": 0.8373567925325299,
+          "r2": 0.29036489056997083
+        },
+        "atrBaseline": {
+          "mae": 0.5443601125191802,
+          "rmse": 0.9079727738647174,
+          "r2": 0.16562813505188423
+        },
+        "improvement": {
+          "maePercent": 7.450160062751693,
+          "rmsePercent": 7.777323656040469,
+          "r2Delta": 0.1247367555180866,
+          "mseSkillVsAtr": 0.14949779679572872
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5,
+        "coverage50Wilson95": [
+          0.44833903718029483,
+          0.5516609628197051
+        ],
+        "targetGap50PercentagePoints": 0.0,
+        "coverage80": 0.797752808988764,
+        "coverage80Wilson95": [
+          0.7529507309395929,
+          0.8361976142643925
+        ],
+        "targetGap80PercentagePoints": -0.22471910112360494
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 70,
+          "share": 0.19662921348314608,
+          "actualMeanTrueRangePercent": 1.0993087714285714,
+          "actualMedianTrueRangePercent": 1.021375,
+          "actualMeanPriorMedianRatio": 0.9139594767641738,
+          "exactGradeHitRate": 0.4,
+          "withinOneGradeHitRate": 0.8714285714285714,
+          "actualHighRangeEventRate": 0.02857142857142857
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 160,
+          "share": 0.449438202247191,
+          "actualMeanTrueRangePercent": 1.38918245,
+          "actualMedianTrueRangePercent": 1.270461,
+          "actualMeanPriorMedianRatio": 1.1600922452046079,
+          "exactGradeHitRate": 0.525,
+          "withinOneGradeHitRate": 0.91875,
+          "actualHighRangeEventRate": 0.08125
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 70,
+          "share": 0.19662921348314608,
+          "actualMeanTrueRangePercent": 1.6909139000000002,
+          "actualMedianTrueRangePercent": 1.435094,
+          "actualMeanPriorMedianRatio": 1.3909714366002328,
+          "exactGradeHitRate": 0.2,
+          "withinOneGradeHitRate": 0.9,
+          "actualHighRangeEventRate": 0.17142857142857143
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 56,
+          "share": 0.15730337078651685,
+          "actualMeanTrueRangePercent": 2.4742537142857137,
+          "actualMedianTrueRangePercent": 1.9585965,
+          "actualMeanPriorMedianRatio": 2.0544822888319207,
+          "exactGradeHitRate": 0.375,
+          "withinOneGradeHitRate": 0.6607142857142857,
+          "actualHighRangeEventRate": 0.39285714285714285
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 22,
+          "falsePositive": 34,
+          "falseNegative": 27,
+          "trueNegative": 273
+        },
+        "alerts": 56,
+        "actualEvents": 49,
+        "precision": 0.39285714285714285,
+        "precisionWilson95": [
+          0.2758041573011051,
+          0.5236659719957729
+        ],
+        "recall": 0.4489795918367347,
+        "recallWilson95": [
+          0.31852841068686644,
+          0.5868489178050209
+        ],
+        "f1": 0.419047619047619,
+        "specificity": 0.8892508143322475,
+        "baseRate": 0.13764044943820225,
+        "lift": 2.8542274052478134
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 7.131233130258182,
+          "ci95": [
+            2.168168116025655,
+            11.688206064106847
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 6.505357480372835,
+          "ci95": [
+            -1.136787093161118,
+            11.194287552042464
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.12467865466086024,
+          "ci95": [
+            -0.022864979046410765,
+            0.2113542703208611
+          ]
+        },
+        "coverage50": {
+          "mean": 0.4978651685393259,
+          "ci95": [
+            0.4311095505617977,
+            0.5533707865168539
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7981647940074906,
+          "ci95": [
+            0.7457162921348315,
+            0.848314606741573
+          ]
+        }
+      }
+    },
+    "XLK": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.735116806745851,
+          "rmse": 1.2288528491592803,
+          "r2": 0.24957130647912906
+        },
+        "atrBaseline": {
+          "mae": 0.7978366959665897,
+          "rmse": 1.307522703483916,
+          "r2": 0.1504124352341233
+        },
+        "improvement": {
+          "maePercent": 7.861243978600497,
+          "rmsePercent": 6.016710387897561,
+          "r2Delta": 0.09915887124500578,
+          "mseSkillVsAtr": 0.11671412736876774
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.4859550561797753,
+        "coverage50Wilson95": [
+          0.43446419672524833,
+          0.5377457869915451
+        ],
+        "targetGap50PercentagePoints": -1.4044943820224698,
+        "coverage80": 0.797752808988764,
+        "coverage80Wilson95": [
+          0.7529507309395929,
+          0.8361976142643925
+        ],
+        "targetGap80PercentagePoints": -0.22471910112360494
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 70,
+          "share": 0.19662921348314608,
+          "actualMeanTrueRangePercent": 1.3889582857142855,
+          "actualMedianTrueRangePercent": 1.232145,
+          "actualMeanPriorMedianRatio": 0.8281973634311678,
+          "exactGradeHitRate": 0.5142857142857142,
+          "withinOneGradeHitRate": 0.9571428571428572,
+          "actualHighRangeEventRate": 0.014285714285714285
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 175,
+          "share": 0.49157303370786515,
+          "actualMeanTrueRangePercent": 1.8471423885714284,
+          "actualMedianTrueRangePercent": 1.749212,
+          "actualMeanPriorMedianRatio": 1.1194707922405973,
+          "exactGradeHitRate": 0.5428571428571428,
+          "withinOneGradeHitRate": 0.9371428571428572,
+          "actualHighRangeEventRate": 0.06285714285714286
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 71,
+          "share": 0.199438202247191,
+          "actualMeanTrueRangePercent": 2.5278671690140846,
+          "actualMedianTrueRangePercent": 2.314705,
+          "actualMeanPriorMedianRatio": 1.5359369338389877,
+          "exactGradeHitRate": 0.28169014084507044,
+          "withinOneGradeHitRate": 0.9436619718309859,
+          "actualHighRangeEventRate": 0.16901408450704225
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 40,
+          "share": 0.11235955056179775,
+          "actualMeanTrueRangePercent": 3.9782086,
+          "actualMedianTrueRangePercent": 3.2637650000000002,
+          "actualMeanPriorMedianRatio": 2.3393401285600737,
+          "exactGradeHitRate": 0.5,
+          "withinOneGradeHitRate": 0.775,
+          "actualHighRangeEventRate": 0.5
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 20,
+          "falsePositive": 20,
+          "falseNegative": 24,
+          "trueNegative": 292
+        },
+        "alerts": 40,
+        "actualEvents": 44,
+        "precision": 0.5,
+        "precisionWilson95": [
+          0.35199526933465386,
+          0.6480047306653461
+        ],
+        "recall": 0.45454545454545453,
+        "recallWilson95": [
+          0.31705234142220895,
+          0.5993381680103802
+        ],
+        "f1": 0.47619047619047616,
+        "specificity": 0.9358974358974359,
+        "baseRate": 0.12359550561797752,
+        "lift": 4.045454545454546
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 7.66630371462913,
+          "ci95": [
+            2.3704068998356256,
+            12.412307514696769
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 5.252077462160904,
+          "ci95": [
+            -1.156323984170244,
+            9.331797786249322
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.10148444007299093,
+          "ci95": [
+            -0.02327236207492594,
+            0.17792770880359066
+          ]
+        },
+        "coverage50": {
+          "mean": 0.4877996254681648,
+          "ci95": [
+            0.4395365168539326,
+            0.5351825842696628
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7998033707865169,
+          "ci95": [
+            0.7556179775280899,
+            0.8398876404494382
+          ]
+        }
+      }
+    },
+    "XLP": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.3966624373610291,
+          "rmse": 0.5721794235442984,
+          "r2": 0.1099619921238647
+        },
+        "atrBaseline": {
+          "mae": 0.3814604361816262,
+          "rmse": 0.5735685210366466,
+          "r2": 0.10563520134554627
+        },
+        "improvement": {
+          "maePercent": -3.9852104536903314,
+          "rmsePercent": 0.24218509932127455,
+          "r2Delta": 0.0043267907783184345,
+          "mseSkillVsAtr": 0.004837836624192127
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.46629213483146065,
+        "coverage50Wilson95": [
+          0.41510729169009475,
+          0.5181966692302088
+        ],
+        "targetGap50PercentagePoints": -3.3707865168539355,
+        "coverage80": 0.7808988764044944,
+        "coverage80Wilson95": [
+          0.7350572860683043,
+          0.820743039595833
+        ],
+        "targetGap80PercentagePoints": -1.9101123595505642
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 52,
+          "share": 0.14606741573033707,
+          "actualMeanTrueRangePercent": 0.9695877115384616,
+          "actualMedianTrueRangePercent": 0.9158200000000001,
+          "actualMeanPriorMedianRatio": 0.9450038287863383,
+          "exactGradeHitRate": 0.40384615384615385,
+          "withinOneGradeHitRate": 0.8076923076923077,
+          "actualHighRangeEventRate": 0.019230769230769232
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 163,
+          "share": 0.45786516853932585,
+          "actualMeanTrueRangePercent": 1.213189398773006,
+          "actualMedianTrueRangePercent": 1.066469,
+          "actualMeanPriorMedianRatio": 1.1911575773342296,
+          "exactGradeHitRate": 0.4785276073619632,
+          "withinOneGradeHitRate": 0.8650306748466258,
+          "actualHighRangeEventRate": 0.13496932515337423
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 81,
+          "share": 0.22752808988764045,
+          "actualMeanTrueRangePercent": 1.284955962962963,
+          "actualMedianTrueRangePercent": 1.221669,
+          "actualMeanPriorMedianRatio": 1.2464664563294865,
+          "exactGradeHitRate": 0.25925925925925924,
+          "withinOneGradeHitRate": 0.8641975308641975,
+          "actualHighRangeEventRate": 0.13580246913580246
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 60,
+          "share": 0.16853932584269662,
+          "actualMeanTrueRangePercent": 1.6034649499999996,
+          "actualMedianTrueRangePercent": 1.4097115,
+          "actualMeanPriorMedianRatio": 1.6031967946739811,
+          "exactGradeHitRate": 0.36666666666666664,
+          "withinOneGradeHitRate": 0.5333333333333333,
+          "actualHighRangeEventRate": 0.36666666666666664
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 22,
+          "falsePositive": 38,
+          "falseNegative": 34,
+          "trueNegative": 262
+        },
+        "alerts": 60,
+        "actualEvents": 56,
+        "precision": 0.36666666666666664,
+        "precisionWilson95": [
+          0.25620916687225426,
+          0.49316999369896963
+        ],
+        "recall": 0.39285714285714285,
+        "recallWilson95": [
+          0.2758041573011051,
+          0.5236659719957729
+        ],
+        "f1": 0.3793103448275862,
+        "specificity": 0.8733333333333333,
+        "baseRate": 0.15730337078651685,
+        "lift": 2.3309523809523807
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": -4.095755490385465,
+          "ci95": [
+            -12.151054030604467,
+            4.154606941564922
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": -0.4273406412674751,
+          "ci95": [
+            -9.907780735944764,
+            5.930487616609945
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": -0.010308610645743718,
+          "ci95": [
+            -0.20797204829482477,
+            0.11509216153068974
+          ]
+        },
+        "coverage50": {
+          "mean": 0.46660112359550565,
+          "ci95": [
+            0.40997191011235956,
+            0.5295646067415729
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7795505617977527,
+          "ci95": [
+            0.7219101123595506,
+            0.8342696629213483
+          ]
+        }
+      }
+    },
+    "XLRE": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.43137693718678516,
+          "rmse": 0.6963915998745883,
+          "r2": 0.2603338110299581
+        },
+        "atrBaseline": {
+          "mae": 0.4572083899611478,
+          "rmse": 0.7631095527164923,
+          "r2": 0.11181691169751817
+        },
+        "improvement": {
+          "maePercent": 5.649820375465493,
+          "rmsePercent": 8.742906258269679,
+          "r2Delta": 0.14851689933243994,
+          "mseSkillVsAtr": 0.16721428418130446
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5224719101123596,
+        "coverage50Wilson95": [
+          0.4706226952213227,
+          0.5738413308318083
+        ],
+        "targetGap50PercentagePoints": 2.2471910112359605,
+        "coverage80": 0.797752808988764,
+        "coverage80Wilson95": [
+          0.7529507309395929,
+          0.8361976142643925
+        ],
+        "targetGap80PercentagePoints": -0.22471910112360494
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 136,
+          "share": 0.38202247191011235,
+          "actualMeanTrueRangePercent": 1.2034473088235293,
+          "actualMedianTrueRangePercent": 1.138678,
+          "actualMeanPriorMedianRatio": 0.9308204022082676,
+          "exactGradeHitRate": 0.40441176470588236,
+          "withinOneGradeHitRate": 0.8602941176470589,
+          "actualHighRangeEventRate": 0.04411764705882353
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 157,
+          "share": 0.4410112359550562,
+          "actualMeanTrueRangePercent": 1.3779485350318472,
+          "actualMedianTrueRangePercent": 1.271285,
+          "actualMeanPriorMedianRatio": 1.051827808200367,
+          "exactGradeHitRate": 0.5286624203821656,
+          "withinOneGradeHitRate": 0.9299363057324841,
+          "actualHighRangeEventRate": 0.07643312101910828
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 31,
+          "share": 0.08707865168539326,
+          "actualMeanTrueRangePercent": 1.700166838709677,
+          "actualMedianTrueRangePercent": 1.59905,
+          "actualMeanPriorMedianRatio": 1.292928724816944,
+          "exactGradeHitRate": 0.22580645161290322,
+          "withinOneGradeHitRate": 0.8709677419354839,
+          "actualHighRangeEventRate": 0.1935483870967742
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 32,
+          "share": 0.0898876404494382,
+          "actualMeanTrueRangePercent": 2.4869391875,
+          "actualMedianTrueRangePercent": 1.8041595,
+          "actualMeanPriorMedianRatio": 1.849790991664098,
+          "exactGradeHitRate": 0.375,
+          "withinOneGradeHitRate": 0.5,
+          "actualHighRangeEventRate": 0.375
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 12,
+          "falsePositive": 20,
+          "falseNegative": 24,
+          "trueNegative": 300
+        },
+        "alerts": 32,
+        "actualEvents": 36,
+        "precision": 0.375,
+        "precisionWilson95": [
+          0.22933887309454212,
+          0.5474559264692255
+        ],
+        "recall": 0.3333333333333333,
+        "recallWilson95": [
+          0.2021461882430531,
+          0.4966600212884348
+        ],
+        "f1": 0.35294117647058826,
+        "specificity": 0.9375,
+        "baseRate": 0.10112359550561797,
+        "lift": 3.7083333333333335
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 5.319635127323688,
+          "ci95": [
+            -2.335222732864019,
+            14.781584650484138
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 7.673335307274045,
+          "ci95": [
+            -1.7931645656934614,
+            14.088906542835307
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.14590426448260718,
+          "ci95": [
+            -0.03618655714708151,
+            0.26192826485489984
+          ]
+        },
+        "coverage50": {
+          "mean": 0.5222846441947566,
+          "ci95": [
+            0.4521067415730337,
+            0.6027387640449436
+          ]
+        },
+        "coverage80": {
+          "mean": 0.7988108614232209,
+          "ci95": [
+            0.7457162921348315,
+            0.8539325842696629
+          ]
+        }
+      }
+    },
+    "XLU": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.4481154784785554,
+          "rmse": 0.7116685399791897,
+          "r2": 0.07254307823826744
+        },
+        "atrBaseline": {
+          "mae": 0.4629093522195459,
+          "rmse": 0.7350051879169484,
+          "r2": 0.010720476191161787
+        },
+        "improvement": {
+          "maePercent": 3.1958468045757162,
+          "rmsePercent": 3.1750317305781532,
+          "r2Delta": 0.06182260204710566,
+          "mseSkillVsAtr": 0.06249255196254544
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5421348314606742,
+        "coverage50Wilson95": [
+          0.49020585521839716,
+          0.5931641936312235
+        ],
+        "targetGap50PercentagePoints": 4.2134831460674205,
+        "coverage80": 0.8230337078651685,
+        "coverage80Wilson95": [
+          0.7800028809180676,
+          0.8591674935956902
+        ],
+        "targetGap80PercentagePoints": 2.303370786516845
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 72,
+          "share": 0.20224719101123595,
+          "actualMeanTrueRangePercent": 1.3336167222222224,
+          "actualMedianTrueRangePercent": 1.2545565,
+          "actualMeanPriorMedianRatio": 0.9823241446227927,
+          "exactGradeHitRate": 0.3194444444444444,
+          "withinOneGradeHitRate": 0.8194444444444444,
+          "actualHighRangeEventRate": 0.041666666666666664
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 190,
+          "share": 0.5337078651685393,
+          "actualMeanTrueRangePercent": 1.480675547368421,
+          "actualMedianTrueRangePercent": 1.3385085,
+          "actualMeanPriorMedianRatio": 1.0987779856137314,
+          "exactGradeHitRate": 0.5421052631578948,
+          "withinOneGradeHitRate": 0.8894736842105263,
+          "actualHighRangeEventRate": 0.11052631578947368
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 45,
+          "share": 0.12640449438202248,
+          "actualMeanTrueRangePercent": 1.5012003111111114,
+          "actualMedianTrueRangePercent": 1.321959,
+          "actualMeanPriorMedianRatio": 1.1227846134675084,
+          "exactGradeHitRate": 0.2,
+          "withinOneGradeHitRate": 0.8222222222222222,
+          "actualHighRangeEventRate": 0.06666666666666667
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 49,
+          "share": 0.13764044943820225,
+          "actualMeanTrueRangePercent": 2.05270806122449,
+          "actualMedianTrueRangePercent": 1.822322,
+          "actualMeanPriorMedianRatio": 1.5194884252430463,
+          "exactGradeHitRate": 0.2857142857142857,
+          "withinOneGradeHitRate": 0.5714285714285714,
+          "actualHighRangeEventRate": 0.2857142857142857
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 14,
+          "falsePositive": 35,
+          "falseNegative": 27,
+          "trueNegative": 280
+        },
+        "alerts": 49,
+        "actualEvents": 41,
+        "precision": 0.2857142857142857,
+        "precisionWilson95": [
+          0.178495944588126,
+          0.42408883507780093
+        ],
+        "recall": 0.34146341463414637,
+        "recallWilson95": [
+          0.21558808257384846,
+          0.49450163480170306
+        ],
+        "f1": 0.31111111111111117,
+        "specificity": 0.8888888888888888,
+        "baseRate": 0.1151685393258427,
+        "lift": 2.4808362369337975
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 2.833189199913217,
+          "ci95": [
+            -3.008552753248303,
+            8.827639267548419
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 2.5304265867324034,
+          "ci95": [
+            -3.9231527476653505,
+            7.432055501687833
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.04900938486725603,
+          "ci95": [
+            -0.08001153267776707,
+            0.1431173376962971
+          ]
+        },
+        "coverage50": {
+          "mean": 0.540692883895131,
+          "ci95": [
+            0.48167134831460673,
+            0.5829353932584269
+          ]
+        },
+        "coverage80": {
+          "mean": 0.8234831460674157,
+          "ci95": [
+            0.7822331460674157,
+            0.8567415730337079
+          ]
+        }
+      }
+    },
+    "XLV": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.45409277942604015,
+          "rmse": 0.711736519348403,
+          "r2": 0.12723116621464914
+        },
+        "atrBaseline": {
+          "mae": 0.466948140348649,
+          "rmse": 0.7506276154775182,
+          "r2": 0.029244622267633802
+        },
+        "improvement": {
+          "maePercent": 2.753059668041583,
+          "rmsePercent": 5.181143795832015,
+          "r2Delta": 0.09798654394701534,
+          "mseSkillVsAtr": 0.10093845081333153
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.5028089887640449,
+        "coverage50Wilson95": [
+          0.45111884536491054,
+          0.5544391578917308
+        ],
+        "targetGap50PercentagePoints": 0.2808988764044895,
+        "coverage80": 0.8089887640449438,
+        "coverage80Wilson95": [
+          0.7649408225377577,
+          0.8464395356927931
+        ],
+        "targetGap80PercentagePoints": 0.8988764044943753
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 53,
+          "share": 0.14887640449438203,
+          "actualMeanTrueRangePercent": 1.180098283018868,
+          "actualMedianTrueRangePercent": 1.102458,
+          "actualMeanPriorMedianRatio": 1.013421324774092,
+          "exactGradeHitRate": 0.3584905660377358,
+          "withinOneGradeHitRate": 0.8301886792452831,
+          "actualHighRangeEventRate": 0.05660377358490566
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 193,
+          "share": 0.5421348314606742,
+          "actualMeanTrueRangePercent": 1.3249061865284975,
+          "actualMedianTrueRangePercent": 1.226327,
+          "actualMeanPriorMedianRatio": 1.1463213496238709,
+          "exactGradeHitRate": 0.5492227979274611,
+          "withinOneGradeHitRate": 0.9119170984455959,
+          "actualHighRangeEventRate": 0.08808290155440414
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 67,
+          "share": 0.18820224719101122,
+          "actualMeanTrueRangePercent": 1.4072662985074629,
+          "actualMedianTrueRangePercent": 1.299678,
+          "actualMeanPriorMedianRatio": 1.2168055596687017,
+          "exactGradeHitRate": 0.208955223880597,
+          "withinOneGradeHitRate": 0.8805970149253731,
+          "actualHighRangeEventRate": 0.1044776119402985
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 43,
+          "share": 0.12078651685393259,
+          "actualMeanTrueRangePercent": 2.203854581395349,
+          "actualMedianTrueRangePercent": 1.688618,
+          "actualMeanPriorMedianRatio": 2.0649331985879766,
+          "exactGradeHitRate": 0.3953488372093023,
+          "withinOneGradeHitRate": 0.6744186046511628,
+          "actualHighRangeEventRate": 0.3953488372093023
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 17,
+          "falsePositive": 26,
+          "falseNegative": 27,
+          "trueNegative": 286
+        },
+        "alerts": 43,
+        "actualEvents": 44,
+        "precision": 0.3953488372093023,
+        "precisionWilson95": [
+          0.2636531475829744,
+          0.5442093693712609
+        ],
+        "recall": 0.38636363636363635,
+        "recallWilson95": [
+          0.2572120275052556,
+          0.5337642460762172
+        ],
+        "f1": 0.3908045977011494,
+        "specificity": 0.9166666666666666,
+        "baseRate": 0.12359550561797752,
+        "lift": 3.1987315010570825
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 2.1617494177359746,
+          "ci95": [
+            -4.240907626186858,
+            7.296043862806334
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 3.984075801231589,
+          "ci95": [
+            -2.5010937377520053,
+            8.32476579435257
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.07709219147534102,
+          "ci95": [
+            -0.05064780495805962,
+            0.15956514282306872
+          ]
+        },
+        "coverage50": {
+          "mean": 0.5030430711610486,
+          "ci95": [
+            0.4479634831460674,
+            0.5561797752808989
+          ]
+        },
+        "coverage80": {
+          "mean": 0.8102340823970038,
+          "ci95": [
+            0.7528089887640449,
+            0.8651685393258427
+          ]
+        }
+      }
+    },
+    "XLY": {
+      "comparison": {
+        "rows": 356,
+        "candidate": {
+          "mae": 0.6127483777900626,
+          "rmse": 0.9499200783651409,
+          "r2": 0.33137204336216175
+        },
+        "atrBaseline": {
+          "mae": 0.660462451105738,
+          "rmse": 1.016177221320857,
+          "r2": 0.23484519908477441
+        },
+        "improvement": {
+          "maePercent": 7.224343069888839,
+          "rmsePercent": 6.520235010738892,
+          "r2Delta": 0.09652684427738734,
+          "mseSkillVsAtr": 0.12615335375525139
+        }
+      },
+      "coverage": {
+        "rows": 356,
+        "coverage50": 0.48314606741573035,
+        "coverage50Wilson95": [
+          0.43169407137463606,
+          0.5349579090855159
+        ],
+        "targetGap50PercentagePoints": -1.6853932584269649,
+        "coverage80": 0.7949438202247191,
+        "coverage80Wilson95": [
+          0.749961040972995,
+          0.8336293009743491
+        ],
+        "targetGap80PercentagePoints": -0.5056179775280945
+      },
+      "weather": {
+        "quiet": {
+          "label": "고요",
+          "rows": 65,
+          "share": 0.18258426966292135,
+          "actualMeanTrueRangePercent": 1.2183608000000001,
+          "actualMedianTrueRangePercent": 1.171598,
+          "actualMeanPriorMedianRatio": 0.7776259016758578,
+          "exactGradeHitRate": 0.47692307692307695,
+          "withinOneGradeHitRate": 0.9846153846153847,
+          "actualHighRangeEventRate": 0.0
+        },
+        "normal": {
+          "label": "보통",
+          "rows": 180,
+          "share": 0.5056179775280899,
+          "actualMeanTrueRangePercent": 1.6159106944444444,
+          "actualMedianTrueRangePercent": 1.477784,
+          "actualMeanPriorMedianRatio": 1.0504632072691233,
+          "exactGradeHitRate": 0.5222222222222223,
+          "withinOneGradeHitRate": 0.9611111111111111,
+          "actualHighRangeEventRate": 0.03888888888888889
+        },
+        "strong": {
+          "label": "강풍",
+          "rows": 70,
+          "share": 0.19662921348314608,
+          "actualMeanTrueRangePercent": 2.156859828571429,
+          "actualMedianTrueRangePercent": 1.9300815,
+          "actualMeanPriorMedianRatio": 1.450682401357989,
+          "exactGradeHitRate": 0.21428571428571427,
+          "withinOneGradeHitRate": 0.9428571428571428,
+          "actualHighRangeEventRate": 0.21428571428571427
+        },
+        "storm": {
+          "label": "폭풍",
+          "rows": 41,
+          "share": 0.1151685393258427,
+          "actualMeanTrueRangePercent": 3.302130975609756,
+          "actualMedianTrueRangePercent": 2.661024,
+          "actualMeanPriorMedianRatio": 2.239713852777509,
+          "exactGradeHitRate": 0.5121951219512195,
+          "withinOneGradeHitRate": 0.7560975609756098,
+          "actualHighRangeEventRate": 0.5121951219512195
+        }
+      },
+      "storm": {
+        "rows": 356,
+        "definition": "forecast percentile >= 90; actual True Range above its strictly-prior 252-observation 90th percentile",
+        "confusionMatrix": {
+          "truePositive": 21,
+          "falsePositive": 20,
+          "falseNegative": 22,
+          "trueNegative": 293
+        },
+        "alerts": 41,
+        "actualEvents": 43,
+        "precision": 0.5121951219512195,
+        "precisionWilson95": [
+          0.3648450865154381,
+          0.6574557044556734
+        ],
+        "recall": 0.4883720930232558,
+        "recallWilson95": [
+          0.3461744754671859,
+          0.632476915305507
+        ],
+        "f1": 0.5,
+        "specificity": 0.9361022364217252,
+        "baseRate": 0.12078651685393259,
+        "lift": 4.240499149177539
+      },
+      "blockBootstrap": {
+        "samples": 300,
+        "blockLength": 20,
+        "maeImprovementPercent": {
+          "mean": 6.9764993359236085,
+          "ci95": [
+            2.6144465287600807,
+            12.002829393278784
+          ]
+        },
+        "rmseImprovementPercent": {
+          "mean": 6.131004138085641,
+          "ci95": [
+            2.0855954051837022,
+            10.022595542904126
+          ]
+        },
+        "mseSkillVsAtr": {
+          "mean": 0.11841560887411821,
+          "ci95": [
+            0.04127693417536729,
+            0.19040660156660053
+          ]
+        },
+        "coverage50": {
+          "mean": 0.48196629213483144,
+          "ci95": [
+            0.4268258426966292,
+            0.5379915730337078
+          ]
+        },
+        "coverage80": {
+          "mean": 0.794316479400749,
+          "ci95": [
+            0.7415730337078652,
+            0.8385533707865168
+          ]
+        }
+      }
+    }
+  },
+  "protocol": {
+    "evaluationOnlyAfterFrozen2025Start": true,
+    "sameRowsForCandidateAndAtrBaseline": true,
+    "atrScaleFittedOnTrainingOnly": true,
+    "intervalResidualsStrictlyPrior": true,
+    "weatherRanksStrictlyPrior252": true,
+    "actualStormDefinitionStrictlyPrior252": true,
+    "bootstrap": {
+      "method": "within-asset circular moving block",
+      "samples": 300,
+      "blockLength": 20
+    }
+  }
+}
