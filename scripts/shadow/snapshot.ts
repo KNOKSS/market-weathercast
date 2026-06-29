@@ -25,6 +25,7 @@ async function main() {
   const sourceManifest = [];
   const latestFullyClosedUtcDate = new Date(Date.now() - 24 * 60 * 60 * 1_000).toISOString().slice(0, 10);
   for (const asset of REPRESENTATIVE_UNIVERSE) {
+    console.log(`[shadow:snapshot] fetch ${asset.id}`);
     const file = path.join(RAW_DIR, `${asset.id}.json`);
     const data = refresh
       ? (await loadAssetData(asset, latestFullyClosedUtcDate, true, RAW_DIR)).data

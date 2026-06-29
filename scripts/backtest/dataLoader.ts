@@ -6,6 +6,10 @@ import type { AssetDefinition, CachedAssetData, DataManifestEntry, HistoricalCan
 const DEFAULT_RAW_DATA_DIR = path.resolve(process.cwd(), "backtest-data", "raw");
 const YAHOO_CHART = "https://query1.finance.yahoo.com/v8/finance/chart";
 const BINANCE_API = "https://api.binance.com/api/v3/klines";
+const CRYPTO_YAHOO_FALLBACK: Record<string, string> = {
+  BTCUSDT: "BTC-USD",
+  ETHUSDT: "ETH-USD",
+};
 
 interface YahooResponse {
   chart?: {
@@ -156,6 +160,18 @@ async function fetchBinance(asset: AssetDefinition, endDate: string): Promise<Ca
   };
 }
 
+async function fetchCryptoYahooFallback(asset: AssetDefinition, endDate: string, cause: unknown): Promise<CachedAssetData> {
+  const yahooSymbol = CRYPTO_YAHOO_FALLBACK[asset.id] ?? CRYPTO_YAHOO_FALLBACK[asset.remoteSymbol];
+  if (!yahooSymbol) throw cause;
+  console.warn(`[dataLoader] ${asset.id}: Binance fetch failed; falling back to Yahoo ${yahooSymbol}. ${String(cause)}`);
+  const fallback = await fetchYahoo({ ...asset, source: "yahoo", remoteSymbol: yahooSymbol }, endDate);
+  return {
+    ...fallback,
+    asset,
+    adjustment: `${fallback.adjustment}; crypto fallback from Binance ${asset.remoteSymbol} to Yahoo ${yahooSymbol}`,
+  };
+}
+
 export async function loadAssetData(
   asset: AssetDefinition,
   endDate: string,
@@ -178,7 +194,12 @@ export async function loadAssetData(
   }
 
   if (!data) {
-    data = asset.source === "yahoo" ? await fetchYahoo(asset, endDate) : await fetchBinance(asset, endDate);
+    try {
+      data = asset.source === "yahoo" ? await fetchYahoo(asset, endDate) : await fetchBinance(asset, endDate);
+    } catch (error) {
+      if (asset.source !== "binance") throw error;
+      data = await fetchCryptoYahooFallback(asset, endDate, error);
+    }
     await writeFile(cachePath, JSON.stringify(data), "utf8");
   }
 
