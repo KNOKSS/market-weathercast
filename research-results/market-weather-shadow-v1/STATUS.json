@@ -1,28 +1,27 @@
 {
-  "generatedAt": "2026-11-19T07:40:31.690530+00:00",
+  "generatedAt": "2026-11-20T07:31:25.412676+00:00",
   "modelArtifactSha256": "fb89083281ccfa4a3688514b4bf305949005aa1cf84abcebdac6e31e5ea4b4a4",
-  "officialForecasts": 288,
-  "registeredBenchmarks": 288,
-  "settlements": 262,
+  "officialForecasts": 314,
+  "registeredBenchmarks": 314,
+  "settlements": 288,
   "unsettled": 26,
   "latestAssets": 26,
   "latestWeatherCounts": {
-    "storm": 19,
-    "strong": 4,
-    "normal": 3
+    "storm": 24,
+    "strong": 2
   },
   "performance": {
-    "settled": 262,
-    "rangeMae": 0.5200873347007097,
-    "coverage50": 0.6297709923664122,
-    "coverage80": 0.8549618320610687,
-    "tailBrierExperimental": 0.10847296965303786,
-    "atrBaselineMae": 0.5879044805757772,
-    "lastRangeBaselineMae": 0.766052286259542
+    "settled": 288,
+    "rangeMae": 0.5732930902456554,
+    "coverage50": 0.6076388888888888,
+    "coverage80": 0.8402777777777778,
+    "tailBrierExperimental": 0.14580373589349752,
+    "atrBaselineMae": 0.6261339336030163,
+    "lastRangeBaselineMae": 0.8408142847222222
   },
   "chainHeads": {
-    "forecast": "41e6e6eea8d08dfc85bb24660e3afad021a043161fa3120dbaf9f50351ada1e0",
-    "benchmark": "8f734bbe273c96f730ed7813fbd3d3d386f6119ad1e89aea724f1c145c8be344",
-    "settlement": "84afc6fff78abd2dd672a75ed6ec199b3040ee0cdf2eb73a68086d1e5eb224ee"
+    "forecast": "428dc096e6e74c44912cfc7efd875ea67e52b526c5e126a45f58be77144d7e00",
+    "benchmark": "43377737a2aeef82135f1cb0051bfb4a8b818774c25f314d04f32ed4071b6065",
+    "settlement": "fdadfb7337d6a724665f86029bfa313eb573712b4de83b2f8a62045f75fb5afa"
   }
 }
