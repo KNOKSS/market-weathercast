@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-25T08:53:41.809962+00:00",
+  "generatedAt": "2026-11-26T08:39:00.262425+00:00",
   "model": {
     "id": "market-weather-shadow-frozen-v1",
     "version": "v2",
@@ -15,19 +15,19 @@
   "forecasts": [
     {
       "assetId": "BTCUSDT",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "UTC_DAILY_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 5.069534,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 5.158245,
       "interval50": [
-        3.817157,
-        6.936226
+        3.883953,
+        7.043801
       ],
       "interval80": [
-        2.875473,
-        8.861797
+        2.925791,
+        9.01687
       ],
-      "weatherPercentile252": 99.2063,
+      "weatherPercentile252": 99.6032,
       "weatherGrade": "storm",
       "weatherLabel": "폭풍",
       "status": "pending",
@@ -35,19 +35,19 @@
     },
     {
       "assetId": "EEM",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 3.399289,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 3.272985,
       "interval50": [
-        2.60092,
-        4.841501
+        2.50428,
+        4.661611
       ],
       "interval80": [
-        1.892635,
-        6.34438
+        1.822313,
+        6.108649
       ],
-      "weatherPercentile252": 99.2063,
+      "weatherPercentile252": 98.0159,
       "weatherGrade": "storm",
       "weatherLabel": "폭풍",
       "status": "pending",
@@ -55,19 +55,19 @@
     },
     {
       "assetId": "EFA",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.676244,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.614837,
       "interval50": [
-        1.240288,
-        2.26279
+        1.203542,
+        2.179895
       ],
       "interval80": [
-        0.965404,
-        2.949795
+        0.932814,
+        2.841734
       ],
-      "weatherPercentile252": 92.0635,
+      "weatherPercentile252": 90.0794,
       "weatherGrade": "storm",
       "weatherLabel": "폭풍",
       "status": "pending",
@@ -75,17 +75,17 @@
     },
     {
       "assetId": "ETHUSDT",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "UTC_DAILY_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 5.81911,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 5.854442,
       "interval50": [
-        4.344183,
-        7.90887
+        4.370559,
+        7.948502
       ],
       "interval80": [
-        3.154498,
-        10.461401
+        3.173651,
+        10.524918
       ],
       "weatherPercentile252": 98.0159,
       "weatherGrade": "storm",
@@ -95,19 +95,19 @@
     },
     {
       "assetId": "IWD",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.50966,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.405862,
       "interval50": [
-        1.178713,
-        2.011061
+        1.097669,
+        1.885796
       ],
       "interval80": [
-        0.912941,
-        2.591319
+        0.850171,
+        2.413158
       ],
-      "weatherPercentile252": 98.4127,
+      "weatherPercentile252": 97.619,
       "weatherGrade": "storm",
       "weatherLabel": "폭풍",
       "status": "pending",
@@ -115,19 +115,19 @@
     },
     {
       "assetId": "IWF",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 3.8872,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 3.767902,
       "interval50": [
-        3.035981,
-        5.17522
+        2.942806,
+        5.016394
       ],
       "interval80": [
-        2.378024,
-        6.752208
+        2.305043,
+        6.544984
       ],
-      "weatherPercentile252": 99.6032,
+      "weatherPercentile252": 99.2063,
       "weatherGrade": "storm",
       "weatherLabel": "폭풍",
       "status": "pending",
@@ -135,217 +135,17 @@
     },
     {
       "assetId": "IWM",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 2.231702,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 2.160658,
       "interval50": [
-        1.751456,
-        2.981263
+        1.695702,
+        2.897463
       ],
       "interval80": [
-        1.402906,
-        3.719255
-      ],
-      "weatherPercentile252": 96.8254,
-      "weatherGrade": "storm",
-      "weatherLabel": "폭풍",
-      "status": "pending",
-      "settlement": null
-    },
-    {
-      "assetId": "IYR",
-      "asOfDate": "2026-11-24",
-      "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.370259,
-      "interval50": [
-        1.109949,
-        1.834531
-      ],
-      "interval80": [
-        0.935518,
-        2.359549
-      ],
-      "weatherPercentile252": 82.9365,
-      "weatherGrade": "strong",
-      "weatherLabel": "강풍",
-      "status": "pending",
-      "settlement": null
-    },
-    {
-      "assetId": "MTUM",
-      "asOfDate": "2026-11-24",
-      "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 4.767993,
-      "interval50": [
-        3.822581,
-        7.039647
-      ],
-      "interval80": [
-        3.067786,
-        9.219847
-      ],
-      "weatherPercentile252": 99.6032,
-      "weatherGrade": "storm",
-      "weatherLabel": "폭풍",
-      "status": "pending",
-      "settlement": null
-    },
-    {
-      "assetId": "NVDA",
-      "asOfDate": "2026-11-24",
-      "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 9.56301,
-      "interval50": [
-        7.759752,
-        13.605965
-      ],
-      "interval80": [
-        5.890942,
-        17.038571
-      ],
-      "weatherPercentile252": 99.6032,
-      "weatherGrade": "storm",
-      "weatherLabel": "폭풍",
-      "status": "pending",
-      "settlement": null
-    },
-    {
-      "assetId": "QQQ",
-      "asOfDate": "2026-11-24",
-      "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 3.534406,
-      "interval50": [
-        2.872814,
-        4.762358
-      ],
-      "interval80": [
-        2.22248,
-        6.383598
-      ],
-      "weatherPercentile252": 99.6032,
-      "weatherGrade": "storm",
-      "weatherLabel": "폭풍",
-      "status": "pending",
-      "settlement": null
-    },
-    {
-      "assetId": "SPY",
-      "asOfDate": "2026-11-24",
-      "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 2.208879,
-      "interval50": [
-        1.679431,
-        2.881014
-      ],
-      "interval80": [
-        1.328047,
-        3.929055
-      ],
-      "weatherPercentile252": 98.8095,
-      "weatherGrade": "storm",
-      "weatherLabel": "폭풍",
-      "status": "pending",
-      "settlement": null
-    },
-    {
-      "assetId": "TSLA",
-      "asOfDate": "2026-11-24",
-      "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 3.835468,
-      "interval50": [
-        2.857197,
-        5.129633
-      ],
-      "interval80": [
-        2.24938,
-        6.678952
-      ],
-      "weatherPercentile252": 76.9841,
-      "weatherGrade": "strong",
-      "weatherLabel": "강풍",
-      "status": "pending",
-      "settlement": null
-    },
-    {
-      "assetId": "USMV",
-      "asOfDate": "2026-11-24",
-      "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.279267,
-      "interval50": [
-        1.001128,
-        1.662441
-      ],
-      "interval80": [
-        0.826077,
-        2.197439
-      ],
-      "weatherPercentile252": 98.0159,
-      "weatherGrade": "storm",
-      "weatherLabel": "폭풍",
-      "status": "pending",
-      "settlement": null
-    },
-    {
-      "assetId": "VOX",
-      "asOfDate": "2026-11-24",
-      "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.948354,
-      "interval50": [
-        1.501831,
-        2.618071
-      ],
-      "interval80": [
-        1.177323,
-        3.423916
-      ],
-      "weatherPercentile252": 92.8571,
-      "weatherGrade": "storm",
-      "weatherLabel": "폭풍",
-      "status": "pending",
-      "settlement": null
-    },
-    {
-      "assetId": "XLB",
-      "asOfDate": "2026-11-24",
-      "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.908474,
-      "interval50": [
-        1.5903,
-        2.610218
-      ],
-      "interval80": [
-        1.242199,
-        3.424775
-      ],
-      "weatherPercentile252": 93.6508,
-      "weatherGrade": "storm",
-      "weatherLabel": "폭풍",
-      "status": "pending",
-      "settlement": null
-    },
-    {
-      "assetId": "XLC",
-      "asOfDate": "2026-11-24",
-      "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.922363,
-      "interval50": [
-        1.502355,
-        2.531838
-      ],
-      "interval80": [
-        1.212287,
-        3.220116
+        1.358246,
+        3.600855
       ],
       "weatherPercentile252": 94.8413,
       "weatherGrade": "storm",
@@ -354,58 +154,98 @@
       "settlement": null
     },
     {
-      "assetId": "XLE",
-      "asOfDate": "2026-11-24",
+      "assetId": "IYR",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 2.006587,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.234927,
       "interval50": [
-        1.650515,
-        2.911243
+        1.002118,
+        1.669198
       ],
       "interval80": [
-        1.267099,
-        3.954059
+        0.843123,
+        2.126511
       ],
-      "weatherPercentile252": 77.381,
-      "weatherGrade": "strong",
-      "weatherLabel": "강풍",
+      "weatherPercentile252": 66.2698,
+      "weatherGrade": "normal",
+      "weatherLabel": "보통",
       "status": "pending",
       "settlement": null
     },
     {
-      "assetId": "XLF",
-      "asOfDate": "2026-11-24",
+      "assetId": "MTUM",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.629628,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 4.301661,
       "interval50": [
-        1.301171,
-        2.17386
+        3.448714,
+        6.351136
       ],
       "interval80": [
-        1.086311,
-        2.829084
+        2.767742,
+        8.3181
       ],
-      "weatherPercentile252": 88.0952,
-      "weatherGrade": "strong",
-      "weatherLabel": "강풍",
+      "weatherPercentile252": 98.8095,
+      "weatherGrade": "storm",
+      "weatherLabel": "폭풍",
       "status": "pending",
       "settlement": null
     },
     {
-      "assetId": "XLI",
-      "asOfDate": "2026-11-24",
+      "assetId": "NVDA",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 2.219419,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 9.220343,
       "interval50": [
-        1.795304,
-        3.044082
+        7.483931,
+        13.118443
       ],
       "interval80": [
-        1.428688,
-        3.934229
+        5.679854,
+        16.42801
+      ],
+      "weatherPercentile252": 99.2063,
+      "weatherGrade": "storm",
+      "weatherLabel": "폭풍",
+      "status": "pending",
+      "settlement": null
+    },
+    {
+      "assetId": "QQQ",
+      "asOfDate": "2026-11-25",
+      "forecastPolicy": "US_CLOSE",
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 3.536889,
+      "interval50": [
+        2.874832,
+        4.765703
+      ],
+      "interval80": [
+        2.224042,
+        6.388063
+      ],
+      "weatherPercentile252": 99.2063,
+      "weatherGrade": "storm",
+      "weatherLabel": "폭풍",
+      "status": "pending",
+      "settlement": null
+    },
+    {
+      "assetId": "SPY",
+      "asOfDate": "2026-11-25",
+      "forecastPolicy": "US_CLOSE",
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 2.186694,
+      "interval50": [
+        1.662563,
+        2.853327
+      ],
+      "interval80": [
+        1.314707,
+        3.889593
       ],
       "weatherPercentile252": 98.4127,
       "weatherGrade": "storm",
@@ -414,20 +254,180 @@
       "settlement": null
     },
     {
-      "assetId": "XLK",
-      "asOfDate": "2026-11-24",
+      "assetId": "TSLA",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 4.781919,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 4.305667,
       "interval50": [
-        3.880626,
-        6.695059
+        3.207468,
+        5.758487
       ],
       "interval80": [
-        3.019645,
-        8.815282
+        2.525137,
+        7.566498
       ],
-      "weatherPercentile252": 99.6032,
+      "weatherPercentile252": 90.4762,
+      "weatherGrade": "storm",
+      "weatherLabel": "폭풍",
+      "status": "pending",
+      "settlement": null
+    },
+    {
+      "assetId": "USMV",
+      "asOfDate": "2026-11-25",
+      "forecastPolicy": "US_CLOSE",
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.219513,
+      "interval50": [
+        0.957026,
+        1.588236
+      ],
+      "interval80": [
+        0.787499,
+        2.10077
+      ],
+      "weatherPercentile252": 97.2222,
+      "weatherGrade": "storm",
+      "weatherLabel": "폭풍",
+      "status": "pending",
+      "settlement": null
+    },
+    {
+      "assetId": "VOX",
+      "asOfDate": "2026-11-25",
+      "forecastPolicy": "US_CLOSE",
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.892017,
+      "interval50": [
+        1.458405,
+        2.542369
+      ],
+      "interval80": [
+        1.143281,
+        3.336268
+      ],
+      "weatherPercentile252": 90.4762,
+      "weatherGrade": "storm",
+      "weatherLabel": "폭풍",
+      "status": "pending",
+      "settlement": null
+    },
+    {
+      "assetId": "XLB",
+      "asOfDate": "2026-11-25",
+      "forecastPolicy": "US_CLOSE",
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.878156,
+      "interval50": [
+        1.567354,
+        2.597252
+      ],
+      "interval80": [
+        1.222465,
+        3.411662
+      ],
+      "weatherPercentile252": 92.0635,
+      "weatherGrade": "storm",
+      "weatherLabel": "폭풍",
+      "status": "pending",
+      "settlement": null
+    },
+    {
+      "assetId": "XLC",
+      "asOfDate": "2026-11-25",
+      "forecastPolicy": "US_CLOSE",
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.769223,
+      "interval50": [
+        1.382673,
+        2.3307
+      ],
+      "interval80": [
+        1.115714,
+        2.998308
+      ],
+      "weatherPercentile252": 92.4603,
+      "weatherGrade": "storm",
+      "weatherLabel": "폭풍",
+      "status": "pending",
+      "settlement": null
+    },
+    {
+      "assetId": "XLE",
+      "asOfDate": "2026-11-25",
+      "forecastPolicy": "US_CLOSE",
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.892628,
+      "interval50": [
+        1.55677,
+        2.745905
+      ],
+      "interval80": [
+        1.195138,
+        3.729499
+      ],
+      "weatherPercentile252": 68.6508,
+      "weatherGrade": "normal",
+      "weatherLabel": "보통",
+      "status": "pending",
+      "settlement": null
+    },
+    {
+      "assetId": "XLF",
+      "asOfDate": "2026-11-25",
+      "forecastPolicy": "US_CLOSE",
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.492732,
+      "interval50": [
+        1.191867,
+        1.995953
+      ],
+      "interval80": [
+        0.995057,
+        2.59143
+      ],
+      "weatherPercentile252": 80.1587,
+      "weatherGrade": "strong",
+      "weatherLabel": "강풍",
+      "status": "pending",
+      "settlement": null
+    },
+    {
+      "assetId": "XLI",
+      "asOfDate": "2026-11-25",
+      "forecastPolicy": "US_CLOSE",
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 2.281733,
+      "interval50": [
+        1.862818,
+        3.143301
+      ],
+      "interval80": [
+        1.468801,
+        4.044688
+      ],
+      "weatherPercentile252": 98.8095,
+      "weatherGrade": "storm",
+      "weatherLabel": "폭풍",
+      "status": "pending",
+      "settlement": null
+    },
+    {
+      "assetId": "XLK",
+      "asOfDate": "2026-11-25",
+      "forecastPolicy": "US_CLOSE",
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 4.413914,
+      "interval50": [
+        3.581981,
+        6.179816
+      ],
+      "interval80": [
+        2.787261,
+        8.136889
+      ],
+      "weatherPercentile252": 99.2063,
       "weatherGrade": "storm",
       "weatherLabel": "폭풍",
       "status": "pending",
@@ -435,19 +435,19 @@
     },
     {
       "assetId": "XLP",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.218987,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.208267,
       "interval50": [
-        0.996116,
-        1.72395
+        0.987356,
+        1.708791
       ],
       "interval80": [
-        0.780515,
-        2.152704
+        0.773651,
+        2.133772
       ],
-      "weatherPercentile252": 57.9365,
+      "weatherPercentile252": 55.1587,
       "weatherGrade": "normal",
       "weatherLabel": "보통",
       "status": "pending",
@@ -455,39 +455,39 @@
     },
     {
       "assetId": "XLRE",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.359421,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.283751,
       "interval50": [
-        1.112528,
-        1.816806
+        1.050601,
+        1.716268
       ],
       "interval80": [
-        0.906068,
-        2.359426
+        0.855633,
+        2.228092
       ],
-      "weatherPercentile252": 81.3492,
-      "weatherGrade": "strong",
-      "weatherLabel": "강풍",
+      "weatherPercentile252": 69.8413,
+      "weatherGrade": "normal",
+      "weatherLabel": "보통",
       "status": "pending",
       "settlement": null
     },
     {
       "assetId": "XLU",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.291465,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.240042,
       "interval50": [
-        1.030305,
-        1.683189
+        0.989281,
+        1.611517
       ],
       "interval80": [
-        0.843122,
-        2.177363
+        0.809551,
+        2.090666
       ],
-      "weatherPercentile252": 36.5079,
+      "weatherPercentile252": 26.5873,
       "weatherGrade": "normal",
       "weatherLabel": "보통",
       "status": "pending",
@@ -495,19 +495,19 @@
     },
     {
       "assetId": "XLV",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.639822,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.749441,
       "interval50": [
-        1.367929,
-        2.294699
+        1.459372,
+        2.448095
       ],
       "interval80": [
-        1.04953,
-        2.89517
+        1.119689,
+        3.088707
       ],
-      "weatherPercentile252": 93.6508,
+      "weatherPercentile252": 97.2222,
       "weatherGrade": "storm",
       "weatherLabel": "폭풍",
       "status": "pending",
@@ -515,26 +515,260 @@
     },
     {
       "assetId": "XLY",
-      "asOfDate": "2026-11-24",
+      "asOfDate": "2026-11-25",
       "forecastPolicy": "US_CLOSE",
-      "createdAt": "2026-11-25T08:53:27.044236+00:00",
-      "expectedTrueRangePercent": 1.799214,
+      "createdAt": "2026-11-26T08:38:46.560004+00:00",
+      "expectedTrueRangePercent": 1.951588,
       "interval50": [
-        1.381311,
-        2.430963
+        1.498293,
+        2.642078
       ],
       "interval80": [
-        1.123711,
-        3.139644
+        1.218878,
+        3.411374
       ],
-      "weatherPercentile252": 81.746,
-      "weatherGrade": "strong",
-      "weatherLabel": "강풍",
+      "weatherPercentile252": 90.873,
+      "weatherGrade": "storm",
+      "weatherLabel": "폭풍",
       "status": "pending",
       "settlement": null
     }
   ],
   "recentSettlements": [
+    {
+      "assetId": "SPY",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 2.208879,
+      "actualTrueRangePercent": 3.24578,
+      "covered50": false,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "QQQ",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 3.534406,
+      "actualTrueRangePercent": 4.757873,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "IWM",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 2.231702,
+      "actualTrueRangePercent": 3.342814,
+      "covered50": false,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "XLB",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.908474,
+      "actualTrueRangePercent": 3.966517,
+      "covered50": false,
+      "covered80": false,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "VOX",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.948354,
+      "actualTrueRangePercent": 4.363431,
+      "covered50": false,
+      "covered80": false,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "XLY",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.799214,
+      "actualTrueRangePercent": 3.754671,
+      "covered50": false,
+      "covered80": false,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "XLP",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.218987,
+      "actualTrueRangePercent": 1.099262,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "XLE",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 2.006587,
+      "actualTrueRangePercent": 2.746071,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "XLF",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.629628,
+      "actualTrueRangePercent": 2.45945,
+      "covered50": false,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "XLV",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.639822,
+      "actualTrueRangePercent": 1.932651,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "XLI",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 2.219419,
+      "actualTrueRangePercent": 3.743582,
+      "covered50": false,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "XLK",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 4.781919,
+      "actualTrueRangePercent": 5.538225,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "IYR",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.370259,
+      "actualTrueRangePercent": 2.050361,
+      "covered50": false,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "XLU",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.291465,
+      "actualTrueRangePercent": 1.17512,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "IWD",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.50966,
+      "actualTrueRangePercent": 2.480805,
+      "covered50": false,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "IWF",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 3.8872,
+      "actualTrueRangePercent": 5.014363,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "MTUM",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 4.767993,
+      "actualTrueRangePercent": 4.863465,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "USMV",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.279267,
+      "actualTrueRangePercent": 2.26732,
+      "covered50": false,
+      "covered80": false,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "EFA",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.676244,
+      "actualTrueRangePercent": 2.184462,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "EEM",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 3.399289,
+      "actualTrueRangePercent": 4.480503,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "BTCUSDT",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 5.069534,
+      "actualTrueRangePercent": 5.418587,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "XLC",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.922363,
+      "actualTrueRangePercent": 4.088085,
+      "covered50": false,
+      "covered80": false,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "XLRE",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 1.359421,
+      "actualTrueRangePercent": 2.1399,
+      "covered50": false,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "TSLA",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 3.835468,
+      "actualTrueRangePercent": 7.029214,
+      "covered50": false,
+      "covered80": false,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "NVDA",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 9.56301,
+      "actualTrueRangePercent": 9.145325,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
+    {
+      "assetId": "ETHUSDT",
+      "asOfDate": "2026-11-24",
+      "expectedTrueRangePercent": 5.81911,
+      "actualTrueRangePercent": 5.295679,
+      "covered50": true,
+      "covered80": true,
+      "settledAt": "2026-11-26T08:38:46.115506+00:00"
+    },
     {
       "assetId": "SPY",
       "asOfDate": "2026-11-23",
@@ -570,247 +804,13 @@
       "covered50": true,
       "covered80": true,
       "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "VOX",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 2.118813,
-      "actualTrueRangePercent": 1.661435,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "XLY",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 2.261733,
-      "actualTrueRangePercent": 1.701871,
-      "covered50": false,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "XLP",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 1.589718,
-      "actualTrueRangePercent": 2.201821,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "XLE",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 2.647663,
-      "actualTrueRangePercent": 1.904125,
-      "covered50": false,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "XLF",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 1.946118,
-      "actualTrueRangePercent": 1.814918,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "XLV",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 1.889939,
-      "actualTrueRangePercent": 3.254931,
-      "covered50": false,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "XLI",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 2.242804,
-      "actualTrueRangePercent": 1.655692,
-      "covered50": false,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "XLK",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 3.900459,
-      "actualTrueRangePercent": 4.606485,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "IYR",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 1.572209,
-      "actualTrueRangePercent": 2.278687,
-      "covered50": false,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "XLU",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 1.478904,
-      "actualTrueRangePercent": 1.662053,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "IWD",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 1.61747,
-      "actualTrueRangePercent": 1.604788,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "IWF",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 3.293953,
-      "actualTrueRangePercent": 3.013753,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "MTUM",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 3.710971,
-      "actualTrueRangePercent": 4.394741,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "USMV",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 1.415713,
-      "actualTrueRangePercent": 1.644567,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "EFA",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 1.877011,
-      "actualTrueRangePercent": 1.032803,
-      "covered50": false,
-      "covered80": false,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "EEM",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 2.999062,
-      "actualTrueRangePercent": 3.095281,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "BTCUSDT",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 4.962913,
-      "actualTrueRangePercent": 3.870374,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "XLC",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 2.233823,
-      "actualTrueRangePercent": 2.133211,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "XLRE",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 1.641767,
-      "actualTrueRangePercent": 2.214454,
-      "covered50": false,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "TSLA",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 4.17423,
-      "actualTrueRangePercent": 3.785087,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "NVDA",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 7.441181,
-      "actualTrueRangePercent": 8.815512,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "ETHUSDT",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 6.23511,
-      "actualTrueRangePercent": 3.338567,
-      "covered50": false,
-      "covered80": false,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "SPY",
-      "asOfDate": "2026-11-20",
-      "expectedTrueRangePercent": 2.865172,
-      "actualTrueRangePercent": 5.533405,
-      "covered50": false,
-      "covered80": false,
-      "settledAt": "2026-11-24T10:08:00.736262+00:00"
-    },
-    {
-      "assetId": "QQQ",
-      "asOfDate": "2026-11-20",
-      "expectedTrueRangePercent": 4.356226,
-      "actualTrueRangePercent": 8.066401,
-      "covered50": false,
-      "covered80": false,
-      "settledAt": "2026-11-24T10:08:00.736262+00:00"
-    },
-    {
-      "assetId": "IWM",
-      "asOfDate": "2026-11-20",
-      "expectedTrueRangePercent": 2.916073,
-      "actualTrueRangePercent": 3.690426,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-24T10:08:00.736262+00:00"
-    },
-    {
-      "assetId": "XLB",
-      "asOfDate": "2026-11-20",
-      "expectedTrueRangePercent": 2.69156,
-      "actualTrueRangePercent": 3.35126,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-24T10:08:00.736262+00:00"
     }
   ],
   "integrity": {
-    "forecastChainHead": "6b41cc92b731e05000fdfa7f4868290d1b57b89370942694bdbff6abe236b151",
-    "settlementChainHead": "eb583b224de2d1c3c6d792d4bcd5bbfc63d2d17c87e79f18810943b2d90ed122",
-    "officialForecasts": 396,
-    "settlements": 370
+    "forecastChainHead": "a2d01f13dd6ed715956865934804c44edef8f90adcf156348a6716308bee9852",
+    "settlementChainHead": "de3213c520c96ca835fbdd1608898bd851385bd65013afb8449b97dc78ec4ffa",
+    "officialForecasts": 422,
+    "settlements": 396
   },
   "disclosure": "예상 변동폭은 상승·하락 방향이나 매매 신호를 뜻하지 않습니다."
 }
