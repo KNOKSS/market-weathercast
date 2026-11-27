@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-11-26T08:39:00.262425+00:00",
+  "generatedAt": "2026-11-27T08:50:07.039288+00:00",
   "model": {
     "id": "market-weather-shadow-frozen-v1",
     "version": "v2",
@@ -15,19 +15,19 @@
   "forecasts": [
     {
       "assetId": "BTCUSDT",
-      "asOfDate": "2026-11-25",
+      "asOfDate": "2026-11-26",
       "forecastPolicy": "UTC_DAILY_CLOSE",
-      "createdAt": "2026-11-26T08:38:46.560004+00:00",
-      "expectedTrueRangePercent": 5.158245,
+      "createdAt": "2026-11-27T08:49:55.322289+00:00",
+      "expectedTrueRangePercent": 4.631432,
       "interval50": [
-        3.883953,
-        7.043801
+        3.458931,
+        6.324416
       ],
       "interval80": [
-        2.925791,
-        9.01687
+        2.563224,
+        8.095975
       ],
-      "weatherPercentile252": 99.6032,
+      "weatherPercentile252": 97.2222,
       "weatherGrade": "storm",
       "weatherLabel": "폭풍",
       "status": "pending",
@@ -75,19 +75,19 @@
     },
     {
       "assetId": "ETHUSDT",
-      "asOfDate": "2026-11-25",
+      "asOfDate": "2026-11-26",
       "forecastPolicy": "UTC_DAILY_CLOSE",
-      "createdAt": "2026-11-26T08:38:46.560004+00:00",
-      "expectedTrueRangePercent": 5.854442,
+      "createdAt": "2026-11-27T08:49:55.322289+00:00",
+      "expectedTrueRangePercent": 5.457159,
       "interval50": [
-        4.370559,
-        7.948502
+        4.048474,
+        7.409116
       ],
       "interval80": [
-        3.173651,
-        10.524918
+        2.958287,
+        9.810697
       ],
-      "weatherPercentile252": 98.0159,
+      "weatherPercentile252": 94.8413,
       "weatherGrade": "storm",
       "weatherLabel": "폭풍",
       "status": "pending",
@@ -536,6 +536,24 @@
   ],
   "recentSettlements": [
     {
+      "assetId": "BTCUSDT",
+      "asOfDate": "2026-11-25",
+      "expectedTrueRangePercent": 5.158245,
+      "actualTrueRangePercent": 2.737924,
+      "covered50": false,
+      "covered80": false,
+      "settledAt": "2026-11-27T08:49:54.953088+00:00"
+    },
+    {
+      "assetId": "ETHUSDT",
+      "asOfDate": "2026-11-25",
+      "expectedTrueRangePercent": 5.854442,
+      "actualTrueRangePercent": 3.491428,
+      "covered50": false,
+      "covered80": true,
+      "settledAt": "2026-11-27T08:49:54.953088+00:00"
+    },
+    {
       "assetId": "SPY",
       "asOfDate": "2026-11-24",
       "expectedTrueRangePercent": 2.208879,
@@ -786,31 +804,13 @@
       "covered50": true,
       "covered80": true,
       "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "IWM",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 2.306168,
-      "actualTrueRangePercent": 1.633174,
-      "covered50": false,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
-    },
-    {
-      "assetId": "XLB",
-      "asOfDate": "2026-11-23",
-      "expectedTrueRangePercent": 2.061784,
-      "actualTrueRangePercent": 1.863728,
-      "covered50": true,
-      "covered80": true,
-      "settledAt": "2026-11-25T08:53:26.571511+00:00"
     }
   ],
   "integrity": {
-    "forecastChainHead": "a2d01f13dd6ed715956865934804c44edef8f90adcf156348a6716308bee9852",
-    "settlementChainHead": "de3213c520c96ca835fbdd1608898bd851385bd65013afb8449b97dc78ec4ffa",
-    "officialForecasts": 422,
-    "settlements": 396
+    "forecastChainHead": "771cacdae1e853026ca6a74f76f296642159a04748fb09e9587f2e44d903476e",
+    "settlementChainHead": "ba8ad537722935a78ca910d072aa9e98ee2c42863b7782d5966171faa0c6c636",
+    "officialForecasts": 424,
+    "settlements": 398
   },
   "disclosure": "예상 변동폭은 상승·하락 방향이나 매매 신호를 뜻하지 않습니다."
 }
